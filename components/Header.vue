@@ -3,10 +3,14 @@
     <div class="header__content container">
       <!--Logos-->
       <div class="header__logo header__logo--desktop">
-        <nuxt-link to="/"><img src="/images/logo-white.png" alt="Logo"></nuxt-link>
+        <nuxt-link to="/">
+          <img src="/images/logo-white.png" alt="Logo">
+        </nuxt-link>
       </div>
       <div class="header__logo header__logo--mobile">
-        <nuxt-link to="/"><img src="/images/logo-vert-white.png" alt="Logo"></nuxt-link>
+        <nuxt-link to="/">
+          <img src="/images/logo-vert-white.png" alt="Logo">
+        </nuxt-link>
       </div>
       <!--End-->
       <!--Menu-->
@@ -19,15 +23,19 @@
           <li><a href="">FAQ'S</a></li>
           <li><a href="">Noticias</a></li>
           <!--Login or signOut-->
-          <li v-if="!user"><a @click="$store.dispatch('content/toggleLogin')">Ingresa</a></li>
-          <li v-if="user"><a @click="singOut">Salir</a></li>
+          <li v-if="!user">
+            <a @click="$store.dispatch('content/toggleLogin')">Ingresa</a>
+          </li>
+          <li v-if="user">
+            <a @click="singOut">Salir</a>
+          </li>
           <!--End-->
           <!--Buttons-->
           <li>
-            <button v-if="!user" @click="goTo('signup')" type="button" class="btn btn--primary">
+            <button v-if="!user" type="button" class="btn btn--primary" @click="goTo('signup')">
               Crea tu cuenta
             </button>
-            <button v-if="user" @click="goTo('signup')" type="button" class="btn btn--primary">
+            <button v-if="user" type="button" class="btn btn--primary" @click="goTo('request')">
               Solicita un crédito
             </button>
           </li>
@@ -35,10 +43,10 @@
         </ul>
       </nav>
       <!-- Menu Responsive -->
-      <div class="menu-responsive" id="menuResponsive">
+      <div id="menuResponsive" class="menu-responsive">
         <div class="menu-responsive__close">
           <client-only>
-            <ion-icon @click="toggleMenuResponsive" name="close-outline"/>
+            <ion-icon name="close-outline" @click="toggleMenuResponsive"/>
           </client-only>
         </div>
         <ul>
@@ -60,18 +68,19 @@
         </ul>
         <!--Buttons-->
         <div v-if="!user" class="menu__buttons">
-          <button type="button" @click="goTo('signup')" class="btn btn--primary">
+          <button type="button" class="btn btn--primary" @click="goToMobile('signup')">
             Crea tu cuenta
           </button>
           <button class="btn" @click="goToLoginMobile">
             Ingresa
           </button>
         </div>
+        <!--With Login-->
         <div v-if="user" class="menu__buttons">
-          <button type="button" @click="goTo('signup')" class="btn btn--primary">
+          <button type="button" class="btn btn--primary" @click="goToMobile('request')">
             Solicita un crédito
           </button>
-          <button @click="singOut" class="btn">
+          <button class="btn" @click="singOutMobile">
             Salir
           </button>
         </div>
@@ -102,17 +111,31 @@ export default {
       const menuResponsive = document.getElementById('menuResponsive')
       menuResponsive.classList.toggle('show')
     },
+    // Desktop
     goTo (name) {
+      this.$router.push({ name })
+    },
+    async singOut () {
+      await this.$fireAuth.signOut()
+      this.$store.dispatch('user/setUser', { user: null })
+    },
+    // End
+
+    // Mobile
+    goToMobile (name) {
+      this.toggleMenuResponsive()
       this.$router.push({ name })
     },
     goToLoginMobile () {
       this.toggleMenuResponsive()
       this.$store.dispatch('content/toggleLogin')
     },
-    async singOut () {
+    async singOutMobile () {
       await this.$fireAuth.signOut()
-      this.$store.dispatch('user/setUser', { user: null })
+      await this.$store.dispatch('user/setUser', { user: null })
+      this.toggleMenuResponsive()
     }
+    // End
   }
 }
 </script>

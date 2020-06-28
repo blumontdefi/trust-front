@@ -27,7 +27,7 @@
             <button v-if="!user" @click="goTo('signup')" type="button" class="btn btn--primary">
               Crea tu cuenta
             </button>
-            <button v-if="user" @click="goTo('signup')" type="button" class="btn btn--primary">
+            <button v-if="user" @click="goTo('request')" type="button" class="btn btn--primary">
               Solicita un crédito
             </button>
           </li>
@@ -60,18 +60,19 @@
         </ul>
         <!--Buttons-->
         <div v-if="!user" class="menu__buttons">
-          <button type="button" @click="goTo('signup')" class="btn btn--primary">
+          <button type="button" @click="goToMobile('signup')" class="btn btn--primary">
             Crea tu cuenta
           </button>
           <button class="btn" @click="goToLoginMobile">
             Ingresa
           </button>
         </div>
+        <!--Wit login-->
         <div v-if="user" class="menu__buttons">
-          <button type="button" @click="goTo('signup')" class="btn btn--primary">
+          <button type="button" @click="goToMobile('request')" class="btn btn--primary">
             Solicita un crédito
           </button>
-          <button @click="singOut" class="btn">
+          <button @click="singOutMobile" class="btn">
             Salir
           </button>
         </div>
@@ -102,17 +103,31 @@ export default {
       const menuResponsive = document.getElementById('menuResponsive')
       menuResponsive.classList.toggle('show')
     },
+    // Desktop
     goTo (name) {
+      this.$router.push({ name })
+    },
+    async singOut () {
+      await this.$fireAuth.signOut()
+      this.$store.dispatch('user/setUser', { user: null })
+    },
+    // End
+
+    // Mobile
+    goToMobile (name) {
+      this.toggleMenuResponsive()
       this.$router.push({ name })
     },
     goToLoginMobile () {
       this.toggleMenuResponsive()
       this.$store.dispatch('content/toggleLogin')
     },
-    async singOut () {
+    async singOutMobile () {
       await this.$fireAuth.signOut()
-      this.$store.dispatch('user/setUser', { user: null })
+      await this.$store.dispatch('user/setUser', { user: null })
+      this.toggleMenuResponsive()
     }
+    // End
   }
 }
 </script>
