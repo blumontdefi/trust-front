@@ -1,0 +1,145 @@
+.martillero-section{
+	padding-top: 60px;
+	padding-bottom: 60px;
+
+	.block{
+		grid-template-columns: 4fr 2fr;	
+		grid-column-gap: 5rem;
+
+		@include respond-to(medium) {	
+			grid-template-columns: 1fr;	
+		}
+
+		.wrap-info{
+			display: block;
+			padding: 40px;
+
+			@include respond-to(medium) {
+				margin-bottom: 40px;	
+			}
+			@include respond-to(small) {
+				padding: 20px;	
+			}
+
+			.video-panel{
+				margin-bottom: 40px;
+			}
+
+			h2{
+				font-size: $base-secondary-font-size;
+			}
+
+			.table{
+				
+				h3{
+					font-size: $primary-font-size;
+					font-family: $secondary-font;
+				}
+			}
+
+			.table:nth-of-type(2){
+				margin-bottom: 10px;
+
+				.col{
+					grid-template-columns: 2fr 1fr;					
+
+					p:last-child{
+						text-align: right;
+					}
+
+					h3{
+						text-align: right;
+
+						@include respond-to(small) {
+							text-align: left;	
+						}
+					}
+				}
+
+				.col:nth-of-type(1){
+					border-bottom: 1px dotted $darker-grey;
+
+					@include respond-to(small) {
+						grid-template-columns: 1fr;	
+					}
+				}
+
+				.col:nth-of-type(2){
+
+					@include respond-to(small) {
+						grid-template-columns: 1fr;	
+					}
+
+					p{
+						@include respond-to(small) {
+							text-align: left;	
+						}	
+					}
+				}
+
+			}
+
+			.table:nth-of-type(4){
+				background: white;
+				box-shadow: $box-shadow;
+				margin-top: 15px;
+
+				.col{
+					grid-template-columns: 2fr 1fr 1fr;
+
+					@include respond-to(small) {
+						grid-template-columns: 100px 1fr 1fr;
+						align-items: center;
+					}
+				}				
+
+				p{
+					text-align: center;
+				}
+			}
+		}
+
+		.horse-profile{
+
+			.item-horse{
+				grid-template-columns: 1fr 2fr;
+				grid-column-gap: 2rem;
+				border-bottom: 1px dotted $primary-color;
+				padding-top: 20px;
+				padding-bottom: 20px;
+
+				@include respond-to(medium) {
+					margin-bottom: 40px;	
+				}
+				@include respond-to(small) {
+					grid-template-columns: 120px 1fr;
+					grid-column-gap: 1rem;	
+				}
+
+				.horse-info{
+					h1{
+						font-size: $base-secondary-font-size;
+					}
+
+					h2{
+						font-family: $secondary-font;
+						font-size: $base-font-size;
+						color: $primary-color;
+					}
+
+					a{
+						margin-top: 20px;
+					}
+				}
+
+			}
+		}
+
+		.item-horse:last-child{
+			border-bottom: none;
+			padding-bottom: 0px;
+			margin-bottom: 0;
+		}
+
+	}
+}

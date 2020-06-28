@@ -1,0 +1,125 @@
+.footer {
+  padding-top: 50px !important;
+  padding-bottom: 50px !important;
+  background-color: $secondary-color;
+  color: white;
+
+  @include respond-to(small) {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  h4 {
+    margin-bottom: 1.2rem;
+  }
+
+  &__options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 3rem;
+    justify-content: space-between;
+
+    @include respond-to(large) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(x-medium) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__info {
+
+    img {
+      height: 55px;
+      margin-bottom: 1rem;
+
+      @include respond-to(small) {
+        margin: 0 auto 1rem auto;
+        height: 45px;
+      }
+    }
+
+    ul {
+      margin-top: 1rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      li {
+        margin-right: .5rem;
+
+        ion-icon {
+          font-size: 1.4rem;
+        }
+      }
+    }
+  }
+
+  &__menu {
+
+    @include respond-to(x-medium) {
+      display: none;
+    }
+
+    ul {
+      list-style: none;
+      columns: 4;
+
+      li {
+        margin-bottom: .8rem;
+      }
+    }
+  }
+
+  &__events {
+    @include respond-to(large) {
+      display: none;
+    }
+
+    ul {
+      columns: 2;
+
+      li {
+        margin-bottom: .8rem;
+      }
+    }
+  }
+
+  &__contact {
+    @include respond-to(x-medium) {
+      display: none;
+    }
+
+    ul {
+      padding: 0 10rem;
+      display: flex;
+      justify-content: space-around;
+
+      @include respond-to(large) {
+        padding: 0;
+      }
+
+      li {
+        display: flex;
+        align-items: center;
+
+        ion-icon {
+          margin-right: .5rem;
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+  &__copy {
+    margin-top: 4.5rem;
+    @include respond-to(x-medium) {
+      margin-top: 1.8rem;
+    }
+  }
+}

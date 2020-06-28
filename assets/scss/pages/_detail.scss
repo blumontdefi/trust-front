@@ -1,0 +1,165 @@
+.detail {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 1.8rem;
+    line-height: 1.9rem;
+    padding-right: 7rem;
+
+    @include respond-to(small) {
+      font-size: 1.5rem;
+      line-height: 1.7rem;
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-column-gap: 3rem;
+    position: relative;
+
+    @include respond-to(small) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $primary-color;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: all .4s;
+    z-index: -1;
+
+    &.show {
+      opacity: 1;
+      z-index: 99;
+    }
+
+    ion-icon {
+      font-size: 3rem;
+      color: white;
+      margin: 0 auto;
+    }
+
+    p {
+      width: 100%;
+    }
+  }
+
+  &__buy {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    font-family: $base-font;
+    align-items: center;
+
+    @include respond-to(x-medium) {
+      grid-template-columns: 1fr 2fr;
+    }
+
+    @include respond-to(tiny) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .more {
+      height: 2rem;
+      width: 2rem;
+      border-radius: 50%;
+      border: $border-secondary;
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .down {
+      height: 2rem;
+      width: 2rem;
+      border-radius: 50%;
+      border: $border-secondary;
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+
+  &__description {
+    position: relative;
+
+    @include respond-to(small) {
+      margin-top: 1.5rem;
+    }
+  }
+
+  &__price {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: $primary-color;
+    font-family: $base-font;
+    font-weight: 500;
+    font-size: 1.5rem;
+
+    @include respond-to(small) {
+      font-size: 1.4rem;
+    }
+  }
+
+  &__confirm {
+    position: absolute;
+    background-color: $primary-color;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: $secondary-font;
+    font-weight: 500;
+  }
+}
+
+.bread-crumbs {
+  display: flex;
+  margin-bottom: 1.5rem;
+
+  ol {
+    list-style: none;
+    display: block;
+
+    li {
+      display: block;
+      float: left;
+      margin-right: .5rem;
+      font-weight: 600;
+      color: $dark-grey;
+
+      .active {
+        color: $primary-color;
+      }
+
+      &:after {
+        content: ' / ';
+      }
+
+      &:last-child {
+        &:after {
+          content: '';
+        }
+      }
+    }
+  }
+}

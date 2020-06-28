@@ -1,0 +1,35 @@
+@mixin respond-to($breakpoint) {
+  @media (max-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+@mixin scale($scale-mi) {
+  transform: scale($scale-mi);
+}
+
+
+@mixin scale($scale-mi) {
+  transform: scale($scale-mi);
+}
+
+@mixin lateral-padding {
+  padding-left: 7%;
+  padding-right: 7%;
+  @include respond-to(medium) {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  @include respond-to(small) {
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+}
+
+
+@mixin image-background {
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% auto;
+  text-align: center;
+}

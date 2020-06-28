@@ -1,0 +1,9 @@
+input[type=text], input[type=email], input[type=password], input[type=tel] {
+  border: none;
+  width: 100%;
+  height: 35px;
+  background: $lighter-grey;
+  padding: 0 15px;
+  font-size: $base-font-size;
+  font-family: $secondary-font;
+}

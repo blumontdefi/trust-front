@@ -1,0 +1,48 @@
+.search-section {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  position: relative;
+
+  @include respond-to(medium) {
+    padding: 0 15px;
+  }
+
+  input {
+    display: block;
+    height: 45px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: $grey;
+    border-radius: $border-radius-components;
+    border: none;
+    width: 100%;
+    font-family: $secondary-font;
+    font-size: $base-font-size;
+    font-weight: 500;
+    line-height: 19px;
+
+    @include respond-to(medium) {
+      height: 35px;
+      font-size: $base-font-size;
+    }
+  }
+
+  ion-icon {
+    position: absolute;
+    font-size: 20px;
+    top: 12.5px;
+    right: 1rem;
+    color: $primary-color;
+    font-size: 20px;
+
+    @include respond-to(medium) {
+      top: 8px;
+      right: 4%;
+    }
+    @include respond-to(x-medium) {
+      font-size: 17px;
+      right: 7%;
+    }
+  }
+}

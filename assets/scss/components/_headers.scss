@@ -1,0 +1,164 @@
+.header {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 100;
+
+  &--blue {
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  &--int {
+    position: relative;
+
+    .head .menu ul li a {
+      color: $secondary-color;
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    padding-top: 17px;
+    padding-bottom: 17px;
+
+    @include respond-to(large) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__logo {
+    &--desktop {
+      display: block;
+      @include respond-to(large) {
+        display: none;
+      }
+    }
+
+    &--mobile {
+      display: none;
+      @include respond-to(large) {
+        display: flex;
+        justify-content: center;
+      }
+
+      img {
+        height: 55px;
+      }
+    }
+  }
+}
+
+.menu {
+  ul {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    height: 100%;
+    align-items: center;
+
+    li:nth-of-type(6) a {
+      border-right: 1px solid white;
+    }
+
+    li a {
+      display: block;
+      text-align: center;
+      font-weight: 500;
+      color: white;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+
+      &--blue {
+        color: $secondary-color;
+      }
+    }
+  }
+
+  @include respond-to(large) {
+    display: none;
+  }
+
+  &__buttons {
+    margin-top: 2rem;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: .5rem;
+
+  }
+}
+
+/*::::::::::::::::::::::::::::::::::::
+::::::::::Responsive Menu:::::::::::
+::::::::::::::::::::::::::::::::::::*/
+
+
+.menu-responsive {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: $secondary-color;
+  height: 100vh;
+  width: 100vw;
+  left: -100vw;
+  transition: all .5s;
+  z-index: 105;
+
+  &.show {
+    left: 0;
+  }
+
+  ul li {
+    border-bottom: 1px solid white;;
+
+    & a {
+      display: block;
+      width: 100%;
+      padding: 1.8rem 1.5rem;
+      font-family: $base-font;
+      font-size: 1.3rem;
+      line-height: 1.3rem;
+      color: white;
+
+      &.active {
+        color: white;
+        font-weight: 500;
+      }
+    }
+  }
+
+  &__close {
+    font-size: 2.5rem;
+    padding: 1rem;
+    color: white;
+    width: 100%;
+    text-align: right;
+  }
+
+}
+
+.toggle {
+  display: none;
+  position: absolute;
+  color: $primary-color;
+  font-size: 2.9rem;
+  left: 2rem;
+  top: 1.8rem;
+
+  @include respond-to(large) {
+    display: block;
+  }
+
+  a {
+    color: $primary-color;
+    width: 30px;
+    font-size: 28px;
+    float: right;
+    margin-top: 15px;
+  }
+}
+
+
+

@@ -1,0 +1,47 @@
+.thanks {
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/trust-2ed52.appspot.com/o/content%2Fthanks.png?alt=media&token=42efb0bf-541d-4375-8a19-b8ec5888bc5b');
+  @include respond-to(small) {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/trust-2ed52.appspot.com/o/content%2Fthanks_mobile.png?alt=media&token=ddb5f48b-9fbd-4d0c-9596-d1903a5353fb');
+  }
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    @include respond-to(small) {
+      font-size: 2rem;
+    }
+  }
+
+  h5 {
+    margin-top: 1rem;
+
+    @include respond-to(small) {
+      font-size: 1rem;
+    }
+
+    span {
+      color: $primary-color;
+    }
+  }
+
+  button {
+    margin-top: 1.5rem;
+  }
+
+  &__content {
+    padding: 5rem;
+    text-align: center;
+
+    @include respond-to(small) {
+      padding: 2rem;
+    }
+  }
+}

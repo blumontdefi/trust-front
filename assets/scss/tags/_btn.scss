@@ -1,0 +1,87 @@
+.btn {
+  display: block;
+  border-radius: $border-radius-components;
+  border: 0;
+  font-family: $secondary-font;
+  font-size: $base-font-size;
+  font-weight: 500;
+  height: 40px;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+
+  &--primary {
+    display: inline-block;
+    background-color: $primary-color;
+    color: white !important;
+  }
+
+  &--secondary {
+    background: $secondary-color;
+    color: white;
+    height: 80px;
+    padding: 28px;
+
+  }
+
+  &--inverse {
+    display: inline-block;
+    background-color: transparent;
+    color: $primary-color !important;
+    border: 1px solid $primary-color;
+    padding: 0 2rem;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: $dark-grey;
+  }
+
+  &--disabled {
+    background-color: $dark-grey;
+    cursor: not-allowed;
+  }
+
+  &--notborder {
+    border-radius: 0;
+  }
+
+  &--cart {
+    height: 45px;
+  }
+
+  &--small {
+    width: 50%;
+  }
+
+  &--call {
+    width: 50%;
+    font-size: 1.1rem;
+  }
+
+  &--nw {
+    width: auto;
+  }
+}
+
+.btn-desktop {
+  @include respond-to(medium) {
+    display: none;
+  }
+}
+
+.btn-responsive {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  display: none;
+  position: relative;
+  z-index: 3;
+  @include respond-to(medium) {
+    display: block;
+    border-radius: $border-radius-components;
+  }
+}
+
+.link {
+  font-family: $base-font;
+  color: $primary-color;
+}

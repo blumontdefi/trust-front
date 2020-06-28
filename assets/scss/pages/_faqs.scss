@@ -1,0 +1,135 @@
+.faqs-section{
+
+	@include respond-to(medium) {
+		padding-top: 50px;
+		padding-bottom: 20px;
+	}
+	@include respond-to(small) {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
+	.block-title{
+		margin-bottom: 40px;
+	}
+
+	.wrap{
+		padding: 30px 40px;
+		box-shadow: $box-shadow;
+
+		@include respond-to(small) {
+			padding: 20px;
+		}
+
+		.accordion{
+
+			.item{
+				margin-bottom: 10px;
+
+				h2{
+					margin-bottom: 0;
+				}
+				
+				.delay{
+					padding: 30px;
+					grid-template-columns: 1fr 40px;
+					color: $secondary-color;
+					cursor: pointer;
+
+					@include respond-to(medium) {
+						padding: 15px;
+					}				
+
+					i{
+						text-align: right;
+						font-size: 26px;
+					}
+				}
+
+				.contents{
+					margin-top: 40px;
+					grid-column-gap: 5rem;
+
+					@include respond-to(small) {
+						margin-top: 20px;
+
+					}
+
+					.card{
+
+						@include respond-to(medium) {
+							padding: 30px;
+							display: grid;
+							grid-template-columns: 1fr 1fr;
+							grid-column-gap: 0.2rem;
+							grid-template-areas: "img-video name"
+								 				 "img-video description";
+						}
+						@include respond-to(small) {
+							padding: 15px;
+							grid-template-columns: 1fr;
+							grid-template-areas: none;
+						}
+
+						.block{
+							padding-top: 0;
+							padding-bottom: 0;
+						}
+
+						.img-video{
+							@include respond-to(medium) {
+								grid-row-start: 1;
+								grid-row-end: 3;
+							}
+							@include respond-to(small) {
+								margin-bottom: 10px;
+							}
+						}
+
+						.name{
+							padding-top: 30px;
+
+							@include respond-to(medium) {
+								padding-top: 0;
+							}
+							@include respond-to(small) {
+								padding: 0;
+							}					
+
+							h3{
+								font-size: $secondary-font-size;
+								margin-bottom: 15px;
+							}
+
+							p{
+								color: $primary-color;
+								margin-bottom: 15px;
+							}
+						}
+
+						.details{
+							padding-bottom: 30px;
+
+							@include respond-to(medium) {
+								padding-bottom: 0;
+							}
+							@include respond-to(small) {
+								padding: 0;
+							}
+
+							h4{
+								font-size: $base-secondary-font-size;
+								margin-bottom: 15px;
+							}							
+						}
+					}
+				}
+
+				
+			}
+
+		}
+	}
+
+
+}

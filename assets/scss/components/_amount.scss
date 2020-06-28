@@ -1,0 +1,35 @@
+.amount{
+	margin-bottom: 30px;
+
+	ul{
+		li.plus, li.less{			
+			width: 45px;
+			height: 45px;
+			text-align: center;
+			border-radius: 100px;
+			border: 1px solid $darker-grey;
+			padding-top: 7px;
+			cursor: pointer;
+
+			@include respond-to(small) {
+				width: 40px;
+				height: 40px;
+				padding-top: 4px;
+			}
+
+			ion-icon{
+				font-size: 30px;
+			}
+		}
+
+		li:nth-of-type(2){
+			font-size: 40px;
+			margin: 0 35px;
+
+			@include respond-to(small) {
+				font-size: 30px;
+				margin: 0 15px;	
+			}
+		}
+	}
+}

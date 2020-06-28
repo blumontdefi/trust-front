@@ -1,0 +1,44 @@
+.table{	
+
+	p{ 
+		font-size: $base-secondary-font-size; 
+
+		@include respond-to(medium) {
+			font-size: $base-font-size;
+		}
+		
+	}
+
+	a{ 
+		text-decoration: underline; 
+	}
+	
+	.title{
+		margin-bottom: 70px;
+
+		p{ margin-bottom:15px; }				
+	}
+
+	.col-2{
+		@include respond-to(medium) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.col{
+		padding:15px 0;	
+
+		@include respond-to(medium) {
+			padding:10px 0;
+		}
+
+
+		h3, a{ 
+			font-size: $base-secondary-font-size; 
+
+			@include respond-to(medium) {
+				font-size: $base-font-size; 
+			}
+		}
+	}
+}

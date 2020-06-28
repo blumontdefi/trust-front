@@ -1,0 +1,19 @@
+.form-group {
+  width: 100%;
+
+  &__error {
+    margin-top: .5rem;
+    display: block;
+    font-size: .9rem;
+    color: $primary-color;
+  }
+
+  @include respond-to(small) {
+    margin-bottom: .3rem;
+  }
+
+  label {
+    margin-bottom: .4rem;
+    display: block;
+  }
+}

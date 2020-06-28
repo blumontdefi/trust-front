@@ -1,0 +1,24 @@
+.block-previous{
+	margin-bottom: 60px;
+
+	@include respond-to(small) {
+		margin-bottom: 30px;
+	}
+
+	a{
+		font-family: $base-font;
+		font-size: $base-secondary-font-size;			
+
+		i{
+			width: 25px;
+		    height: 25px;
+		    border-radius: 100px;
+		    border: 1px solid #282828;
+		    text-align: center;
+		    font-size: 26px;
+		    line-height: 24px;
+		    letter-spacing: 3px;
+		    margin-right: 5px;
+		}
+	}
+}

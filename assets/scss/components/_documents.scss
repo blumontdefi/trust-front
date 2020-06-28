@@ -1,0 +1,49 @@
+.documents{	
+
+	margin-bottom: 30px;
+
+	@include respond-to(medium) {
+		margin-top: 0;
+		margin-bottom: 0;
+
+		.col{
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@include respond-to(small) {
+		.col{
+			grid-template-columns: repeat(1, 1fr);
+			grid-column-gap: 1rem;
+
+			div{
+				margin-bottom: 10px;
+			}
+		}
+	}				
+
+	.container{
+		@include lateral-padding;
+		padding-top: 50px;
+		padding-bottom: 50px;
+		box-shadow: $box-shadow;
+
+		@include respond-to(small) {
+			padding-top: 30px;
+			padding-bottom: 15px;
+			padding-left: 30px;
+		}
+
+		p{
+			float: left;
+
+			i{
+				margin-right: 5px;
+			}
+		}
+		a{
+			margin-left: 20px;
+			font-size: 16px; 
+		}
+	}
+}

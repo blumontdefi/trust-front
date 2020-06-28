@@ -1,0 +1,94 @@
+//Brand colors
+
+$primary-color: #A37143;
+$secondary-color: #11224C;
+
+//Primary Font
+$base-font: 'Playfair Display', serif;
+//Secondary Font
+$secondary-font: futura_book, futura_book_2, arial;
+
+//Grey Scale
+//This is mainly to hold back designers from adding 200 different greys
+$black: #282828;
+$darker-grey: #333333;
+$dark-grey: #707070;
+$grey: #F3F3F3;
+$light-grey: #F9FAFC;
+$lighter-grey: #F5F5F5;
+$white: white;
+
+$color-borders: #E3E3E3;
+
+$success: #45a00a;
+
+//Font size
+$base-font-size: 14px;
+$base-secondary-font-size: 20px;
+$primary-font-size: 37px;
+$secondary-font-size: 25px;
+
+//Format letters
+$letter-spacing: .5px;
+
+//Main Margin Top, Bottom
+$margin-tb: 24px; //1.7rem
+
+//Secondary Margin Top, Bottom
+$secondary-margin-tb: 14px; //1 rem
+
+//Margin for items grid
+$margin-gap: 1rem;
+
+//Border radius
+$border-radius-components: 4px;
+
+//Max. Width
+$max-width: 1200px;
+
+//Menu Height
+$menu-height: 55px;
+
+//Breakpoints
+$breakpoints: (
+  'max-width': 1360px,
+  'large': 1024px,
+  'medium': 991px,
+  'x-medium': 768px,
+  'small': 480px,
+  'x-small': 360px,
+  'tiny': 320px
+) !default;
+
+
+$box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+
+//Micro interactions
+
+$scale-mi: 1.02;
+
+$base-border: 1px solid $dark-grey;
+$border-secondary: 1px solid $secondary-color;
+$light-border-secondary: 1px solid lighten($secondary-color, 40%);
+
+
+//Tipografia
+@font-face {
+  font-family: futura_book;
+  src: url('/fonts/futura_book.ttf');
+}
+
+@font-face {
+  font-family: futura_book_2;
+  src: url('/fonts/futura_book.eot');
+}
+
+@font-face {
+  font-family: futura_medium;
+  src: url('/fonts/futura_medium.ttf');
+}
+
+@font-face {
+  font-family: futura_medium_2;
+  src: url('/fonts/futura_medium.eot');
+}

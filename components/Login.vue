@@ -1,0 +1,139 @@
+<template>
+  <div class="login" :class="{'show' : toggleLogin}">
+    <div class="login__shadow"/>
+    <div class="login__container">
+      <div class="login__close" @click="close">
+        <client-only>
+          <ion-icon name="close-circle-outline"/>
+        </client-only>
+      </div>
+      <div class="login__form">
+        <h2 class="text-center">¿Ya tienes una cuenta?</h2>
+        <p class="text-center mt-1">
+          Es bueno tenerte de vuelta
+        </p>
+        <div class="form-group mt-4">
+          <label for="email">Email</label>
+          <input id="email" v-model="email" class="input" type="text" @blur="$v.email.$touch()">
+          <div v-if="$v.email.$error">
+            <span v-if="!$v.email.email" class="form-group__error">Email inválido</span>
+            <span v-if="!$v.email.required" class="form-group__error">Este campo es requerido</span>
+            <span v-if="!$v.email.maxLength" class="form-group__error">Deben ser máximo 40 caracteres.</span>
+          </div>
+        </div>
+        <div class="form-group mt-2">
+          <label for="pass">Contraseña</label>
+          <input
+            id="pass"
+            v-model="password"
+            class="input"
+            type="password"
+            @blur="$v.password.$touch()"
+            @keypress.enter="login">
+          <div v-if="$v.password.$error">
+            <span v-if="!$v.password.required" class="form-group__error">Este campo es requerido</span>
+            <span v-if="!$v.password.minLength" class="form-group__error">Deben ser mínimo 6 caracteres.</span>
+            <span v-if="!$v.password.maxLength" class="form-group__error">Deben ser máximo 40 caracteres.</span>
+          </div>
+        </div>
+        <div v-for="(e,index) in errors" :key="index" class="login__error">
+          {{ e }}
+        </div>
+        <button type="button" @click="login" class="btn btn--primary mt-2">
+          <span v-if="!loading">Ingresar</span>
+          <div v-else class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { email, maxLength, minLength, required } from 'vuelidate/lib/validators'
+
+export default {
+  name: 'Login',
+  data () {
+    return {
+      email: '',
+      password: '',
+      errors: [],
+      loading: false
+    }
+  },
+  validations: {
+    email: {
+      required,
+      email,
+      maxLength: maxLength(40)
+    },
+    password: {
+      required,
+      minLength: minLength(6),
+      maxLength: maxLength(40)
+    }
+  },
+  computed: {
+    toggleLogin () {
+      return this.$store.state.content.login
+    }
+  },
+  methods: {
+    close () {
+      this.$store.dispatch('content/toggleLogin')
+    },
+    async login () {
+      try {
+        this.errors = []
+        this.$v.email.$touch()
+        this.$v.password.$touch()
+        if (!this.$v.$invalid) {
+          this.loading = true
+          await this.$fireAuth.signInWithEmailAndPassword(this.email, this.password)
+          const user = this.$fireAuth.currentUser
+          if (!user.emailVerified) {
+            await this.$fireAuth.signOut()
+            const error = 'Aún no has verificado tu dirección de correo electrónico'
+            this.loading = false
+            this.errors.push(error)
+          } else {
+            const obj = {
+              displayName: user.displayName,
+              email: user.email,
+              emailVerified: user.emailVerified,
+              uid: user.uid
+            }
+            this.$store.dispatch('user/setUser', { user: obj })
+            this.loading = false
+            this.close()
+          }
+        }
+      } catch (e) {
+        const errorCode = e.code
+        if (errorCode === 'auth/invalid-email') {
+          const error = 'Email inválido'
+          this.errors.push(error)
+        }
+        if (errorCode === 'auth/user-not-found') {
+          const error = 'Email no se encuentra registrado'
+          this.errors.push(error)
+        }
+        if (errorCode === 'auth/wrong-password') {
+          const error = 'Contraseña inválida'
+          this.errors.push(error)
+        }
+        this.loading = false
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  @import "assets/scss/components/login";
+</style>
