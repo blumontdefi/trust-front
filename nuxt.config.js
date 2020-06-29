@@ -88,7 +88,8 @@ export default {
     {
       src: '~/plugins/swiper',
       ssr: false
-    }
+    },
+    '~/plugins/moment'
   ],
   /*
   * Router Settings
