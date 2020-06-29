@@ -89,7 +89,7 @@
             <div class="block">
               <h3>{{ e.name }}</h3>
               <p class="primary-text-color">
-                {{e.startDate}}
+                {{ $moment(e.startDate ).format('MMMM Do YYYY, h:mm a') }}
               </p>
               <div class="info">
                 <p>Caballos subastados: {{ e.quantityHorses }}</p>

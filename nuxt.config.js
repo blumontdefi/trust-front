@@ -88,8 +88,7 @@ export default {
     {
       src: '~/plugins/swiper',
       ssr: false
-    },
-    '~/plugins/moment'
+    }
   ],
   /*
   * Router Settings
@@ -107,8 +106,12 @@ export default {
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/moment'
   ],
+  moment: {
+    locales: ['es']
+  },
   /*
   ** Nuxt.js modules
   */

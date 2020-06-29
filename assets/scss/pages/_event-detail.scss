@@ -1,141 +1,88 @@
-.event-detail{
+.event-detail {
+  padding-bottom: 3rem;
 
-	@include respond-to(medium) {
-		padding-top: 50px;
-		padding-bottom: 20px;
-	}
-	@include respond-to(small) {
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
+  img {
+    width: 100%;
+  }
 
-	.head-event{
+  &__head {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
 
-		margin-bottom: 60px;
+  &__countdown {
+    display: flex;
+    justify-content: flex-end;
+  }
 
-		@include respond-to(medium) {
-			margin-bottom: 30px;
-		}
+  .event-information {
 
-		div:nth-of-type(2){
+    grid-column-gap: 3rem;
 
-			a{
-				float: right;
-				margin-top: 15px;
-				margin-right: 40px;
+    @include lateral-padding;
+    padding-top: 110px;
+    padding-bottom: 60px;
 
-				@include respond-to(medium){
-					float: none;
-					margin-right: 0;
-				}
-			}
+    @include respond-to(medium) {
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+    @include respond-to(small) {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
 
-			.countdown{
-				float: right;
-				@include respond-to(medium){
-					float: none;
-					margin-top: 10px;
-					margin-bottom: 10px;
-				}
-			}
-		}
+    .block {
 
-		@include respond-to(medium){
-			justify-items:center;
-			text-align: center;
-		}
-	}
+      @include respond-to(medium) {
+        margin-bottom: 20px;
+      }
 
-	.event-information{		
-		
-		grid-column-gap: 3rem;
+      h2 {
+        margin-bottom: 30px;
+        margin-left: 80px;
+        @include respond-to(medium) {
+          margin-left: 0;
+        }
+      }
 
-		@include lateral-padding;
-		padding-top: 110px;
-		padding-bottom: 60px;
+      .wrap {
 
-		@include respond-to(medium) {
-			padding-top: 50px;
-			padding-bottom: 20px;
-		}
-		@include respond-to(small) {
-			padding-top: 20px;
-			padding-bottom: 20px;
-		}
-
-		.block{
-
-			@include respond-to(medium) {
-				margin-bottom: 20px;
-			}
-
-			h2{
-				margin-bottom: 30px;
-				margin-left:80px;
-				@include respond-to(medium) {
-					margin-left:0;
-				}
-			}
-
-			.wrap{
-
-				@include respond-to(medium) {
-					grid-template-columns: 1fr 1fr;
-				}
-				@include respond-to(small) {
-					grid-template-columns: 1fr;
-				}
+        @include respond-to(medium) {
+          grid-template-columns: 1fr 1fr;
+        }
+        @include respond-to(small) {
+          grid-template-columns: 1fr;
+        }
 
 
-				.col{
-					grid-template-columns: 80px 1fr;
-					margin-bottom: 35px;
+        .col {
+          grid-template-columns: 80px 1fr;
+          margin-bottom: 35px;
 
-					@include respond-to(medium) {
-						grid-template-columns: 60px 1fr;
-						margin-bottom: 20px;
-					}
+          @include respond-to(medium) {
+            grid-template-columns: 60px 1fr;
+            margin-bottom: 20px;
+          }
 
-					h3{
-						font-family: $secondary-font;
-						font-size: $base-secondary-font-size;
-						margin-bottom: 10px;
-					}
-				}
-			}
-		}
-	}
+          h3 {
+            font-family: $secondary-font;
+            font-size: $base-secondary-font-size;
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+  }
 
+  .horse-catalog {
+    margin-top: 100px;
 
-	.horse-catalog{
-		margin-top: 100px;
-
-		@include respond-to(medium) {
-			margin-top: 80px;
-		}
-
-		h1{
-			margin-bottom: 100px;
-
-			@include respond-to(medium) {
-				margin-bottom: 40px;
-			}
-		}
-
-		.col-3{
-			grid-column-gap: 4rem;
-
-			@include respond-to(medium) {
-				grid-template-columns: repeat(2, 1fr);
-				grid-column-gap: 2rem;
-			}
-			@include respond-to(small) {
-				grid-template-columns: 1fr;
-				grid-column-gap: 1rem;
-			}
-		}
-	}
-
-
+    @include respond-to(medium) {
+      margin-top: 80px;
+    }
+  }
 
 }
