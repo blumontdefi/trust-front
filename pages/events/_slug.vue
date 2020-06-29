@@ -1,6 +1,7 @@
 <template>
   <div class="event-detail">
     <div class="event-detail__content container container--event">
+      <!--Head-->
       <div class="event-detail__head">
         <div>
           <h2>{{event.name}}</h2>
@@ -29,507 +30,94 @@
           </div>
         </div>
       </div>
+      <button class="event-detail__live btn btn--secondary">Ir a transmisión en vivo</button>
+      <!--End-->
+      <!--Image-->
       <figure>
         <img :src="event.image">
       </figure>
-      <div class="event-information col col-3">
-        <div class="block information">
-          <!--::::::::::-->
-          <h2>Información:</h2>
-          <div class="wrap col">
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/ico-date.jpg" alt="">
-              <div>
-                <h3>Fecha del evento</h3>
-                <p>12/ 04 / 2020</p>
-              </div>
-            </div>
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/ico-time.jpg" alt="">
-              <div>
-                <h3>Hora Lima</h3>
-                <p>21:00</p>
-              </div>
-            </div>
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/ico-duration.jpg" alt="">
-              <div>
-                <h3>Duración</h3>
-                <p>3 horas</p>
-              </div>
-            </div>
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/ico-auction.jpg" alt="">
-              <div>
-                <h3>Caballo en Subasta</h3>
-                <p>20 Caballos</p>
-              </div>
-            </div>
-            <!--::::::::::-->
+      <!--End-->
+      <!--Information-->
+      <h3>Información:</h3>
+      <div class="event-detail__information grid col-4">
+        <div class="event-detail__item">
+          <img src="/images/ico-date.jpg" alt="Fecha">
+          <div>
+            <h4>Fecha del evento</h4>
+            <p>12/ 04 / 2020</p>
           </div>
         </div>
-
-        <div class="block haras">
-          <!--::::::::::-->
-          <h2>Haras:</h2>
-          <div class="wrap">
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/jimena.jpg" alt="">
-              <div>
-                <h3>Jimena del Carpio</h3>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                  alteration in some form, by injected humour, or randomised words which don’t </p>
-              </div>
-            </div>
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/alejandro.jpg" alt="">
-              <div>
-                <h3>Alejandro Roca Rey</h3>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                  alteration in some form, by injected humour, or randomised words which don’t </p>
-              </div>
-            </div>
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/carla.jpg" alt="">
-              <div>
-                <h3>Carla Perez Lopez</h3>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                  alteration in some form, by injected humour, or randomised words which don’t </p>
-              </div>
-            </div>
-            <!--::::::::::-->
+        <div class="event-detail__item">
+          <img src="/images/ico-time.jpg" alt="Hora">
+          <div>
+            <h4>Hora Lima</h4>
+            <p>12/ 04 / 2020</p>
           </div>
         </div>
-
-        <div class="block agente">
-          <!--::::::::::-->
-          <h2>Agente:</h2>
-          <div class="wrap">
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/carlos.jpg" alt="">
-              <div>
-                <h3>Carlos del Carpio</h3>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                  alteration in some form, by injected</p>
-              </div>
-            </div>
-            <!--::::::::::-->
-            <div class="col">
-              <img src="images/carlos.jpg" alt="">
-              <div>
-                <h3>Bruno Pinasco</h3>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                  alteration in some form, by injected</p>
-              </div>
-            </div>
-            <!--::::::::::-->
+        <div class="event-detail__item">
+          <img src="/images/ico-duration.jpg" alt="Duración">
+          <div>
+            <h4>Duración</h4>
+            <p>{{event.duration}} horas</p>
           </div>
         </div>
-
-      </div>
-      <div class="container">
-        <div class="documents">
-          <div class="container col col-5 lighter-grey-bg-color">
-            <div>
-              <p><i class="fas fa-file-alt"></i> Pedigree.com</p>
-              <a href="">
-                <ion-icon name="download-outline"></ion-icon>
-              </a>
-            </div>
-            <div>
-              <p><i class="fas fa-file-alt"></i> Evento 1991</p>
-              <a href="">
-                <ion-icon name="download-outline"></ion-icon>
-              </a>
-            </div>
-            <div>
-              <p><i class="fas fa-file-alt"></i> Documento 1</p>
-              <a href="">
-                <ion-icon name="download-outline"></ion-icon>
-              </a>
-            </div>
+        <div class="event-detail__item">
+          <img src="/images/ico-auction.jpg" alt="Caballos en subasta">
+          <div>
+            <h4>Caballos en subasta</h4>
+            <p>{{event.quantityHorses}} caballos</p>
           </div>
         </div>
       </div>
-      <div class="horse-catalog">
-        <h1 class="text-center">Catálogo de caballos</h1>
-        <div class="wrap col col-3">
-          <!--::::::::-->
-          <div class="card card--horse">
+      <div class="event-detail__documents">
+        Descargar Catálogo
+        <a :href="event.doc" download target="_blank">
+          <client-only>
+            <ion-icon name="cloud-download-outline"></ion-icon>
+          </client-only>
+        </a>
+      </div>
+      <!---End-->
+      <div class="catalog">
+        <h2 class="text-center">Catálogo de caballos</h2>
+        <div class="grid col-3">
+          <nuxt-link to="/" v-for="(h, index) in horses" :key="index" class="card card--horse">
             <figure>
-              <img src="images/horse-catalog.jpg" alt="" class="img-max">
-              <div class="label-primary">Label</div>
+              <img :src="h.principalImage" alt="" class="img-max">
+              <div class="label-primary">{{h.label}}</div>
             </figure>
-
-            <div class="wrap-catalog">
-
-              <div class="block col col-2">
-                <h2>Luigi D’Eclipse Lui</h2>
-                <div class="col justify-items-end">
-                  <div class="label-secondary">Pre Oferta abierta</div>
+            <div class="catalog__description">
+              <h3>{{h.name}}</h3>
+              <div class="features">
+                <div class="features__item">
+                  <h5>SIRE</h5>
+                  <p>{{h.sire}}</p>
+                </div>
+                <div class="features__item">
+                  <h5>DAME</h5>
+                  <p>{{h.dame}}</p>
+                </div>
+                <div class="features__item">
+                  <h5>SEXO</h5>
+                  <p>{{h.gender}}</p>
+                </div>
+                <div class="features__item">
+                  <h5>NACIMIENTO</h5>
+                  <p>{{$moment(h.birthDate).format('MMM Do YY')}}</p>
                 </div>
               </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <p>Sire</p>
-                    <p>Sire</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Dame</p>
-                    <p>Dame</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Sexo</p>
-                    <p>Sexo</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Fec.Nacimiento</p>
-                    <p>08 / 11 / 09</p>
-                  </div>
-                </div>
+              <hr>
+              <div class="catalog__offer">
+                <h4>Precio base</h4>
+                <span class="text-right">$ {{new Intl.NumberFormat().format(h.basePrice)}}</span>
               </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <h3>Oferta Actual</h3>
-                    <p class="text-right">$ 50, 000</p>
-                  </div>
-                </div>
+              <div class="catalog__offer">
+                <h4>Oferta actual</h4>
+                <span class="text-right">$ {{new Intl.NumberFormat().format(h.currentBid)}}</span>
               </div>
-
-              <div class="block table">
-                <div class="col col-2 title text-center">
-                  <p>Bids</p>
-                  <p>Subasta en vivo</p>
-                </div>
-                <div class="col col-2 text-center lighter-grey-bg-color">
-                  <p>2</p>
-                  <p>2 días</p>
-                </div>
-              </div>
-
-              <a href="" class="btn btn--secondary">Más información</a>
             </div>
-
-          </div>
-          <!--::::::::-->
-          <div class="card card--horse">
-            <figure>
-              <img src="images/horse-catalog.jpg" alt="" class="img-max">
-              <div class="label-primary">Label</div>
-            </figure>
-
-            <div class="wrap-catalog">
-
-              <div class="block col col-2">
-                <h2>Luigi D’Eclipse Lui</h2>
-                <div class="col justify-items-end">
-                  <div class="label-secondary">Pre Oferta abierta</div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <p>Sire</p>
-                    <p>Sire</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Dame</p>
-                    <p>Dame</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Sexo</p>
-                    <p>Sexo</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Fec.Nacimiento</p>
-                    <p>08 / 11 / 09</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <h3>Oferta Actual</h3>
-                    <p class="text-right">$ 50, 000</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block table">
-                <div class="col col-2 title text-center">
-                  <p>Bids</p>
-                  <p>Subasta en vivo</p>
-                </div>
-                <div class="col col-2 text-center lighter-grey-bg-color">
-                  <p>2</p>
-                  <p>2 días</p>
-                </div>
-              </div>
-
-              <a href="" class="btn btn--secondary">Más información</a>
-            </div>
-
-          </div>
-          <!--::::::::-->
-          <div class="card card--horse">
-            <figure>
-              <img src="images/horse-catalog.jpg" alt="" class="img-max">
-              <div class="label-primary">Label</div>
-            </figure>
-
-            <div class="wrap-catalog">
-
-              <div class="block col col-2">
-                <h2>Luigi D’Eclipse Lui</h2>
-                <div class="col justify-items-end">
-                  <div class="label-secondary">Pre Oferta abierta</div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <p>Sire</p>
-                    <p>Sire</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Dame</p>
-                    <p>Dame</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Sexo</p>
-                    <p>Sexo</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Fec.Nacimiento</p>
-                    <p>08 / 11 / 09</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <h3>Oferta Actual</h3>
-                    <p class="text-right">$ 50, 000</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block table">
-                <div class="col col-2 title text-center">
-                  <p>Bids</p>
-                  <p>Subasta en vivo</p>
-                </div>
-                <div class="col col-2 text-center lighter-grey-bg-color">
-                  <p>2</p>
-                  <p>2 días</p>
-                </div>
-              </div>
-
-              <a href="" class="btn btn--secondary">Más información</a>
-            </div>
-
-          </div>
-          <!--::::::::-->
-          <div class="card card--horse">
-            <figure>
-              <img src="images/horse-catalog.jpg" alt="" class="img-max">
-              <div class="label-primary">Label</div>
-            </figure>
-
-            <div class="wrap-catalog">
-
-              <div class="block col col-2">
-                <h2>Luigi D’Eclipse Lui</h2>
-                <div class="col justify-items-end">
-                  <div class="label-secondary">Pre Oferta abierta</div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <p>Sire</p>
-                    <p>Sire</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Dame</p>
-                    <p>Dame</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Sexo</p>
-                    <p>Sexo</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Fec.Nacimiento</p>
-                    <p>08 / 11 / 09</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <h3>Oferta Actual</h3>
-                    <p class="text-right">$ 50, 000</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block table">
-                <div class="col col-2 title text-center">
-                  <p>Bids</p>
-                  <p>Subasta en vivo</p>
-                </div>
-                <div class="col col-2 text-center lighter-grey-bg-color">
-                  <p>2</p>
-                  <p>2 días</p>
-                </div>
-              </div>
-
-              <a href="" class="btn btn--secondary">Más información</a>
-            </div>
-
-          </div>
-          <!--::::::::-->
-          <div class="card card--horse">
-            <figure>
-              <img src="images/horse-catalog.jpg" alt="" class="img-max">
-              <div class="label-primary">Label</div>
-            </figure>
-
-            <div class="wrap-catalog">
-
-              <div class="block col col-2">
-                <h2>Luigi D’Eclipse Lui</h2>
-                <div class="col justify-items-end">
-                  <div class="label-secondary">Pre Oferta abierta</div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <p>Sire</p>
-                    <p>Sire</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Dame</p>
-                    <p>Dame</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Sexo</p>
-                    <p>Sexo</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Fec.Nacimiento</p>
-                    <p>08 / 11 / 09</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <h3>Oferta Actual</h3>
-                    <p class="text-right">$ 50, 000</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block table">
-                <div class="col col-2 title text-center">
-                  <p>Bids</p>
-                  <p>Subasta en vivo</p>
-                </div>
-                <div class="col col-2 text-center lighter-grey-bg-color">
-                  <p>2</p>
-                  <p>2 días</p>
-                </div>
-              </div>
-
-              <a href="" class="btn btn--secondary">Más información</a>
-            </div>
-
-          </div>
-          <!--::::::::-->
-          <!--::::::::-->
-          <div class="card card--horse">
-            <figure>
-              <img src="images/horse-catalog.jpg" alt="" class="img-max">
-              <div class="label-primary">Label</div>
-            </figure>
-
-            <div class="wrap-catalog">
-
-              <div class="block col col-2">
-                <h2>Luigi D’Eclipse Lui</h2>
-                <div class="col justify-items-end">
-                  <div class="label-secondary">Pre Oferta abierta</div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <p>Sire</p>
-                    <p>Sire</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Dame</p>
-                    <p>Dame</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Sexo</p>
-                    <p>Sexo</p>
-                  </div>
-                  <div class="col col-2">
-                    <p>Fec.Nacimiento</p>
-                    <p>08 / 11 / 09</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block">
-                <div class="table">
-                  <div class="col col-2">
-                    <h3>Oferta Actual</h3>
-                    <p class="text-right">$ 50, 000</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="block table">
-                <div class="col col-2 title text-center">
-                  <p>Bids</p>
-                  <p>Subasta en vivo</p>
-                </div>
-                <div class="col col-2 text-center lighter-grey-bg-color">
-                  <p>2</p>
-                  <p>2 días</p>
-                </div>
-              </div>
-
-              <a href="" class="btn btn--secondary">Más información</a>
-            </div>
-
-          </div>
-          <!--::::::::-->
+            <button class="btn btn--secondary btn--notborder">Más información</button>
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -541,30 +129,47 @@
 export default {
   layout: 'blue',
   name: 'Event',
+  async asyncData ({ $fireStore, params, error }) {
+    try {
+      const querySnapshot = await $fireStore.collection('events').where('slug', '==', params.slug).get()
+      let event = null
+      const horses = []
+      querySnapshot.forEach((e) => {
+        const obj = {
+          id: e.id,
+          ...e.data()
+        }
+        delete obj.startDate
+        obj.startDate = e.data().startDate.toDate()
+        event = {
+          ...obj
+        }
+      })
+      if (event) {
+        const queryHorse = await $fireStore.collection('horses').where('event.id', '==', event.id).get()
+        queryHorse.forEach((h) => {
+          const obj = {
+            id: h.id,
+            ...h.data()
+          }
+          delete obj.birthDate
+          obj.birthDate = h.data().birthDate.toDate()
+          horses.push(obj)
+        })
+        return { event, horses }
+      } else {
+        error({ statusCode: 404, message: 'Evento no existe' })
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  },
   data () {
     return {
       days: 0,
       hours: 0,
       minutes: 0,
       seconds: 0
-    }
-  },
-  async asyncData ({ $fireStore, params }) {
-    const querySnapshot = await $fireStore.collection('events').where('slug', '==', params.slug).get()
-    let event = null
-    querySnapshot.forEach((e) => {
-      const obj = {
-        id: e.id,
-        ...e.data()
-      }
-      delete obj.startDate
-      obj.startDate = e.data().startDate.toDate()
-      event = {
-        ...obj
-      }
-    })
-    if (event) {
-      return { event }
     }
   },
   created () {
@@ -590,6 +195,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "assets/scss/pages/event-detail";
 </style>
