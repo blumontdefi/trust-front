@@ -19,4 +19,10 @@
   &--event {
     max-width: 1200px;
   }
+
+  &--live {
+    @include respond-to(small) {
+      padding: 0 !important;
+    }
+  }
 }
