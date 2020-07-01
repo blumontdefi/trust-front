@@ -78,7 +78,7 @@
           <nuxt-link
             v-for="(e, index) in events"
             :key="index"
-            :to="{name: 'events-slug', params : {slug: e.slug, event: e}}"
+            :to="{name: 'events-slug', params : {slug: e.slug}}"
             class="card">
             <figure>
               <img :src="e.image" alt="" class="img-max">

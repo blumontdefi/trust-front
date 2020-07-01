@@ -1,62 +1,36 @@
 <template>
   <div class="live">
-    <div class="live__content container container--live">
-      <div class="live__previous">
-        <client-only>
-          <ion-icon name="arrow-back-outline"/>
-        </client-only>
-        <nuxt-link to="/">
-          Regresar
-        </nuxt-link>
-      </div>
-      <div class="live__info">
-        <h2>Nombre del evento</h2>
-        <div v-if="!event.finish" class="live__detail grid col-4">
-          <div>
-            <h4>Fecha del Evento</h4>
-            <p>12/04/2020</p>
-          </div>
-          <div>
-            <h4>Duración</h4>
-            <p>3 Horas</p>
-          </div>
-          <div>
-            <h4>Hora Lima</h4>
-            <p>9:00 pm</p>
-          </div>
-          <div>
-            <h4>Caballos en subasta</h4>
-            <p>10</p>
-          </div>
-        </div>
-      </div>
-      <div class="live__go">
-        <div style="padding:56.25% 0 0 0;position:relative;">
+    <div class="live__content container container--fw">
+      <div class="live__go" :class="{'live__go--disabled' : !event.start}">
+        <div style="position:relative;" class="live__video">
           <iframe
             src="https://player.vimeo.com/video/433831351"
             frameborder="0"
             allow="autoplay; fullscreen"
             allowfullscreen
-            style="position:absolute;top:0;left:0;width:100%;height:100%;">
-          </iframe>
+            style="position:absolute;top:0;left:0;width:100%;height:100%;"
+          />
         </div>
         <div class="live__horse">
-          <h3>Nombre del caballo</h3>
-          <p>Nombre del haras</p>
+          <div id="bidModal" class="live__horse--bid">
+            Pasamos al siguiente caballo
+          </div>
+          <h3>{{horse.name}}</h3>
+          <p>{{horse.haras.name}}</p>
           <div class="live__desktop">
             <hr>
             <div class="live__features">
               <div>
                 <h4>SIRE</h4>
-                <span class="text-right">Sire</span>
+                <span class="text-right">{{horse.sire}}</span>
               </div>
               <div>
                 <h4>DAME</h4>
-                <span class="text-right">Dame</span>
+                <span class="text-right">{{horse.dame}}</span>
               </div>
               <div>
                 <h4>SEXO</h4>
-                <span class="text-right">Potro</span>
+                <span class="text-right">{{horse.gender}}</span>
               </div>
               <div>
                 <h4>NACIMIENTO</h4>
@@ -69,45 +43,106 @@
             <hr>
           </div>
           <div class="live__mobile">
-            <button class="btn btn--secondary">Más información</button>
+            <button class="btn btn--secondary">
+              Más información
+            </button>
           </div>
           <div class="offer">
+            <!--Modals-->
+            <div class="offer--modal" id="creditOff">
+              <div>
+                <ion-icon name="sad-outline"/>
+                <p>No cuenta con el crédito suficiente</p>
+                <p>{{messageModal}}</p>
+              </div>
+            </div>
+            <!--End-->
+            <div class="offer__item offer__item--secondary">
+              <h3>Precio base</h3>
+              <p class="text-right">
+                $ {{new Intl.NumberFormat().format(horse.basePrice)}}
+              </p>
+            </div>
             <div class="offer__item">
               <h3>Oferta actual</h3>
               <p class="text-right">
-                $ 16,000
+                $ {{new Intl.NumberFormat().format(horse.currentBid)}}
               </p>
             </div>
             <div class="increment">
               <h4>Aumentar de</h4>
               <div class="increment__content">
                 <div>
-                  <input id="1" v-model="increment" type="radio" name="increment" value="100">
-                  <label for="1">100</label>
+                  <input id="1" v-model="increment" type="radio" name="increment" :value="horse.increase">
+                  <label for="1">{{horse.increase}}</label>
                 </div>
                 <div>
-                  <input id="2" v-model="increment" type="radio" name="increment" value="200">
-                  <label for="2">200</label>
+                  <input id="2" v-model="increment" type="radio" name="increment" :value="horse.increase1">
+                  <label for="2">{{horse.increase1}}</label>
                 </div>
                 <div>
-                  <input id="3" v-model="increment" type="radio" name="increment" value="300">
-                  <label for="3">300</label>
+                  <input id="3" v-model="increment" type="radio" name="increment" :value="horse.increase2">
+                  <label for="3">{{horse.increase2}}</label>
                 </div>
                 <div>
-                  <input id="4" v-model="increment" type="radio" name="increment" value="400">
-                  <label for="4">400</label>
+                  <input id="4" v-model="increment" type="radio" name="increment" :value="horse.increase3">
+                  <label for="4">{{horse.increase3}}</label>
                 </div>
               </div>
             </div>
             <div class="offer__go">
-              <h1>$ 16, 100</h1>
-              <button class="btn btn--primary">Ofertar ahora</button>
+              <p>Monto a ofertar</p>
+              <h1>$ {{new Intl.NumberFormat().format(bid)}}</h1>
+              <button
+                class="btn btn--primary"
+                :disabled="loadBid || horse.currentBid<=0 || !event.start"
+                @click="bidNow">
+                <span v-if="!loadBid"> Ofertar ahora</span>
+                <div v-else class="lds-ellipsis">
+                  <div/>
+                  <div/>
+                  <div/>
+                  <div/>
+                </div>
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="live__horses">
+    <div id="sidebar" class="sidebar">
+      <div class="sidebar__list">
+        <div
+          v-for="(h, index) in horses"
+          :key="index"
+          class="sidebar__content"
+          :class="{'sidebar__content--disabled' : !h.stateAuction}">
+          <div class="sidebar__item">
+            <div class="sidebar__position">
+              <h3 v-if="index<10">0{{index+1}}</h3>
+              <h3 v-else>{{index+1}}</h3>
+            </div>
+            <div class="sidebar__info">
+              <h3>{{ h.name }}</h3>
+              <div>
+                <h4>{{ h.haras.name }}</h4>
+                <p>
+                  {{ h.haras.description }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <button :disabled="!h.stateAuction" class="btn">Más información</button>
+          <hr>
+        </div>
+      </div>
+      <div class="sidebar__trigger">
+        <a @click="showSidebar">
+          <ion-icon name="play" id="trigger"></ion-icon>
+        </a>
+      </div>
+    </div>
+    <div class="sidebar__shadow" id="sideBarShadow">
     </div>
   </div>
 </template>
@@ -115,13 +150,229 @@
 <script>
 export default {
   layout: 'live',
-  name: 'Live',
+  name: 'EventLive',
+  async asyncData ({ $fireStore, $store, params, error }) {
+    try {
+      // Get events
+      const querySnapshot = await $fireStore.collection('events').where('slug', '==', params.slug).get()
+      let event = null
+      const horses = []
+      querySnapshot.forEach((e) => {
+        const obj = {
+          id: e.id,
+          ...e.data()
+        }
+        delete obj.startDate
+        obj.startDate = e.data().startDate.toDate()
+        event = {
+          ...obj
+        }
+      })
+      if (event) {
+        // Get horse
+        const queryHorse = await $fireStore.collection('horses')
+          .where('event.id', '==', event.id)
+          .where('state', '==', true)
+          .orderBy('createdAt', 'desc').get()
+        queryHorse.forEach((h) => {
+          const obj = {
+            id: h.id,
+            ...h.data()
+          }
+          delete obj.birthDate
+          obj.birthDate = h.data().birthDate.toDate()
+          horses.push(obj)
+        })
+        const horsesFilter = horses.filter(h => h.stateAuction)
+        const horse = horsesFilter[0]
+        return { event, horses, horse }
+      } else {
+        error({ statusCode: 404, message: 'Evento no existe' })
+      }
+    } catch (e) {
+      error({ statusCode: 500, message: 'Error al cargar evento' })
+    }
+  },
   data () {
     return {
-      event: {
-        finish: true
+      increment: 0,
+      bid: 0,
+      event: {},
+      horse: {},
+      credits: [],
+      loadBid: false,
+      unsubscribeHorse: null,
+      unsubscribeBid: null,
+      messageModal: '',
+      errors: []
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user.data
+    }
+  },
+  watch: {
+    horse: {
+      handler (val) {
+        if (this.horse.stateAuction) {
+          this.bid = this.horse.currentBid + this.increment
+        }
+        if (this.horse.stateAuction === false) {
+          this.showModal()
+          this.unsubscribeHorse()
+          this.unsubscribeBid()
+          const horsesFilter = this.horses.filter(h => h.stateAuction)
+          this.horse = horsesFilter[0]
+          this.increment = this.horse.increase
+          // Get Updates horse
+          this.unsubscribeHorse = this.$fireStore.collection('horses').doc(this.horse.id)
+            .onSnapshot((doc) => {
+              this.horse.stateAuction = doc.data().stateAuction
+            })
+          // Get updates bids
+          // Bids
+          this.unsubscribeBid = this.$fireStore.collection('bids')
+            .where('horse.id', '==', this.horse.id)
+            .orderBy('bid', 'desc')
+            .onSnapshot((querySnapshot) => {
+              const bids = []
+              querySnapshot.forEach(function (doc) {
+                bids.push(doc.data().bid)
+              })
+              if (bids.length !== 0) {
+                this.horse.currentBid = bids[0]
+                this.bid = this.horse.currentBid + this.increment
+              } else {
+                this.horse.currentBid = this.horse.basePrice
+              }
+            })
+        }
       },
-      increment: 100
+      deep: true
+    },
+    increment () {
+      if (this.horse.currentBid === 0) {
+        this.bid = this.horse.basePrice
+      } else {
+        this.bid = this.horse.currentBid + this.increment
+      }
+    }
+  },
+  async mounted () {
+    try {
+      this.increment = this.horse.increase
+      // Calculate current bid
+      if (this.horse.currentBid === 0) {
+        this.bid = this.horse.basePrice
+      } else {
+        this.bid = this.horse.currentBid + this.increment
+      }
+      // End
+      // Event
+      this.$fireStore.collection('events').doc(this.event.id)
+        .onSnapshot((doc) => {
+          this.event.start = doc.data().start
+        })
+      // Horses
+      this.unsubscribeHorse = this.$fireStore.collection('horses').doc(this.horse.id)
+        .onSnapshot((doc) => {
+          this.horse.stateAuction = doc.data().stateAuction
+        })
+      // Bids
+      this.unsubscribeBid = this.$fireStore.collection('bids').where('horse.id', '==', this.horse.id).orderBy('bid', 'desc')
+        .onSnapshot((querySnapshot) => {
+          const bids = []
+          querySnapshot.forEach(function (doc) {
+            bids.push(doc.data().bid)
+          })
+          if (bids.length !== 0) {
+            this.horse.currentBid = bids[0]
+            this.bid = this.horse.currentBid + this.increment
+          } else {
+            this.horse.currentBid = this.horse.basePrice
+          }
+        })
+      // Client
+      const user = this.$store.state.user.data
+      const queryCredits = await this.$fireStore.collection('credits').where('client.uid', '==', user.uid).where('state', '==', true).get()
+      queryCredits.forEach((c) => {
+        const obj = {
+          id: c.id,
+          ...c.data()
+        }
+        this.credits.push(obj)
+      })
+    } catch (e) {
+      const error = 'Hubo un error al iniciar evento.'
+      this.errors.push(error)
+    }
+  },
+  methods: {
+    showSidebar () {
+      const sideBar = document.getElementById('sidebar')
+      const sideBarShadow = document.getElementById('sideBarShadow')
+      const trigger = document.getElementById('trigger')
+      sideBar.classList.toggle('show')
+      sideBarShadow.classList.toggle('show')
+      trigger.classList.toggle('sidebar__rotate')
+    },
+    async bidNow () {
+      try {
+        const validate = await this.validateCredit()
+        if (validate) {
+          this.loadBid = true
+          await this.$fireStore.collection('bids').add({
+            bid: this.bid,
+            user: {
+              id: this.user.uid,
+              displayName: this.user.displayName
+            },
+            horse: {
+              id: this.horse.id,
+              name: this.horse.name,
+              imageLeft: this.horse.imageLeft
+            },
+            createdAt: this.$fireStoreObj.FieldValue.serverTimestamp()
+          })
+          this.loadBid = false
+        }
+      } catch (e) {
+        const error = 'Hubo un error al realizar oferta.'
+        this.errors.push(error)
+      }
+    },
+    validateCredit () {
+      return new Promise((resolve, reject) => {
+        const horseHaras = this.horse.haras
+        this.credits.forEach((c) => {
+          if (c.haras.id === horseHaras.id) {
+            if (this.bid < (c.credit - c.used)) {
+              resolve(true)
+            } else {
+              resolve(false)
+              this.messageModal = 'Su crédito actual es de: $' + new Intl.NumberFormat().format(c.credit - c.used)
+              this.showModalCreditOff()
+            }
+          } else {
+            resolve(false)
+          }
+        })
+      })
+    },
+    showModal () {
+      const bidModal = document.getElementById('bidModal')
+      bidModal.classList.toggle('show')
+      setTimeout(() => {
+        bidModal.classList.toggle('show')
+      }, 5000)
+    },
+    showModalCreditOff () {
+      const creditOff = document.getElementById('creditOff')
+      creditOff.classList.toggle('show')
+      setTimeout(() => {
+        creditOff.classList.toggle('show')
+      }, 5000)
     }
   }
 }

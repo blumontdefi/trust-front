@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <button class="event-detail__live btn btn--secondary">Ir a transmisión en vivo</button>
+      <button @click="goToLive" class="event-detail__live btn btn--secondary">Ir a transmisión en vivo</button>
       <!--End-->
       <!--Image-->
       <figure>
@@ -161,7 +161,7 @@ export default {
         error({ statusCode: 404, message: 'Evento no existe' })
       }
     } catch (e) {
-      console.log(e)
+      error({ statusCode: 500, message: 'Hubo un error al cargar evento.' })
     }
   },
   data () {
@@ -190,6 +190,9 @@ export default {
       this.minutes = this.minutes - (this.days * 24 * 60 + this.hours * 60)
       this.seconds = parseInt(diff.asSeconds())
       this.seconds = this.seconds - (this.days * 24 * 60 * 60 + this.hours * 60 * 60 + this.minutes * 60)
+    },
+    goToLive () {
+      this.$router.push({ name: 'live-slug', params: { slug: this.event.slug } })
     }
   }
 }
