@@ -16,7 +16,7 @@
           Crea tu cuenta
           ahora
         </button>
-        <button v-if="user" class="btn btn--primary btn--call" @click="$router.push({name: 'signup'})">
+        <button v-if="user" class="btn btn--primary btn--call" @click="$router.push({name: 'request'})">
           Solicita un crédito
         </button>
       </div>
