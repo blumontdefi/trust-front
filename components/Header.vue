@@ -16,12 +16,12 @@
       <!--Menu-->
       <nav class="menu">
         <ul>
-          <li><a href="">Inicio</a></li>
-          <li><a href="">Eventos</a></li>
-          <li><a href="">Catálogo de Caballos</a></li>
-          <li><a href="">Nosotros</a></li>
-          <li><a href="">FAQ'S</a></li>
-          <li><a href="">Noticias</a></li>
+          <li><a @click="goTo('index')">Inicio</a></li>
+          <li><a @click="goTo('events')">Eventos</a></li>
+          <li><a @click="goTo('faqs')">Catálogo de Caballos</a></li>
+          <li><a @click="goTo('about')">Nosotros</a></li>
+          <li><a @click="goTo('faqs')">FAQ'S</a></li>
+          <li><a @click="goTo('news')">Noticias</a></li>
           <!--Login or signOut-->
           <li v-if="!user">
             <a @click="$store.dispatch('content/toggleLogin')">Ingresa</a>
@@ -51,19 +51,19 @@
         </div>
         <ul>
           <li>
-            <a @click="goTo('/')">Inicio</a>
+            <a @click="goTo('index')">Inicio</a>
           </li>
           <li>
-            <a @click="goTo('/')">Eventos</a>
+            <a @click="goTo('/events')">Eventos</a>
           </li>
           <li>
             <a @click="goTo('/')">Catálogo de Caballos</a>
           </li>
           <li>
-            <a @click="goTo('/')">FAQ'S</a>
+            <a @click="goTo('/faqs')">FAQ'S</a>
           </li>
           <li>
-            <a @click="goTo('/')">Noticias</a>
+            <a @click="goTo('/news')">Noticias</a>
           </li>
         </ul>
         <!--Buttons-->
