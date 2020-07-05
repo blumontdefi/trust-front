@@ -75,11 +75,12 @@
           </p>
         </div>
         <div class="events__items grid col-3">
-          <nuxt-link
+          <div
             v-for="(e, index) in events"
             :key="index"
-            :to="{name: 'events-slug', params : {slug: e.slug}}"
-            class="card">
+            @click="$router.push({name: 'events-slug', params : {slug: e.slug}})"
+            class="card"
+            style="cursor: pointer">
             <figure>
               <img :src="e.image" alt="" class="img-max">
               <div class="label-secondary">
@@ -102,9 +103,9 @@
                   {{ e.description }}
                 </p>
               </div>
-              <a href="" class="link">Ver más</a>
+              <a class="link">Ver más</a>
             </div>
-          </nuxt-link>
+          </div>
         </div>
         <div class="events__buttons">
           <button type="button" @click="$router.push({name: 'events'})" class="btn btn--inverse btn--nw">
@@ -126,7 +127,26 @@
           </p>
         </div>
         <div class="grid col-3">
-          <nuxt-link to="/" class="card">
+          <div class="card" style="cursor: pointer">
+            <figure>
+              <img src="/images/event.jpg" alt="" class="img-max">
+            </figure>
+            <div class="block">
+              <h3>What is Lorem Ipsum</h3>
+              <p class="primary-text-color">
+                12/04/20
+              </p>
+              <div class="description">
+                <h4>Descripción:</h4>
+                <p>
+                  Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type specimen book.
+                </p>
+              </div>
+              <a class="link">Ver más</a>
+            </div>
+          </div>
+          <div class="card" style="cursor: pointer">
             <figure>
               <img src="/images/event.jpg" alt="" class="img-max">
             </figure>
@@ -144,8 +164,8 @@
               </div>
               <a href="" class="link">Ver más</a>
             </div>
-          </nuxt-link>
-          <nuxt-link to="/" class="card">
+          </div>
+          <div class="card" style="cursor: pointer">
             <figure>
               <img src="/images/event.jpg" alt="" class="img-max">
             </figure>
@@ -163,26 +183,7 @@
               </div>
               <a href="" class="link">Ver más</a>
             </div>
-          </nuxt-link>
-          <nuxt-link to="/" class="card">
-            <figure>
-              <img src="/images/event.jpg" alt="" class="img-max">
-            </figure>
-            <div class="block">
-              <h3>What is Lorem Ipsum</h3>
-              <p class="primary-text-color">
-                12/04/20
-              </p>
-              <div class="description">
-                <h4>Descripción:</h4>
-                <p>
-                  Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type specimen book.
-                </p>
-              </div>
-              <a href="" class="link">Ver más</a>
-            </div>
-          </nuxt-link>
+          </div>
         </div>
       </div>
     </div>
@@ -276,6 +277,7 @@
 
 <script>
 export default {
+  layout: 'default',
   name: 'Home',
   async asyncData ({ $fireStore }) {
     // Load events
@@ -290,7 +292,6 @@ export default {
       obj.startDate = e.data().startDate.toDate()
       events.push(obj)
     })
-
     return { events }
   },
   data () {
@@ -329,6 +330,11 @@ export default {
     },
     user () {
       return this.$store.state.user.data
+    }
+  },
+  mounted () {
+    if (this.$route.query.email) {
+      this.$store.dispatch('content/toggleLogin')
     }
   }
 }

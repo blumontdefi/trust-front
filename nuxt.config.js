@@ -4,6 +4,9 @@ export default {
   ** See https://nuxtjs.org/api/configuration-mode
   */
   mode: 'universal',
+  env: {
+    BASE_URL: process.env.BASE_URL
+  },
   vue: {
     config: {
       ignoredElements: [/^ion-/]
@@ -119,6 +122,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/firebase'
   ],

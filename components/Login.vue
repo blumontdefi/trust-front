@@ -7,7 +7,8 @@
           <ion-icon name="close-circle-outline"/>
         </client-only>
       </div>
-      <div class="login__form">
+      <!--Login-->
+      <div v-if="!resetPassword" class="login__form">
         <h2 class="text-center">¿Ya tienes una cuenta?</h2>
         <p class="text-center mt-1">
           Es bueno tenerte de vuelta
@@ -46,6 +47,7 @@
             <span v-if="!$v.password.maxLength" class="form-group__error">Deben ser máximo 40 caracteres.</span>
           </div>
         </div>
+        <div class="login__action" @click="resetPassword =!resetPassword">¿Olvidaste tu contraseña?</div>
         <div v-for="(e,index) in errors" :key="index" class="login__error">
           {{ e }}
         </div>
@@ -59,6 +61,46 @@
           </div>
         </button>
       </div>
+      <!--End Login-->
+      <!--Reset Password-->
+      <div v-if="resetPassword && !confirmReset" class="login__form">
+        <h2 class="text-center">Restablecer contraseña</h2>
+        <p class="text-center mt-1">
+          Ingresa el email asociado a tu cuenta.
+        </p>
+        <div class="form-group mt-4">
+          <label for="emailReset">Email</label>
+          <input id="emailReset" v-model="email" class="input" type="text" @blur="$v.email.$touch()">
+          <div v-if="$v.email.$error">
+            <span v-if="!$v.email.email" class="form-group__error">Email inválido</span>
+            <span v-if="!$v.email.required" class="form-group__error">Este campo es requerido</span>
+            <span v-if="!$v.email.maxLength" class="form-group__error">Deben ser máximo 40 caracteres.</span>
+          </div>
+        </div>
+        <div class="login__action" @click="resetPassword =!resetPassword">Ingresar ahora</div>
+        <div v-for="(e,index) in errors" :key="index" class="login__error">
+          {{ e }}
+        </div>
+        <button type="button" @click="reset" class="btn btn--primary mt-2">
+          <span v-if="!loading">Enviar</span>
+          <div v-else class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </button>
+      </div>
+      <!--End-->
+      <!--Confirm Reset-->
+      <div v-if="confirmReset">
+        <h2 class="text-center mt-4">Hemos enviado un link a tu email</h2>
+        <p>Sigue los pasos indicados para restablecer tu contraseña.</p>
+        <button type="button" @click="confirm" class="btn btn--primary mt-2">
+          <span v-if="!loading">Ingresar</span>
+        </button>
+      </div>
+      <!---End-->
     </div>
   </div>
 </template>
@@ -74,7 +116,9 @@ export default {
       password: '',
       errors: [],
       loading: false,
-      showPassword: false
+      showPassword: false,
+      resetPassword: false,
+      confirmReset: false
     }
   },
   validations: {
@@ -140,6 +184,27 @@ export default {
         }
         this.loading = false
       }
+    },
+    async reset () {
+      try {
+        const actionCodeSettings = {
+          url: process.env.BASE_URL + '?email=' + this.email
+        }
+        this.loading = true
+        await this.$fireAuth.sendPasswordResetEmail(this.email, actionCodeSettings)
+        this.loading = false
+        this.confirmReset = true
+      } catch (e) {
+        console.log(e)
+        this.loading = false
+        const error = 'Error al restablecer contraseña'
+        this.errors.push(error)
+      }
+    },
+    confirm () {
+      this.loading = false
+      this.resetPassword = false
+      this.confirmReset = false
     },
     togglePassword () {
       this.showPassword = !this.showPassword
