@@ -18,9 +18,8 @@
         <ul>
           <li><a @click="goTo('index')">Inicio</a></li>
           <li><a @click="goTo('events')">Eventos</a></li>
-          <li><a @click="goTo('faqs')">Catálogo de Caballos</a></li>
           <li><a @click="goTo('about')">Nosotros</a></li>
-          <li><a @click="goTo('faqs')">FAQ'S</a></li>
+          <li><a @click="goTo('faqs')">Preguntas frecuentes</a></li>
           <li><a @click="goTo('news')">Noticias</a></li>
           <!--Login or signOut-->
           <li v-if="!user">

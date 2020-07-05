@@ -81,7 +81,11 @@
       <div class="catalog">
         <h2 class="text-center">Catálogo de caballos</h2>
         <div class="grid col-3">
-          <nuxt-link to="/" v-for="(h, index) in horses" :key="index" class="card card--horse">
+          <a
+            v-for="(h, index) in horses"
+            :key="index"
+            class="card card--horse"
+            @click="$router.push({name: 'events-event-horses-slug' , params: {slug: getSlug(h.name) , event: event.slug} })">
             <figure>
               <img :src="h.principalImage" alt="" class="img-max">
               <div class="label-primary">{{h.label}}</div>
@@ -117,7 +121,7 @@
               </div>
             </div>
             <button class="btn btn--secondary btn--notborder">Más información</button>
-          </nuxt-link>
+          </a>
         </div>
       </div>
     </div>
@@ -193,11 +197,17 @@ export default {
     },
     goToLive () {
       this.$router.push({ name: 'live-slug', params: { slug: this.event.slug } })
+    },
+    getSlug (name) {
+      const text = (name).trim().split(' ').join('-').toLowerCase().normalize('NFD')
+        .replace(/([aeio])\u0301|(u)[\u0301\u0308]/gi, '$1$2')
+        .normalize()
+      return text
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import "assets/scss/pages/event-detail";
 </style>

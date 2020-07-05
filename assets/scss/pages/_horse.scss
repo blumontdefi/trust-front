@@ -1,0 +1,129 @@
+.horse {
+  &__content {
+
+  }
+
+  &__highlight {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 2rem;
+  }
+
+  &__info {
+    span {
+      display: block;
+      margin-bottom: .5rem;
+    }
+
+    span {
+      font-size: 1.1rem;
+    }
+
+    a {
+      text-decoration: underline;
+      font-size: 1.1rem;
+    }
+  }
+
+  &__detail {
+    margin-top: 2rem;
+
+    div {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: .5rem;
+      border-bottom: 1px solid $darker-grey;
+    }
+  }
+
+  &__countdown {
+    display: flex;
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+
+  &__media {
+    h2 {
+      text-align: center;
+    }
+  }
+}
+
+.preoffer {
+  font-size: 1.1rem;
+  background-color: $secondary-color;
+  color: white;
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    padding: .9rem;
+    border-bottom: 1px solid white;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+.offer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 2rem 0;
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: .8rem;
+
+    p {
+      font-size: 1.5rem;
+      text-align: right;
+    }
+
+    &:first-child {
+      h3, p {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  &__bid {
+    margin-top: 1.8rem;
+    text-align: center;
+  }
+
+  &__go {
+    padding: 1rem;
+  }
+
+  &__time {
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.increment {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 1.5rem;
+
+  h4 {
+    margin-bottom: .8rem;
+    text-align: center;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+}

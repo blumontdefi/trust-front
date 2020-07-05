@@ -57,11 +57,11 @@
 .menu {
   ul {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     height: 100%;
     align-items: center;
 
-    li:nth-of-type(6) a {
+    li:nth-of-type(5) a {
       border-right: 1px solid white;
     }
 

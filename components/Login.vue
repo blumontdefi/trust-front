@@ -22,14 +22,24 @@
           </div>
         </div>
         <div class="form-group mt-2">
-          <label for="pass">Contraseña</label>
+          <label for="password2">Contraseña</label>
           <input
-            id="pass"
+            id="password2"
             v-model="password"
             class="input"
             type="password"
             @blur="$v.password.$touch()"
             @keypress.enter="login">
+          <div v-if="!showPassword" class="toggle-password" id="showPassword" @click="togglePassword">
+            <client-only>
+              <ion-icon name="eye-outline"></ion-icon>
+            </client-only>
+          </div>
+          <div v-if="showPassword" class="toggle-password" id="hidePassword" @click="togglePassword">
+            <client-only>
+              <ion-icon name="eye-off-outline"></ion-icon>
+            </client-only>
+          </div>
           <div v-if="$v.password.$error">
             <span v-if="!$v.password.required" class="form-group__error">Este campo es requerido</span>
             <span v-if="!$v.password.minLength" class="form-group__error">Deben ser mínimo 6 caracteres.</span>
@@ -63,7 +73,8 @@ export default {
       email: '',
       password: '',
       errors: [],
-      loading: false
+      loading: false,
+      showPassword: false
     }
   },
   validations: {
@@ -128,6 +139,15 @@ export default {
           this.errors.push(error)
         }
         this.loading = false
+      }
+    },
+    togglePassword () {
+      this.showPassword = !this.showPassword
+      const pass = document.getElementById('password2')
+      if (pass.type === 'password') {
+        pass.type = 'text'
+      } else {
+        pass.type = 'password'
       }
     }
   }

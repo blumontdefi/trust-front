@@ -10,12 +10,6 @@
       </div>
       <form>
         <div class="form-group mb-2">
-          <label for="haras">Selecciona un haras *</label>
-          <select v-model="requestCredit.haras" class="select" id="haras">
-            <option v-for="(h,index) in haras" :key="index" :value="h">{{h.name}}</option>
-          </select>
-        </div>
-        <div class="form-group mb-2">
           <label for="credit">Crédito a solicitar en dólares * (Es solo referencial y será sujeto a evaluación)</label>
           <input v-model.number="requestCredit.credit" class="input" type="text" id="credit">
         </div>
@@ -108,27 +102,12 @@ import { required, numeric } from 'vuelidate/lib/validators'
 export default {
   name: 'Request',
   layout: 'blue',
-  async asyncData ({ $fireStore }) {
-    const querySnap = await $fireStore.collection('haras').where('state', '==', true).get()
-    const haras = []
-    querySnap.forEach((h) => {
-      const obj = {
-        id: h.id,
-        ...h.data()
-      }
-      haras.push(obj)
-    })
-    return { haras }
-  },
   data () {
     return {
       requestCredit: {},
       errors: [],
       progress: false,
-      terms: false,
-      actionCodeSettings: {
-        url: 'http://192.168.1.128:3000/'
-      }
+      terms: false
     }
   },
   validations: {
@@ -158,22 +137,12 @@ export default {
               ...c.data()
             }
           })
-          // Haras
-          delete this.requestCredit.haras.createdAt
-          delete this.requestCredit.haras.updatedAt
-          delete this.requestCredit.haras.image
-          delete this.requestCredit.haras.state
-          delete this.requestCredit.haras.uid
-          delete this.requestCredit.haras.description
-          // End haras
-          // End
           if (clientRef) {
             await this.$fireStore.collection('requestCredits').add({
               client: {
                 id: clientRef.id,
                 name: clientRef.name
               },
-              haras: this.requestCredit.haras,
               credit: this.requestCredit.credit,
               state: true,
               observation: this.requestCredit.observation ? this.requestCredit.observation : ''

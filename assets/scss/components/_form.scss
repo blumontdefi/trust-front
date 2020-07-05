@@ -1,5 +1,6 @@
 .form-group {
   width: 100%;
+  position: relative;
 
   &__error {
     margin-top: .5rem;
@@ -16,4 +17,16 @@
     margin-bottom: .4rem;
     display: block;
   }
+
+  ion-icon {
+    font-size: 1.4rem;
+  }
+
+}
+
+.toggle-password {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
 }
