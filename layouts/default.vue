@@ -4,6 +4,9 @@
     <Nuxt/>
     <Footer/>
     <Login/>
+    <Panel :class="{'show' : togglePanel}"/>
+    <div class="panel__shadow" :class="{'show' : togglePanel}">
+    </div>
   </div>
 </template>
 
@@ -11,12 +14,19 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Login from '../components/Login'
+import Panel from '../components/Panel'
 
 export default {
   components: {
     Header,
     Footer,
-    Login
+    Login,
+    Panel
+  },
+  computed: {
+    togglePanel () {
+      return this.$store.state.content.panel
+    }
   }
 }
 </script>

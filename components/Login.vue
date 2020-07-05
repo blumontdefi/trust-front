@@ -164,6 +164,7 @@ export default {
               uid: user.uid
             }
             this.$store.dispatch('user/setUser', { user: obj })
+            this.$router.push('/')
             this.loading = false
             this.close()
           }

@@ -34,8 +34,8 @@
             <button v-if="!user" type="button" class="btn btn--primary" @click="goTo('signup')">
               Crea tu cuenta
             </button>
-            <button v-if="user" type="button" class="btn btn--primary" @click="goTo('request')">
-              Solicita un crédito
+            <button v-if="user" type="button" class="btn btn--primary" @click="$store.dispatch('content/togglePanel')">
+              Ver crédito disponible
             </button>
           </li>
           <!--End-->
@@ -76,8 +76,8 @@
         </div>
         <!--Wit login-->
         <div v-if="user" class="menu__buttons">
-          <button type="button" class="btn btn--primary" @click="goToMobile('request')">
-            Solicita un crédito
+          <button type="button" class="btn btn--primary" @click="viewCreditsMobile">
+            Ver crédito
           </button>
           <button class="btn" @click="singOutMobile">
             Salir
@@ -134,6 +134,10 @@ export default {
       await this.$fireAuth.signOut()
       await this.$store.dispatch('user/setUser', { user: null })
       this.toggleMenuResponsive()
+    },
+    viewCreditsMobile () {
+      this.toggleMenuResponsive()
+      this.$store.dispatch('content/togglePanel')
     }
     // End
   }

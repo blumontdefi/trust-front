@@ -4,20 +4,33 @@
     <div class="hero hero--presentation">
       <div class="gradient"/>
       <div class="hero__container">
+        <!--Title-->
         <h1 class="mb-2">
-          Lorem Ipsum
+          <span v-if="!user">
+            Lorem Ipsum
+          </span>
+          <span v-if="user">
+            ¡Bienvenido a Trust!
+          </span>
         </h1>
+        <!--End-->
+        <!--Description-->
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+          <span v-if="!user">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
           industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
           scrambled it to make a type specimen book.
+          </span>
+          <span v-if="user">
+            Ahora podrás observar los eventos en vivo y si ya cuentas con una linea de crédito aprobada podrás incluso ofertar.
+          </span>
         </p>
+        <!--End-->
         <button v-if="!user" class="btn btn--primary btn--call" @click="$router.push({name: 'signup'})">
-          Crea tu cuenta
-          ahora
+          Crea tu cuenta ahora
         </button>
-        <button v-if="user" class="btn btn--primary btn--call" @click="$router.push({name: 'request'})">
-          Solicita un crédito
+        <button v-if="user" class="btn btn--primary btn--call" @click="$router.push({name: 'events'})">
+          Ver próximos eventos
         </button>
       </div>
       <div class="block">
@@ -279,7 +292,7 @@
 export default {
   layout: 'default',
   name: 'Home',
-  async asyncData ({ $fireStore }) {
+  async asyncData ({ $fireStore, store }) {
     // Load events
     const querySnapshot = await $fireStore.collection('events').where('finish', '==', false).orderBy('startDate', 'asc').limit(3).get()
     const events = []
@@ -292,6 +305,7 @@ export default {
       obj.startDate = e.data().startDate.toDate()
       events.push(obj)
     })
+    // End
     return { events }
   },
   data () {

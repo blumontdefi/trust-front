@@ -1,0 +1,79 @@
+.panel {
+  width: 25vw;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  transition: all .8s;
+  right: -25vw;
+  background-color: white;
+  padding: 1rem;
+  z-index: 100;
+
+  @include respond-to(medium) {
+    width: 100vw;
+    right: -100vw;
+  }
+
+  &.show {
+    right: 0;
+    z-index: 105;
+  }
+
+  &__shadow {
+    position: fixed;
+    z-index: -2;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+
+    &.show {
+      opacity: 1;
+      z-index: 101;
+    }
+  }
+
+  &__content {
+    p {
+      font-size: $base-font-size*1.2;
+    }
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+
+  &__credits {
+    padding: .5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+
+    &:nth-child(2n+1) {
+      background-color: $lighter-grey;
+    }
+  }
+
+  &__close {
+    text-align: right;
+    margin-bottom: 1.2rem;
+
+    ion-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+  }
+
+  &__message {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h4 {
+      margin-bottom: 1rem;
+    }
+  }
+}

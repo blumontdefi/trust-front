@@ -1,6 +1,7 @@
 export const state = () => ({
   data: '',
   login: false,
+  panel: false,
   loadUser: false
 })
 
@@ -10,6 +11,9 @@ export const mutations = {
   },
   TOGGLE_LOGIN (state) {
     state.login = !state.login
+  },
+  TOGGLE_PANEL (state) {
+    state.panel = !state.panel
   },
   TOGGLE_LOAD_USER (state) {
     state.loadUser = !state.loadUser
@@ -37,6 +41,10 @@ export const actions = {
   toggleLogin ({ commit }) {
     document.body.classList.toggle('body--disabledScroll')
     commit('TOGGLE_LOGIN')
+  },
+  togglePanel ({ commit }) {
+    document.body.classList.toggle('body--disabledScroll')
+    commit('TOGGLE_PANEL')
   },
   toggleLoadUser ({ commit }) {
     commit('TOGGLE_LOAD_USER')
