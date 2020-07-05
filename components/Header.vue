@@ -54,16 +54,16 @@
             <a @click="goTo('index')">Inicio</a>
           </li>
           <li>
-            <a @click="goTo('/events')">Eventos</a>
+            <a @click="goTo('events')">Eventos</a>
           </li>
           <li>
             <a @click="goTo('/')">Catálogo de Caballos</a>
           </li>
           <li>
-            <a @click="goTo('/faqs')">FAQ'S</a>
+            <a @click="goTo('faqs')">FAQ'S</a>
           </li>
           <li>
-            <a @click="goTo('/news')">Noticias</a>
+            <a @click="goTo('news')">Noticias</a>
           </li>
         </ul>
         <!--Buttons-->
@@ -112,8 +112,8 @@ export default {
       menuResponsive.classList.toggle('show')
     },
     // Desktop
-    goTo (name) {
-      this.$router.push({ name })
+    goTo (url) {
+      this.$router.push({ name: url })
     },
     async singOut () {
       await this.$fireAuth.signOut()

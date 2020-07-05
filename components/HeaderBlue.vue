@@ -16,12 +16,12 @@
       <!--Menu-->
       <nav class="menu">
         <ul>
-          <li><a class="secondary-color" href="" @click="goTo('index')">Inicio</a></li>
-          <li><a class="secondary-color" href="" @click="goTo('events')">Eventos</a></li>
-          <li><a class="secondary-color" href="" @click="goTo('/')">Catálogo de Caballos</a></li>
-          <li><a class="secondary-color" href="" @click="goTo('/about')">Nosotros</a></li>
-          <li><a class="secondary-color" href="" @click="goTo('faqs')">FAQ'S</a></li>
-          <li><a class="secondary-color" href="" @click="goTo('news')">Noticias</a></li>
+          <li><a class="secondary-color" @click="goTo('index')">Inicio</a></li>
+          <li><a class="secondary-color" @click="goTo('events')">Eventos</a></li>
+          <li><a class="secondary-color" @click="goTo('/')">Catálogo de Caballos</a></li>
+          <li><a class="secondary-color" @click="goTo('/about')">Nosotros</a></li>
+          <li><a class="secondary-color" @click="goTo('faqs')">FAQ'S</a></li>
+          <li><a class="secondary-color" @click="goTo('news')">Noticias</a></li>
           <!--Login or signOut-->
           <li v-if="!user">
             <a class="secondary-color" @click="$store.dispatch('content/toggleLogin')">Ingresa</a>
@@ -54,16 +54,16 @@
             <a @click="goTo('index')">Inicio</a>
           </li>
           <li>
-            <a @click="goTo('/events')">Eventos</a>
+            <a @click="goTo('events')">Eventos</a>
           </li>
           <li>
             <a @click="goTo('/')">Catálogo de Caballos</a>
           </li>
           <li>
-            <a @click="goTo('/faqs')">FAQ'S</a>
+            <a @click="goTo('faqs')">FAQ'S</a>
           </li>
           <li>
-            <a @click="goTo('/new')">Noticias</a>
+            <a @click="goTo('new')">Noticias</a>
           </li>
         </ul>
         <!--Buttons-->
@@ -112,8 +112,9 @@ export default {
       menuResponsive.classList.toggle('show')
     },
     // Desktop
-    goTo (name) {
-      this.$router.push({ name })
+    goTo (url) {
+      console.log('Prueba')
+      this.$router.push({ name: url })
     },
     async singOut () {
       await this.$fireAuth.signOut()

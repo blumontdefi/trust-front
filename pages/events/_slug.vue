@@ -128,7 +128,7 @@
 
 export default {
   layout: 'blue',
-  name: 'Event',
+  name: 'EventDetail',
   async asyncData ({ $fireStore, params, error }) {
     try {
       const querySnapshot = await $fireStore.collection('events').where('slug', '==', params.slug).get()

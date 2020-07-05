@@ -94,7 +94,7 @@ export default {
   * Router Settings
   * */
   router: {
-    middleware: ['authenticated']
+    middleware: []
   },
   /*
   ** Auto import components

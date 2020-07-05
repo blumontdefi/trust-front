@@ -107,7 +107,7 @@
           </nuxt-link>
         </div>
         <div class="events__buttons">
-          <button class="btn btn--inverse btn--nw">
+          <button type="button" @click="$router.push({name: 'events'})" class="btn btn--inverse btn--nw">
             Ver calendario de eventos
           </button>
         </div>
@@ -253,7 +253,7 @@
               It is a long established fact that a reader will be distracted by the readable content of a page when
               looking at its layout.
             </p>
-            <button class="btn btn--primary btn--call" @click="$router.push({name: 'signup'})">
+            <button type="button" class="btn btn--primary btn--call" @click="$router.push({name: 'signup'})">
               Crea tu cuenta ahora
             </button>
           </div>
@@ -278,6 +278,7 @@
 export default {
   name: 'Home',
   async asyncData ({ $fireStore }) {
+    // Load events
     const querySnapshot = await $fireStore.collection('events').where('finish', '==', false).orderBy('startDate', 'asc').limit(3).get()
     const events = []
     querySnapshot.forEach((e) => {
