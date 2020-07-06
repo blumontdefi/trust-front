@@ -7,7 +7,7 @@
         <!--Title-->
         <h1 class="mb-2">
           <span v-if="!user">
-            Lorem Ipsum
+            Trust Online Auctions
           </span>
           <span v-if="user">
             ¡Bienvenido a Trust!
@@ -17,9 +17,7 @@
         <!--Description-->
         <p>
           <span v-if="!user">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-          industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
+             La primera marca peruana que realiza operaciones online de compra – venta de caballos de carrera, con el fin de satisfacer las necesidades de este exigente mercado, a través de una plataforma digital con elevados estándares de calidad, eficiencia y transparencia.
           </span>
           <span v-if="user">
             Ahora podrás observar los eventos en vivo y si ya cuentas con una linea de crédito aprobada podrás incluso ofertar.
@@ -45,32 +43,32 @@
           <img src="/images/auctions.png" alt="Subastas online">
           <h3>Subastas Online</h3>
           <p>
-            Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
-            took a galley of type and scrambled it to make a type specimen book.
+            Expandemos el ámbito tradicional de las subastas equinas, a través de un soporte digital de avanzada,
+            ampliando el medio de las opciones de compra – venta para criadores y propietarios.
           </p>
         </div>
         <div class="benefits__item">
           <img src="/images/live.png" alt="Transmisiones en vivo">
           <h3>Transmisiones en vivo</h3>
           <p>
-            Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
-            took a galley of type and scrambled it to make a type specimen book.
+            Nuestras subastas digitales serán transmitidos via streaming, similares a los empleados en los principales
+            mercados internacionales.
           </p>
         </div>
         <div class="benefits__item">
           <img src="/images/clean.png" alt="Transparencia">
           <h3>Transparencia</h3>
           <p>
-            Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
-            took a galley of type and scrambled it to make a type specimen book.
+            Nuestros eventos cuentan con un soporte tecnológico y legal que ofrece a los usuarios completa claridad en
+            los diferentes procesos.
           </p>
         </div>
         <div class="benefits__item">
           <img src="/images/security.png" alt="Seguridad">
           <h3>Seguridad</h3>
           <p>
-            Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer
-            took a galley of type and scrambled it to make a type specimen book.
+            La información de nuestra plataforma se encuentra avalada por un soporte digital alojado en servidores que
+            garantizan su confidencialidad, integridad e intangibilidad.
           </p>
         </div>
       </div>
@@ -82,9 +80,7 @@
         <div class="events__title">
           <h2>Próximos Eventos</h2>
           <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when
-            looking
-            at its layout.
+            Relación con la información de las subastas activas.
           </p>
         </div>
         <div class="events__items grid col-3">
@@ -103,12 +99,11 @@
             <div class="block">
               <h3>{{ e.name }}</h3>
               <p class="primary-text-color">
-                {{ $moment(e.startDate ).format('MMMM Do YYYY, h:mm a') }}
+                {{ $moment(e.startDate ).format('Do MMMM YYYY, h:mm a') }} (Hora Lima, Perú)
               </p>
               <div class="info">
-                <p>Caballos subastados: {{ e.quantityHorses }}</p>
+                <p>Caballos a subastar: {{ e.quantityHorses }}</p>
                 <p>Haras: {{ e.quantityHaras }}</p>
-                <p>Agente: {{ e.agent }}</p>
               </div>
               <div class="description">
                 <h4>Descripción:</h4>
@@ -134,9 +129,7 @@
         <div class="news__title">
           <h2>Noticias</h2>
           <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when
-            looking
-            at its layout.
+            Información actualizada del acontecer hípico peruano e internacional.
           </p>
         </div>
         <div class="grid col-3">
@@ -205,12 +198,7 @@
     <div class="partners lighter-grey-bg-color">
       <div class="partners__content container">
         <div class="partners__title">
-          <h2>Nuestro aliados</h2>
-          <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when
-            looking
-            at its layout.
-          </p>
+          <h2>Aliados y Sponsors</h2>
         </div>
         <div class="partners__list partners__list--desktop">
           <client-only>
@@ -257,34 +245,34 @@
       </div>
     </div>
     <!--End-->
-    <!--Sign Up-->
-    <div class="signup">
-      <div class="signup__content">
-        <div class="grid col-2">
-          <div class="block">
-            <h2>Regístrate</h2>
-            <p>
-              It is a long established fact that a reader will be distracted by the readable content of a page when
-              looking at its layout.
-            </p>
-            <button type="button" class="btn btn--primary btn--call" @click="$router.push({name: 'signup'})">
-              Crea tu cuenta ahora
-            </button>
-          </div>
-          <div class="block">
-            <h2>Ver catálogo de caballos</h2>
-            <p>
-              It is a long established fact that a reader will be distracted by the readable content of a page when
-              looking at its layout.
-            </p>
-            <button class="btn btn--primary btn--call">
-              Ver catálogo
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!---->
+    <!--
+     <div class="signup">
+       <div class="signup__content">
+         <div class="grid col-2">
+           <div class="block">
+             <h2>Regístrate</h2>
+             <p>
+               It is a long established fact that a reader will be distracted by the readable content of a page when
+               looking at its layout.
+             </p>
+             <button type="button" class="btn btn--primary btn--call" @click="$router.push({name: 'signup'})">
+               Crea tu cuenta ahora
+             </button>
+           </div>
+           <div class="block">
+             <h2>Ver catálogo de caballos</h2>
+             <p>
+               It is a long established fact that a reader will be distracted by the readable content of a page when
+               looking at its layout.
+             </p>
+             <button class="btn btn--primary btn--call">
+               Ver catálogo
+             </button>
+           </div>
+         </div>
+       </div>
+     </div>
+     -->
   </div>
 </template>
 

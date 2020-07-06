@@ -5,7 +5,9 @@
       <div class="event-detail__head">
         <div>
           <h2>{{event.name}}</h2>
-          <h4 class="primary-color"> {{ $moment(event.startDate ).format('MMMM Do YYYY, h:mm a') }}</h4>
+          <h4 class="primary-color">
+            {{ $moment(event.startDate ).format('Do MMMM YYYY, h:mm a') }} (Hora Lima,Perú)
+          </h4>
         </div>
         <div>
           <div class="event-detail__countdown">

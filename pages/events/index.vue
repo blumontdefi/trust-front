@@ -22,7 +22,11 @@ export default {
   name: 'Events',
   async asyncData ({ $fireStore }) {
     // Load events
-    const querySnapshot = await $fireStore.collection('events').where('finish', '==', false).orderBy('startDate', 'asc').get()
+    const querySnapshot = await $fireStore
+      .collection('events')
+      .where('finish', '==', false)
+      .where('state', '==', true)
+      .orderBy('startDate', 'asc').get()
     const events = []
     querySnapshot.forEach((e) => {
       const obj = {
