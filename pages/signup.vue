@@ -4,8 +4,7 @@
       <div class="signup__title">
         <h2>Regístrate ahora</h2>
         <p>
-          It is a long established fact that a reader will be distracted by the readable content of a page when looking
-          at its layout.
+          Para poder participar en los eventos en vivo es necesario te encuentres registrado.
         </p>
       </div>
       <form>
