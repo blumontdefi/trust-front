@@ -204,19 +204,19 @@
           <client-only>
             <swiper ref="mySwiper" :options="swiperOptions">
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner.png" alt="Asociado">
               </swiper-slide>
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner1.png" alt="Asociado">
               </swiper-slide>
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner2.png" alt="Asociado">
               </swiper-slide>
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner3.png" alt="Asociado">
               </swiper-slide>
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner4.png" alt="Asociado">
               </swiper-slide>
             </swiper>
           </client-only>
@@ -225,19 +225,19 @@
           <client-only>
             <swiper ref="mySwiper" :options="swiperOptionsMobile">
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner.png" alt="Asociado">
               </swiper-slide>
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner1.png" alt="Asociado">
               </swiper-slide>
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner2.png" alt="Asociado">
               </swiper-slide>
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner3.png" alt="Asociado">
               </swiper-slide>
               <swiper-slide class="partners__item">
-                <img src="/images/partner.png" alt="">
+                <img src="/images/partners/partner4.png" alt="Asociado">
               </swiper-slide>
             </swiper>
           </client-only>

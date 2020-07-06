@@ -40,7 +40,7 @@
               <span>{{ horse.dame }}</span>
             </div>
             <div>
-              <h4>Certificado y Pedigree</h4>
+              <h4>Pedigree y Certificados</h4>
               <a :href="horse.doc" download="true" target="_blank">Descargar</a>
             </div>
           </div>

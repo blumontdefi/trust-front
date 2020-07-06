@@ -80,6 +80,7 @@
         </a>
       </div>
       <!---End-->
+      <!--Catalog-->
       <div class="catalog">
         <h2 class="text-center">Catálogo de caballos</h2>
         <div class="grid col-3">
@@ -126,6 +127,7 @@
           </a>
         </div>
       </div>
+      <!--End-->
     </div>
   </div>
 </template>

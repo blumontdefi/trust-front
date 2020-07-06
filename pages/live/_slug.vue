@@ -21,11 +21,11 @@
             <hr>
             <div class="live__features">
               <div>
-                <h4>SIRE</h4>
+                <h4>PADRE</h4>
                 <span class="text-right">{{horse.sire}}</span>
               </div>
               <div>
-                <h4>DAME</h4>
+                <h4>MADRE</h4>
                 <span class="text-right">{{horse.dame}}</span>
               </div>
               <div>
@@ -34,18 +34,23 @@
               </div>
               <div>
                 <h4>NACIMIENTO</h4>
-                <span class="text-right">08 / 01 / 1994</span>
+                <span class="text-right"> {{ $moment(horse.birthDate ).format('Do / MMMM / YYYY') }}</span>
               </div>
             </div>
-            <button class="btn btn--secondary">
+            <nuxt-link
+              :to="{name: 'events-event-horses-slug' , params: {slug: getSlug(horse.name) , event: event.slug} }"
+              class="btn btn--secondary btn--link"
+              target="_blank">
               Más información
-            </button>
+            </nuxt-link>
             <hr>
           </div>
           <div class="live__mobile">
-            <button class="btn btn--secondary">
+            <nuxt-link
+              :to="{name: 'events-event-horses-slug' , params: {slug: getSlug(horse.name) , event: event.slug} }"
+              class="btn btn--secondary btn--link">
               Más información
-            </button>
+            </nuxt-link>
           </div>
           <div class="offer">
             <!--Modals-->
@@ -132,7 +137,13 @@
               </div>
             </div>
           </div>
-          <button :disabled="!h.stateAuction" class="btn">Más información</button>
+          <nuxt-link
+            :to="{name: 'events-event-horses-slug' , params: {slug: getSlug(h.name) , event: event.slug} }"
+            :disabled="!h.stateAuction"
+            class="btn btn--secondary btn--link"
+            target="_blank">
+            Más información
+          </nuxt-link>
           <hr>
         </div>
       </div>
@@ -144,12 +155,47 @@
     </div>
     <div class="sidebar__shadow" id="sideBarShadow">
     </div>
+    <div v-if="!event.start" class="live__message">
+      <div>
+        <h2 class="text-center">Inicia en</h2>
+        <div class="live__countdown">
+          <div class="text-center mr-1"><h2>{{days}}</h2>
+            <p>Días</p>
+          </div>
+          <div class="text-center mr-1"><h2>:</h2>
+          </div>
+          <div class="text-center mr-1"><h2>{{hours}}</h2>
+            <p>Horas</p>
+          </div>
+          <div class="text-center mr-1"><h2>:</h2>
+          </div>
+          <div class="text-center mr-1"><h2>{{minutes}}</h2>
+            <p>Min</p>
+          </div>
+          <div class="text-center mr-1"><h2>:</h2>
+          </div>
+          <div class="text-center mr-1"><h2>{{seconds}}</h2>
+            <p>Sec</p>
+          </div>
+        </div>
+        <nuxt-link to="/" class="btn btn--primary btn--link">
+          Regresar
+        </nuxt-link>
+      </div>
+    </div>
+    <div v-if="event.finish" class="live__message">
+      <div>
+        <h2>El evento ha finalizado</h2>
+        <nuxt-link to="/" class="btn btn--primary btn--link">Regresar</nuxt-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   layout: 'live',
+  middleware: 'authenticated',
   name: 'EventLive',
   async asyncData ({ $fireStore, $store, params, error }) {
     try {
@@ -204,7 +250,12 @@ export default {
       unsubscribeHorse: null,
       unsubscribeBid: null,
       messageModal: '',
-      errors: []
+      errors: [],
+      // Countdown
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
     }
   },
   computed: {
@@ -259,6 +310,11 @@ export default {
       }
     }
   },
+  created () {
+    setInterval(() => {
+      this.countdown()
+    }, 1000)
+  },
   async mounted () {
     try {
       this.increment = this.horse.increase
@@ -273,6 +329,7 @@ export default {
       this.$fireStore.collection('events').doc(this.event.id)
         .onSnapshot((doc) => {
           this.event.start = doc.data().start
+          this.event.finish = doc.data().finish
         })
       // Horses
       this.unsubscribeHorse = this.$fireStore.collection('horses').doc(this.horse.id)
@@ -373,6 +430,25 @@ export default {
       setTimeout(() => {
         creditOff.classList.toggle('show')
       }, 5000)
+    },
+    getSlug (name) {
+      const text = (name).trim().split(' ').join('-').toLowerCase().normalize('NFD')
+        .replace(/([aeio])\u0301|(u)[\u0301\u0308]/gi, '$1$2')
+        .normalize()
+      return text
+    },
+    countdown () {
+      const now = new this.$moment(new Date())
+      const then = new this.$moment(this.event.startDate)
+      const diff = this.$moment.duration(then.diff(now))
+      // Count
+      this.days = parseInt(diff.asDays())
+      this.hours = parseInt(diff.asHours())
+      this.hours = this.hours - this.days * 24
+      this.minutes = parseInt(diff.asMinutes())
+      this.minutes = this.minutes - (this.days * 24 * 60 + this.hours * 60)
+      this.seconds = parseInt(diff.asSeconds())
+      this.seconds = this.seconds - (this.days * 24 * 60 * 60 + this.hours * 60 * 60 + this.minutes * 60)
     }
   }
 }

@@ -64,6 +64,12 @@
   &--nw {
     width: auto;
   }
+
+  &--link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .btn-desktop {
