@@ -314,11 +314,11 @@ export default {
           await user.updateProfile({
             displayName: this.client.name + ' ' + this.client.lastName
           })
-          await user.sendEmailVerification()
           await this.$fireStore.collection('clients').add({
             ...this.client,
+            email: user.email,
             createdAt: this.$fireStoreObj.FieldValue.serverTimestamp(),
-            approve: false,
+            approved: false,
             state: true,
             uid: user.uid
           })
