@@ -33,6 +33,11 @@
       grid-template-columns: 1fr 1fr;
       padding: .5rem;
       border-bottom: 1px solid $darker-grey;
+      align-items: center;
+
+      span {
+        margin-bottom: 0;
+      }
 
       @include respond-to(medium) {
         grid-template-columns: 1fr;
