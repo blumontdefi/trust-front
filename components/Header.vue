@@ -20,7 +20,7 @@
           <li><a @click="goTo('events')">Eventos</a></li>
           <li><a @click="goTo('about')">Nosotros</a></li>
           <li><a @click="goTo('faqs')">Preguntas frecuentes</a></li>
-          <li><a @click="goTo('news')">Noticias</a></li>
+          <li><a @click="goTo('posts')">Noticias</a></li>
           <!--Login or signOut-->
           <li v-if="!user">
             <a @click="$store.dispatch('content/toggleLogin')">Ingresa</a>
@@ -62,7 +62,7 @@
             <a @click="goTo('faqs')">FAQ'S</a>
           </li>
           <li>
-            <a @click="goTo('news')">Noticias</a>
+            <a @click="goTo('posts')">Noticias</a>
           </li>
         </ul>
         <!--Buttons-->

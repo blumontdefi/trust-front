@@ -18,9 +18,9 @@
         <ul>
           <li><a class="secondary-color" @click="goTo('index')">Inicio</a></li>
           <li><a class="secondary-color" @click="goTo('events')">Eventos</a></li>
-          <li><a class="secondary-color" @click="goTo('/about')">Nosotros</a></li>
+          <li><a class="secondary-color" @click="goTo('about')">Nosotros</a></li>
           <li><a class="secondary-color" @click="goTo('faqs')">Preguntas Frecuentes</a></li>
-          <li><a class="secondary-color" @click="goTo('news')">Noticias</a></li>
+          <li><a class="secondary-color" @click="goTo('posts')">Noticias</a></li>
           <!--Login or signOut-->
           <li v-if="!user">
             <a class="secondary-color" @click="$store.dispatch('content/toggleLogin')">Ingresa</a>
@@ -62,7 +62,7 @@
             <a @click="goTo('faqs')">FAQ'S</a>
           </li>
           <li>
-            <a @click="goTo('new')">Noticias</a>
+            <a @click="goTo('posts')">Noticias</a>
           </li>
         </ul>
         <!--Buttons-->
