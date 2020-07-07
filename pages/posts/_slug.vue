@@ -46,34 +46,29 @@
 export default {
   layout: 'blue',
   name: 'NewsDetail',
-  data () {
-    return {
-      post: {},
-      posts: []
-    }
-  },
-  async created () {
+  async asyncData ({ $fireStore, params, error }) {
     try {
       // Get post
-      const slug = this.$route.params.slug
-      const queryPost = await this.$fireStore
+      const slug = params.slug
+      let post = {}
+      const queryPost = await $fireStore
         .collection('posts')
         .where('slug', '==', slug)
         .where('state', '==', true)
         .limit(1).get()
       queryPost.forEach((p) => {
-        this.post = {
+        post = {
           ...p.data()
         }
       })
       // End
       // Get posts
       // Load posts
-      const querySnapshotPosts = await this.$fireStore.collection('posts')
+      const querySnapshotPosts = await $fireStore.collection('posts')
         .where('state', '==', true)
         .orderBy('createdAt', 'asc')
         .limit(3).get()
-
+      const posts = []
       querySnapshotPosts.forEach((p) => {
         const obj = {
           id: p.id,
@@ -81,11 +76,12 @@ export default {
         }
         delete obj.createdAt
         obj.createdAt = p.data().createdAt.toDate()
-        this.posts.push(obj)
+        posts.push(obj)
       })
       // End
+      return { posts, post }
     } catch (e) {
-      console.log(e)
+      error({ statusCode: 500, message: 'Hubo un error al cargar noticia.' })
     }
   }
 }
