@@ -5,7 +5,7 @@
       <div class="events__list">
         <div v-for="(e, index) in events" :key="index" class="events__item">
           <div>{{e.name}}</div>
-          <div>{{ $moment(e.startDate ).format('MMMM Do YYYY') }}</div>
+          <div>{{ $moment(e.startDate ).format('D [/] MMMM [/] YYYY') }}</div>
           <div>{{ $moment(e.startDate ).format('h:mm a') }}</div>
           <nuxt-link :to="{name: 'events-slug', params : {slug: e.slug}}">
             Ver más

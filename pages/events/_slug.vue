@@ -6,7 +6,7 @@
         <div>
           <h2>{{event.name}}</h2>
           <h4 class="primary-color">
-            {{ $moment(event.startDate ).format('Do MMMM YYYY, h:mm a') }} (Hora Lima,Perú)
+            {{ $moment(event.startDate ).format('D [/] MMMM [/] YYYY, h:mm a') }} (Hora Lima,Perú)
           </h4>
         </div>
         <div>
@@ -40,7 +40,7 @@
       </figure>
       <!--End-->
       <!--Information-->
-      <h3>Información:</h3>
+      <h3 class="mt-4">Información:</h3>
       <div class="event-detail__information grid col-4">
         <div class="event-detail__item">
           <img src="/images/ico-date.jpg" alt="Fecha">
@@ -84,10 +84,11 @@
       <div class="catalog">
         <h2 class="text-center">Catálogo de caballos</h2>
         <div class="grid col-3">
-          <a
+          <div
             v-for="(h, index) in horses"
             :key="index"
             class="card card--horse"
+            style="cursor: pointer"
             @click="$router.push({name: 'events-event-horses-slug' , params: {slug: getSlug(h.name) , event: event.slug} })">
             <figure>
               <img :src="h.principalImage" alt="" class="img-max">
@@ -110,7 +111,7 @@
                 </div>
                 <div class="features__item">
                   <h5>NACIMIENTO</h5>
-                  <p>{{$moment(h.birthDate).format('MMM Do YY')}}</p>
+                  <p>{{$moment(h.birthDate).format('D [/] MMMM [/] YYYY')}}</p>
                 </div>
               </div>
               <hr>
@@ -124,7 +125,7 @@
               </div>
             </div>
             <button class="btn btn--secondary btn--notborder">Más información</button>
-          </a>
+          </div>
         </div>
       </div>
       <!--End-->

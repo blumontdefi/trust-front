@@ -14,12 +14,6 @@
     margin-bottom: .3rem
   }
 
-  &__content {
-    figure {
-      margin-bottom: 2rem;
-    }
-  }
-
   &__head {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -85,61 +79,5 @@
 
   &__live {
     margin-bottom: 2rem;
-  }
-}
-
-.catalog {
-
-  h2 {
-    margin-bottom: 3rem;
-  }
-
-  figure {
-    margin-bottom: 0;
-  }
-
-  .label-primary {
-    position: absolute;
-    right: 0;
-    top: 1rem;
-  }
-
-  &__description {
-    padding: 1.5rem;
-  }
-
-  &__offer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    margin-bottom: .8rem;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-.features {
-  &__item {
-    display: flex;
-    align-items: center;
-    margin-bottom: .5rem;
-
-    h5 {
-      width: 30%;
-      font-weight: 700;
-
-      @include respond-to(small) {
-        width: 40%;
-      }
-    }
-
-    p {
-      width: 70%;
-      @include respond-to(small) {
-        width: 60%;
-      }
-    }
   }
 }

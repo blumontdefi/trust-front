@@ -1,11 +1,11 @@
 <template>
   <div class="horse">
-    <div class="horse__content container">
+    <div class="horse__content container container--horse">
       <div class="horse__highlight">
         <div class="horse__info">
           <h2>Subasta en vivo el</h2>
           <span>{{ $moment(event.startDate ).format('D / MMMM / YYYY, h:mm a')}}</span>
-          <a>Ver más información del evento</a>
+          <nuxt-link :to="{name: 'events-slug', params : {slug: event.slug}}">Ver más información del evento</nuxt-link>
           <div class="horse__detail">
             <div>
               <h4>Nombre</h4>
@@ -59,73 +59,133 @@
           <div>{{$moment(horse.endPreOffer ).format('D / MMMM / YYYY')}}</div>
         </div>
       </div>
-      <div class="offer card">
-        <div class="offer__go">
-          <div class="offer__item">
-            <h3>Precio base</h3>
-            <p>$ {{new Intl.NumberFormat().format(horse.basePrice)}}</p>
+      <div class="offer">
+        <div class="horse__video">
+          <div style="padding:56.25% 0 0 0;position:relative;">
+            <iframe
+              :src="`https://player.vimeo.com/video/${horse.vimeoId}`"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;"
+              frameborder="0"
+              allow="autoplay; fullscreen"
+              allowfullscreen></iframe>
           </div>
-          <div class="offer__item">
-            <h3>Oferta actual</h3>
-            <p>$ {{new Intl.NumberFormat().format(horse.currentBid)}}</p>
-          </div>
-          <hr>
-          <div class="increment">
-            <h4>Aumentar de</h4>
-            <div class="increment__content">
-              <div>
-                <input id="1" v-model="increment" type="radio" name="increment" :value="horse.increase">
-                <label for="1">{{horse.increase}}</label>
-              </div>
-              <div>
-                <input id="2" v-model="increment" type="radio" name="increment" :value="horse.increase1">
-                <label for="2">{{horse.increase1}}</label>
-              </div>
-              <div>
-                <input id="3" v-model="increment" type="radio" name="increment" :value="horse.increase2">
-                <label for="3">{{horse.increase2}}</label>
-              </div>
-              <div>
-                <input id="4" v-model="increment" type="radio" name="increment" :value="horse.increase3">
-                <label for="4">{{horse.increase3}}</label>
-              </div>
-            </div>
-          </div>
-          <div class="offer__bid">
-            <p>Monto a pre ofertar</p>
-            <h1>$ {{new Intl.NumberFormat().format(this.bid)}}</h1>
-            <button class="btn btn--primary">Pre ofertar ahora</button>
-          </div>
+          <script src="https://player.vimeo.com/api/player.js"></script>
         </div>
-        <div class="offer__time">
-          <div>
-            <h2>Subasta en vivo en</h2>
-            <div class="horse__countdown">
-              <div class="text-center mr-1"><h1>{{days}}</h1>
-                <p>Días</p>
-              </div>
-              <div class="text-center mr-1"><h1>:</h1>
-              </div>
-              <div class="text-center mr-1"><h1>{{hours}}</h1>
-                <p>Horas</p>
-              </div>
-              <div class="text-center mr-1"><h1>:</h1>
-              </div>
-              <div class="text-center mr-1"><h1>{{minutes}}</h1>
-                <p>Min</p>
-              </div>
-              <div class="text-center mr-1"><h1>:</h1>
-              </div>
-              <div class="text-center mr-1"><h1>{{seconds}}</h1>
-                <p>Sec</p>
-              </div>
+        <div class="card">
+          <div class="offer__go">
+            <div class="offer__item">
+              <h3>Precio base</h3>
+              <p>$ {{new Intl.NumberFormat().format(horse.basePrice)}}</p>
+            </div>
+            <div class="offer__item">
+              <h3>Oferta actual</h3>
+              <p>$ {{new Intl.NumberFormat().format(horse.currentBid)}}</p>
             </div>
             <hr>
+            <div class="increment">
+              <h4>Aumentar de</h4>
+              <div class="increment__content">
+                <div>
+                  <input id="1" v-model="increment" type="radio" name="increment" :value="horse.increase">
+                  <label for="1">{{horse.increase}}</label>
+                </div>
+                <div>
+                  <input id="2" v-model="increment" type="radio" name="increment" :value="horse.increase1">
+                  <label for="2">{{horse.increase1}}</label>
+                </div>
+                <div>
+                  <input id="3" v-model="increment" type="radio" name="increment" :value="horse.increase2">
+                  <label for="3">{{horse.increase2}}</label>
+                </div>
+                <div>
+                  <input id="4" v-model="increment" type="radio" name="increment" :value="horse.increase3">
+                  <label for="4">{{horse.increase3}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="offer__bid">
+              <p>Monto a pre ofertar</p>
+              <h1>$ {{new Intl.NumberFormat().format(this.bid)}}</h1>
+              <button class="btn btn--primary">Pre ofertar ahora</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="offer__time card">
+        <div>
+          <h2>Subasta en vivo en</h2>
+          <div class="horse__countdown">
+            <div class="text-center mr-1"><h1>{{days}}</h1>
+              <p>Días</p>
+            </div>
+            <div class="text-center mr-1"><h1>:</h1>
+            </div>
+            <div class="text-center mr-1"><h1>{{hours}}</h1>
+              <p>Horas</p>
+            </div>
+            <div class="text-center mr-1"><h1>:</h1>
+            </div>
+            <div class="text-center mr-1"><h1>{{minutes}}</h1>
+              <p>Min</p>
+            </div>
+            <div class="text-center mr-1"><h1>:</h1>
+            </div>
+            <div class="text-center mr-1"><h1>{{seconds}}</h1>
+              <p>Sec</p>
+            </div>
           </div>
         </div>
       </div>
       <div class="horse__media">
-        <h2>Videos y fotos</h2>
+      </div>
+    </div>
+    <div class="horse__others">
+      <h2>Otros caballos del evento</h2>
+      <div class="catalog container container--horse">
+        <div class="grid col-3">
+          <div
+            v-for="(h, index) in horses"
+            :key="index"
+            class="card card--horse"
+            style="cursor: pointer"
+            @click="$router.push({name: 'events-event-horses-slug' , params: {slug: getSlug(h.name) , event: event.slug} })">
+            <figure>
+              <img :src="h.principalImage" alt="" class="img-max">
+              <div class="label-primary">{{h.label}}</div>
+            </figure>
+            <div class="catalog__description">
+              <h3>{{h.name}}</h3>
+              <div class="features">
+                <div class="features__item">
+                  <h5>SIRE</h5>
+                  <p>{{h.sire}}</p>
+                </div>
+                <div class="features__item">
+                  <h5>DAME</h5>
+                  <p>{{h.dame}}</p>
+                </div>
+                <div class="features__item">
+                  <h5>SEXO</h5>
+                  <p>{{h.gender}}</p>
+                </div>
+                <div class="features__item">
+                  <h5>NACIMIENTO</h5>
+                  <p>{{$moment(h.birthDate).format('D [/] MMMM [/] YYYY')}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="catalog__offer">
+                <h4>Precio base</h4>
+                <span class="text-right">$ {{new Intl.NumberFormat().format(h.basePrice)}}</span>
+              </div>
+              <div class="catalog__offer">
+                <h4>Oferta actual</h4>
+                <span class="text-right">$ {{new Intl.NumberFormat().format(h.currentBid)}}</span>
+              </div>
+            </div>
+            <button class="btn btn--secondary btn--notborder">Más información</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

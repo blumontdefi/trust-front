@@ -2,7 +2,6 @@
   <div class="faqs">
     <div class="faqs__content container container--faqs">
       <h2>Preguntas frecuentes</h2>
-
       <div class="questions">
         <div class="questions__item">
           <h3>¿Qué es una subasta online?</h3>
@@ -36,13 +35,14 @@
         <div class="questions__item">
           <h3>¿Cómo puedo participar en la subasta?</h3>
           <p>1. Primero debes registrate ingresando al siguiente link:
-            <a href="https://www.trusoa.com/signup" target="_blank">www.trusoa.com/signup</a>
+            <nuxt-link to="/signup">www.trusoa.com/signup</nuxt-link>
           </p>
           <p>2. Si deseas participar como postor en la subasta, debes solicitar un crédito ingresando al siguiente link:
-            <a href="https://www.trusoa.com/request"> www.trusoa.com/request</a>
+            <nuxt-link to="/request"> www.trusoa.com/request</nuxt-link>
           </p>
         </div>
       </div>
+      <nuxt-link to="/terms" class="btn btn--link btn--inverse mt-4">Ver términos y condiciones</nuxt-link>
     </div>
   </div>
 </template>

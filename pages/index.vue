@@ -99,7 +99,7 @@
             <div class="block">
               <h3>{{ e.name }}</h3>
               <p class="primary-text-color">
-                {{ $moment(e.startDate ).format('Do MMMM YYYY, h:mm a') }} (Hora Lima, Perú)
+                {{ $moment(e.startDate ).format('D [/] MMMM [/] YYYY, h:mm a') }} (Hora Lima, Perú)
               </p>
               <div class="info">
                 <p>Caballos a subastar: {{ e.quantityHorses }}</p>
@@ -308,7 +308,7 @@ export default {
           el: '.swiper-pagination',
           clickable: true
         },
-        slidesPerView: 3,
+        slidesPerView: 2,
         spaceBetween: 30
       }
     }

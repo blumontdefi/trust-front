@@ -593,6 +593,7 @@ import { required, numeric } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Request',
+  middleware: 'authenticated',
   layout: 'blue',
   data () {
     return {

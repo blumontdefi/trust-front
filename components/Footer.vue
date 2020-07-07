@@ -11,22 +11,22 @@
           </p>
           <ul>
             <li>Síguenos en:</li>
-            <li>
-              <a href="https://www.facebook.com/trustoa.latam/" target="_blank">
+            <li v-if="content.facebook && content.facebook.length>0">
+              <a :href="`https://www.facebook.com/${content.facebook}`" target="_blank">
                 <client-only>
                   <ion-icon name="logo-facebook"/>
                 </client-only>
               </a>
             </li>
-            <li>
-              <a href="https://www.instagram.com/trustoa" target="_blank">
+            <li v-if="content.instagram && content.instagram.length>0">
+              <a :href="`https://www.instagram.com/${content.instagram}`" target="_blank">
                 <client-only>
                   <ion-icon name="logo-instagram"/>
                 </client-only>
               </a>
             </li>
-            <li>
-              <a href="https://www.youtube.com/channel/trustoa" target="_blank">
+            <li v-if="content.youtube  && content.youtube.length>0">
+              <a :href="`https://www.youtube.com/channel/${content.youtube}`" target="_blank">
                 <client-only>
                   <ion-icon name="logo-youtube"/>
                 </client-only>
@@ -58,7 +58,7 @@
               </nuxt-link>
             </li>
             <li>
-              <nuxt-link to="/news">
+              <nuxt-link to="/posts">
                 Noticias
               </nuxt-link>
             </li>
@@ -81,19 +81,19 @@
           <li>
             <client-only>
               <ion-icon name="call-outline"></ion-icon>
-              Teléfono: (51) 610-3000
+              Teléfono: {{content.phone}}
             </client-only>
           </li>
           <li>
             <client-only>
               <ion-icon name="mail-outline"></ion-icon>
-              E-Mail: contacto@jcp.org.pe
+              E-Mail: {{content.email}}
             </client-only>
           </li>
           <li>
             <client-only>
               <ion-icon name="pin-outline"></ion-icon>
-              Av. El Derby s/n puerta Nº3, Santiago de Surco, Lima, Perú.
+              {{content.address}}
             </client-only>
           </li>
         </ul>
@@ -111,6 +111,9 @@ export default {
   computed: {
     events () {
       return this.$store.state.events.list
+    },
+    content () {
+      return this.$store.state.content.data
     }
   }
 }
