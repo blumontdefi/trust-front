@@ -219,7 +219,7 @@ export default {
         const queryHorse = await $fireStore.collection('horses')
           .where('event.id', '==', event.id)
           .where('state', '==', true)
-          .orderBy('createdAt', 'desc').get()
+          .orderBy('position', 'asc').get()
         queryHorse.forEach((h) => {
           const obj = {
             id: h.id,
