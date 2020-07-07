@@ -620,23 +620,26 @@ export default {
           this.progress = true
           const user = this.$store.state.user.data
           // Get client
-          let clientRef = null
+          let client = null
           const querySnapClient = await this.$fireStore.collection('clients').where('uid', '==', user.uid).get()
           querySnapClient.forEach((c) => {
-            clientRef = {
+            client = {
               id: c.id,
               ...c.data()
             }
           })
-          if (clientRef) {
-            await this.$fireStore.collection('requestCredits').add({
+          if (client) {
+            await this.$fireStore.collection('requests').add({
               client: {
-                id: clientRef.id,
-                name: clientRef.name
+                id: client.id,
+                name: client.name,
+                lastName: client.lastName,
+                document: client.document
               },
               credit: this.requestCredit.credit,
               approve: false,
-              observation: this.requestCredit.observation ? this.requestCredit.observation : ''
+              observation: this.requestCredit.observation ? this.requestCredit.observation : '',
+              createdAt: this.$fireStoreObj.FieldValue.serverTimestamp()
             })
             await this.$router.push({ name: 'thanksRequest' })
             this.progress = false

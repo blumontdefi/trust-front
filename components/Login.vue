@@ -188,15 +188,11 @@ export default {
     },
     async reset () {
       try {
-        const actionCodeSettings = {
-          url: process.env.BASE_URL + '?email=' + this.email
-        }
         this.loading = true
-        await this.$fireAuth.sendPasswordResetEmail(this.email, actionCodeSettings)
+        await this.$fireAuth.sendPasswordResetEmail(this.email)
         this.loading = false
         this.confirmReset = true
       } catch (e) {
-        console.log(e)
         this.loading = false
         const error = 'Error al restablecer contraseña'
         this.errors.push(error)

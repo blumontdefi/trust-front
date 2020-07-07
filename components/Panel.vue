@@ -69,7 +69,7 @@ export default {
             }
           })
           // Request credits
-          const querySnapRequest = await this.$fireStore.collection('requestCredits').where('client.id', '==', this.client.id).where('approve', '==', true).get()
+          const querySnapRequest = await this.$fireStore.collection('requests').where('client.id', '==', this.client.id).where('approve', '==', true).get()
           querySnapRequest.forEach((r) => {
             this.requestCredit = {
               id: r.id,
