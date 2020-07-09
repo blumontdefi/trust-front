@@ -17,7 +17,7 @@
         <!--Description-->
         <p>
           <span v-if="!user">
-             La primera marca peruana que realiza operaciones online de compra – venta de caballos de carrera, con el fin de satisfacer las necesidades de este exigente mercado, a través de una plataforma digital con elevados estándares de calidad, eficiencia y transparencia.
+             {{ content.description }}
           </span>
           <span v-if="user">
             Ahora podrás observar los eventos en vivo y si ya cuentas con una linea de crédito aprobada podrás incluso ofertar.
@@ -320,6 +320,9 @@ export default {
     },
     user () {
       return this.$store.state.user.data
+    },
+    content () {
+      return this.$store.state.content.data
     }
   },
   mounted () {

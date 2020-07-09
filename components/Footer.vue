@@ -5,9 +5,7 @@
         <div class="footer__info">
           <img src="/images/logo-vert-white.png" alt="Logo">
           <p>
-            La primera marca peruana que realiza operaciones online de compra – venta de caballos de carrera, con el fin
-            de satisfacer las necesidades de este exigente mercado, a través de una plataforma digital con elevados
-            estándares de calidad, eficiencia y transparencia.
+            {{content.description}}
           </p>
           <ul>
             <li>Síguenos en:</li>

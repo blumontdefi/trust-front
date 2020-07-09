@@ -4,7 +4,7 @@
       <div class="live__go" :class="{'live__go--disabled' : !event.start}">
         <div style="position:relative;" class="live__video">
           <iframe
-            src="https://player.vimeo.com/video/433831351"
+            :src="`https://player.vimeo.com/video/${event.vimeoId}`"
             frameborder="0"
             allow="autoplay; fullscreen"
             allowfullscreen
