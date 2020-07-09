@@ -106,7 +106,7 @@
             <div class="offer__bid">
               <p>Monto a pre ofertar</p>
               <h1>$ {{new Intl.NumberFormat().format(this.bid)}}</h1>
-              <button class="btn btn--primary">Pre ofertar ahora</button>
+              <button :disabled="true" class="btn btn--primary">Pre ofertar ahora</button>
             </div>
           </div>
         </div>
