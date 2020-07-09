@@ -250,6 +250,7 @@ export default {
     // Load events
     const querySnapshot = await $fireStore.collection('events')
       .where('finish', '==', false)
+      .where('state', '==', true)
       .orderBy('startDate', 'asc')
       .limit(3).get()
     const events = []
