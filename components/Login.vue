@@ -153,7 +153,7 @@ export default {
           const user = this.$fireAuth.currentUser
           /* !user.emailVerified */
           // eslint-disable-next-line no-constant-condition
-          if (true) {
+          if (false) {
             await this.$fireAuth.signOut()
             const error = 'Aún no has verificado tu dirección de correo electrónico'
             this.loading = false
