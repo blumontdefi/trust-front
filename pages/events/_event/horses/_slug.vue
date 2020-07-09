@@ -157,11 +157,11 @@
               <h3>{{h.name}}</h3>
               <div class="features">
                 <div class="features__item">
-                  <h5>SIRE</h5>
+                  <h5>PADRE</h5>
                   <p>{{h.sire}}</p>
                 </div>
                 <div class="features__item">
-                  <h5>DAME</h5>
+                  <h5>MADRE</h5>
                   <p>{{h.dame}}</p>
                 </div>
                 <div class="features__item">
@@ -180,7 +180,7 @@
               </div>
               <div class="catalog__offer">
                 <h4>Oferta actual</h4>
-                <span class="text-right">$ {{new Intl.NumberFormat().format(h.currentBid)}}</span>
+                <span class="text-right">$ {{h.currentBid>0 ? new Intl.NumberFormat().format(h.currentBid) : new Intl.NumberFormat().format(h.basePrice)}}</span>
               </div>
             </div>
             <button class="btn btn--secondary btn--notborder">Más información</button>
