@@ -7,10 +7,10 @@
         <!--Title-->
         <h1 class="mb-2">
           <span v-if="!user">
-            Trust Online Auctions
+            Trustoa
           </span>
           <span v-if="user">
-            ¡Bienvenido a Trust!
+            ¡Bienvenido a Trustoa!
           </span>
         </h1>
         <!--End-->

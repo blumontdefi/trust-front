@@ -50,6 +50,7 @@
 
     .description {
       margin-top: 30px;
+      height: 70px;
 
       @include respond-to(medium) {
         margin-top: 1rem;

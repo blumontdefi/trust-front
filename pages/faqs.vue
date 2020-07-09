@@ -42,7 +42,7 @@
           </p>
         </div>
       </div>
-      <nuxt-link to="/terms" class="btn btn--link btn--inverse mt-4">Ver términos y condiciones</nuxt-link>
+      <nuxt-link v-if="user" to="/terms" class="btn btn--link btn--inverse mt-4">Ver términos y condiciones</nuxt-link>
     </div>
   </div>
 </template>
@@ -50,7 +50,12 @@
 <script>
 export default {
   layout: 'blue',
-  name: 'Faqs'
+  name: 'Faqs',
+  computed: {
+    user () {
+      return this.$store.state.user.data
+    }
+  }
 }
 </script>
 

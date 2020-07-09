@@ -1,3 +1,5 @@
+import redirectSSL from 'redirect-ssl'
+
 export default {
   /*
   ** Nuxt rendering mode
@@ -181,5 +183,10 @@ export default {
       '@/assets/scss/lib/_mixins.scss'
     ]
   },
-  build: {}
+  build: {},
+  serverMiddleware: [
+    redirectSSL.create({
+      enabled: process.env.NODE_ENV === 'production'
+    })
+  ]
 }
