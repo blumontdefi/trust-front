@@ -247,7 +247,8 @@ export default {
       bid: 0,
       bids: [],
       unsubscribeHorse: null,
-      unsubscribeBid: null
+      unsubscribeBid: null,
+      interval: ''
     }
   },
   watch: {
@@ -260,7 +261,7 @@ export default {
     }
   },
   created () {
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.countdown()
     }, 1000)
   },
@@ -300,6 +301,14 @@ export default {
       this.minutes = this.minutes - (this.days * 24 * 60 + this.hours * 60)
       this.seconds = parseInt(diff.asSeconds())
       this.seconds = this.seconds - (this.days * 24 * 60 * 60 + this.hours * 60 * 60 + this.minutes * 60)
+      // Validate if event go
+      if (this.seconds < 0) {
+        this.days = 0
+        this.hours = 0
+        this.minutes = 0
+        this.seconds = 0
+        clearInterval(this.interval)
+      }
     }
   }
 }
