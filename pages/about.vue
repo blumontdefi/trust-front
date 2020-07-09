@@ -75,7 +75,7 @@
         <p>{{about.teamDescription}}</p>
       </div>
       <div class="team__content container grid col-4">
-        <div v-for="(m, index) in members" :key="index" class="team__item card">
+        <div v-for="(m, index) in members" :key="index" class="team__item card card--border">
           <img :src="m.image" :alt="m.name">
           <div>
             <h4 class="primary-color">{{m.name}}</h4>
