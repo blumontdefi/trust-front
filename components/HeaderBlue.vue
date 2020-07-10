@@ -19,7 +19,7 @@
           <li><a class="secondary-color" @click="goTo('index')">Inicio</a></li>
           <li><a class="secondary-color" @click="goTo('events')">Eventos</a></li>
           <li><a class="secondary-color" @click="goTo('about')">Nosotros</a></li>
-          <li><a class="secondary-color" @click="goTo('faqs')">Preguntas Frecuentes</a></li>
+          <li><a class="secondary-color" @click="goTo('faqs')">Preguntas y Tutoriales</a></li>
           <li><a class="secondary-color" @click="goTo('posts')">Noticias</a></li>
           <!--Login or signOut-->
           <li v-if="!user">
@@ -56,10 +56,7 @@
             <a @click="goTo('events')">Eventos</a>
           </li>
           <li>
-            <a @click="goTo('/')">Catálogo de Caballos</a>
-          </li>
-          <li>
-            <a @click="goTo('faqs')">FAQ'S</a>
+            <a @click="goTo('faqs')">Preguntas y Tutoriales</a>
           </li>
           <li>
             <a @click="goTo('posts')">Noticias</a>
