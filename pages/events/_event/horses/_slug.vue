@@ -112,7 +112,7 @@
             <div class="offer__bid">
               <button
                 class="btn btn--primary btn--live"
-                :disabled="loadBid"
+                :disabled="loadBid || !enablePreOffer"
                 @click="bidNow">
                 <span v-if="!loadBid">Pre ofertar ahora</span>
                 <div v-else class="lds-ellipsis">
@@ -267,7 +267,8 @@ export default {
       unsubscribeBid: null,
       interval: '',
       loadBid: false,
-      client: {}
+      client: {},
+      enablePreOffer: false
     }
   },
   computed: {
@@ -316,6 +317,7 @@ export default {
         }
       })
     }
+    this.enablePreOffer = (new Date().getTime() > this.horse.startPreOffer.getTime() && new Date().getTime() < this.horse.endPreOffer.getTime())
   },
   methods: {
     getSlug (name) {
