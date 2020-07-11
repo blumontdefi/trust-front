@@ -75,7 +75,7 @@
               </p>
             </div>
             <div class="increment">
-              <h4>Aumentar de</h4>
+              <h4>Aumentar</h4>
               <div class="increment__content">
                 <div>
                   <input id="1" v-model="increment" type="radio" name="increment" :value="horse.increase">
@@ -96,13 +96,11 @@
               </div>
             </div>
             <div class="offer__go">
-              <p>Monto a ofertar</p>
-              <h1>$ {{new Intl.NumberFormat().format(bid)}}</h1>
               <button
-                class="btn btn--primary"
+                class="btn btn--primary btn--live"
                 :disabled="loadBid || horse.currentBid<=0 || !event.start"
                 @click="bidNow">
-                <span v-if="!loadBid"> Ofertar ahora</span>
+                <span v-if="!loadBid">Ofertar $ {{new Intl.NumberFormat().format(bid)}}</span>
                 <div v-else class="lds-ellipsis">
                   <div/>
                   <div/>
@@ -110,6 +108,24 @@
                   <div/>
                 </div>
               </button>
+            </div>
+          </div>
+          <div class="history">
+            <h3 class="text-center">Ultimas ofertas</h3>
+            <template v-for="(bid, index) in bids">
+              <div :key="index" v-if="index<3 && !loadBid" class="history__item">
+                <div>{{bid.user.code}}</div>
+                <div>$ {{new Intl.NumberFormat().format(bid.bid)}}</div>
+                <div>{{$moment(bid.createdAt).format('D [/] MMMM [/] YYYY h:mm:ss a')}}</div>
+              </div>
+            </template>
+            <div v-if="loadBid" class="text-center">
+              <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
             </div>
           </div>
         </div>
@@ -246,6 +262,8 @@ export default {
       event: {},
       horse: {},
       credits: [],
+      bids: [],
+      client: {},
       loadBid: false,
       unsubscribeHorse: null,
       unsubscribeBid: null,
@@ -288,12 +306,17 @@ export default {
             .where('horse.id', '==', this.horse.id)
             .orderBy('bid', 'desc')
             .onSnapshot((querySnapshot) => {
-              const bids = []
-              querySnapshot.forEach(function (doc) {
-                bids.push(doc.data().bid)
+              this.bids = []
+              querySnapshot.forEach((doc) => {
+                const obj = {
+                  ...doc.data()
+                }
+                delete obj.createdAt
+                obj.createdAt = doc.data().createdAt.toDate()
+                this.bids.push(obj)
               })
-              if (bids.length !== 0) {
-                this.horse.currentBid = bids[0]
+              if (this.bids.length !== 0) {
+                this.horse.currentBid = this.bids[0].bid
                 this.bid = this.horse.currentBid + this.increment
               } else {
                 this.horse.currentBid = this.horse.basePrice
@@ -340,18 +363,23 @@ export default {
       // Bids
       this.unsubscribeBid = this.$fireStore.collection('bids').where('horse.id', '==', this.horse.id).orderBy('bid', 'desc')
         .onSnapshot((querySnapshot) => {
-          const bids = []
-          querySnapshot.forEach(function (doc) {
-            bids.push(doc.data().bid)
+          this.bids = []
+          querySnapshot.forEach((doc) => {
+            const obj = {
+              ...doc.data()
+            }
+            delete obj.createdAt
+            obj.createdAt = doc.data().createdAt.toDate()
+            this.bids.push(obj)
           })
-          if (bids.length !== 0) {
-            this.horse.currentBid = bids[0]
+          if (this.bids.length !== 0) {
+            this.horse.currentBid = this.bids[0].bid
             this.bid = this.horse.currentBid + this.increment
           } else {
             this.horse.currentBid = this.horse.basePrice
           }
         })
-      // Client
+      // Credits
       const user = this.$store.state.user.data
       const queryCredits = await this.$fireStore.collection('credits').where('client.uid', '==', user.uid).where('state', '==', true).get()
       queryCredits.forEach((c) => {
@@ -360,6 +388,14 @@ export default {
           ...c.data()
         }
         this.credits.push(obj)
+      })
+      // Get client
+      const querySnap = await this.$fireStore.collection('clients').where('uid', '==', user.uid).get()
+      querySnap.forEach((c) => {
+        this.client = {
+          id: c.id,
+          ...c.data()
+        }
       })
     } catch (e) {
       const error = 'Hubo un error al iniciar evento.'
@@ -384,7 +420,8 @@ export default {
             bid: this.bid,
             user: {
               id: this.user.uid,
-              displayName: this.user.displayName
+              displayName: this.client.name + ' ' + this.client.lastName,
+              code: this.client.code
             },
             horse: {
               id: this.horse.id,
@@ -396,6 +433,7 @@ export default {
           this.loadBid = false
         }
       } catch (e) {
+        console.log(e)
         const error = 'Hubo un error al realizar oferta.'
         this.errors.push(error)
       }

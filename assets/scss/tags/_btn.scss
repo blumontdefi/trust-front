@@ -17,6 +17,10 @@
     color: white !important;
   }
 
+  &--live {
+    font-size: 1.3rem;
+  }
+
   &--secondary {
     background: $secondary-color;
     color: white;
