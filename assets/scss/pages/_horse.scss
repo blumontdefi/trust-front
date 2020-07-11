@@ -77,6 +77,10 @@
       margin-bottom: 2rem;
     }
   }
+
+  &__preoffer {
+    position: relative;
+  }
 }
 
 .preoffer {
@@ -107,6 +111,46 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 2rem 0 1rem 0;
+
+  &--modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: $secondary-color;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+    z-index: -100;
+    opacity: 0;
+    transition: all .5s;
+
+    &.show {
+      z-index: 99;
+      opacity: 1;
+    }
+
+    p {
+      margin-bottom: .2rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    div {
+      text-align: center;
+    }
+
+    ion-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+  }
 
   @include respond-to(medium) {
     grid-template-columns: 1fr;

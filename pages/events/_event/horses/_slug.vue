@@ -71,7 +71,13 @@
           </div>
           <script src="https://player.vimeo.com/api/player.js"></script>
         </div>
-        <div class="card">
+        <div class="card horse__preoffer">
+          <div class="offer--modal" id="confirmPreOffer">
+            <div>
+              <ion-icon name="checkmark-outline"></ion-icon>
+              <p>Pre oferta enviada</p>
+            </div>
+          </div>
           <div class="offer__go">
             <div class="offer__item">
               <h3>Precio base</h3>
@@ -83,30 +89,39 @@
             </div>
             <hr>
             <div class="increment">
-              <h4>Aumentar de</h4>
+              <h4>Aumentar</h4>
               <div class="increment__content">
                 <div>
                   <input id="1" v-model="increment" type="radio" name="increment" :value="horse.increase">
-                  <label for="1">{{horse.increase}}</label>
+                  <label for="1">$ {{horse.increase}}</label>
                 </div>
                 <div>
                   <input id="2" v-model="increment" type="radio" name="increment" :value="horse.increase1">
-                  <label for="2">{{horse.increase1}}</label>
+                  <label for="2">$ {{horse.increase1}}</label>
                 </div>
                 <div>
                   <input id="3" v-model="increment" type="radio" name="increment" :value="horse.increase2">
-                  <label for="3">{{horse.increase2}}</label>
+                  <label for="3">$ {{horse.increase2}}</label>
                 </div>
                 <div>
                   <input id="4" v-model="increment" type="radio" name="increment" :value="horse.increase3">
-                  <label for="4">{{horse.increase3}}</label>
+                  <label for="4">$ {{horse.increase3}}</label>
                 </div>
               </div>
             </div>
             <div class="offer__bid">
-              <p>Monto a pre ofertar</p>
-              <h1>$ {{new Intl.NumberFormat().format(this.bid)}}</h1>
-              <button :disabled="true" class="btn btn--primary">Pre ofertar ahora</button>
+              <button
+                class="btn btn--primary btn--live"
+                :disabled="loadBid"
+                @click="bidNow">
+                <span v-if="!loadBid">Pre ofertar ahora</span>
+                <div v-else class="lds-ellipsis">
+                  <div/>
+                  <div/>
+                  <div/>
+                  <div/>
+                </div>
+              </button>
             </div>
           </div>
         </div>
@@ -248,7 +263,14 @@ export default {
       bids: [],
       unsubscribeHorse: null,
       unsubscribeBid: null,
-      interval: ''
+      interval: '',
+      loadBid: false,
+      client: {}
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user.data
     }
   },
   watch: {
@@ -265,7 +287,7 @@ export default {
       this.countdown()
     }, 1000)
   },
-  mounted () {
+  async mounted () {
     this.increment = this.horse.increase
     // Bids
     this.unsubscribeBid = this.$fireStore.collection('bids').where('horse.id', '==', this.horse.id).orderBy('bid', 'desc')
@@ -281,6 +303,16 @@ export default {
           this.horse.currentBid = this.horse.basePrice
         }
       })
+    if (this.user) {
+      // Get client
+      const querySnap = await this.$fireStore.collection('clients').where('uid', '==', this.user.uid).get()
+      querySnap.forEach((c) => {
+        this.client = {
+          id: c.id,
+          ...c.data()
+        }
+      })
+    }
   },
   methods: {
     getSlug (name) {
@@ -309,6 +341,39 @@ export default {
         this.seconds = 0
         clearInterval(this.interval)
       }
+    },
+    async bidNow () {
+      try {
+        if (this.client) {
+          this.loadBid = true
+          await this.$fireStore.collection('bids').add({
+            bid: this.bid,
+            user: {
+              id: this.user.uid,
+              displayName: this.client.name + ' ' + this.client.lastName,
+              code: this.client.code
+            },
+            horse: {
+              id: this.horse.id,
+              name: this.horse.name,
+              imageLeft: this.horse.imageLeft
+            },
+            preOffer: true,
+            createdAt: this.$fireStoreObj.FieldValue.serverTimestamp()
+          })
+          this.showModalConfirm()
+        }
+        this.loadBid = false
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    showModalConfirm () {
+      const creditOff = document.getElementById('confirmPreOffer')
+      creditOff.classList.toggle('show')
+      setTimeout(() => {
+        creditOff.classList.toggle('show')
+      }, 3000)
     }
   }
 }
