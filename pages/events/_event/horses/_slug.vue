@@ -154,6 +154,7 @@
       <div class="horse__media">
       </div>
     </div>
+    <!--Catalogo-->
     <div class="horse__others">
       <h2>Otros caballos del evento</h2>
       <div class="catalog container container--horse">
@@ -195,7 +196,7 @@
               </div>
               <div class="catalog__offer">
                 <h4>Oferta actual</h4>
-                <span class="text-right">$ {{h.currentBid>0 ? new Intl.NumberFormat().format(h.currentBid) : new Intl.NumberFormat().format(h.basePrice)}}</span>
+                <span class="text-right">$ {{h.currentBid>0 ? new Intl.NumberFormat().format(h.currentBid) : new Intl.NumberFormat().format(0)}}</span>
               </div>
             </div>
             <button class="btn btn--secondary btn--notborder">Más información</button>
@@ -203,6 +204,7 @@
         </div>
       </div>
     </div>
+    <!--End-->
   </div>
 </template>
 
@@ -276,7 +278,7 @@ export default {
   watch: {
     increment () {
       if (this.horse.currentBid === 0) {
-        this.bid = this.horse.basePrice
+        this.bid = this.horse.basePrice + this.increment
       } else {
         this.bid = this.horse.currentBid + this.increment
       }
@@ -300,7 +302,8 @@ export default {
           this.horse.currentBid = this.bids[0]
           this.bid = this.horse.currentBid + this.increment
         } else {
-          this.horse.currentBid = this.horse.basePrice
+          this.bid = this.horse.basePrice + this.increment
+          this.horse.currentBid = 0
         }
       })
     if (this.user) {

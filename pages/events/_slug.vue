@@ -121,7 +121,7 @@
               </div>
               <div class="catalog__offer">
                 <h4>Oferta actual</h4>
-                <span class="text-right">$ {{h.currentBid>0 ? new Intl.NumberFormat().format(h.currentBid) : new Intl.NumberFormat().format(h.basePrice)}}</span>
+                <span class="text-right">$ {{h.currentBid>0 ? new Intl.NumberFormat().format(h.currentBid) : new Intl.NumberFormat().format(0)}}</span>
               </div>
             </div>
             <button class="btn btn--secondary btn--notborder">Más información</button>

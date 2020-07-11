@@ -79,19 +79,19 @@
               <div class="increment__content">
                 <div>
                   <input id="1" v-model="increment" type="radio" name="increment" :value="horse.increase">
-                  <label for="1">{{horse.increase}}</label>
+                  <label for="1">$ {{horse.increase}}</label>
                 </div>
                 <div>
                   <input id="2" v-model="increment" type="radio" name="increment" :value="horse.increase1">
-                  <label for="2">{{horse.increase1}}</label>
+                  <label for="2">$ {{horse.increase1}}</label>
                 </div>
                 <div>
                   <input id="3" v-model="increment" type="radio" name="increment" :value="horse.increase2">
-                  <label for="3">{{horse.increase2}}</label>
+                  <label for="3">$ {{horse.increase2}}</label>
                 </div>
                 <div>
                   <input id="4" v-model="increment" type="radio" name="increment" :value="horse.increase3">
-                  <label for="4">{{horse.increase3}}</label>
+                  <label for="4">$ {{horse.increase3}}</label>
                 </div>
               </div>
             </div>
