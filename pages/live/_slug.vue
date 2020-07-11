@@ -100,7 +100,7 @@
                 class="btn btn--primary btn--live"
                 :disabled="loadBid || horse.currentBid<=0 || !event.start"
                 @click="bidNow">
-                <span v-if="!loadBid">Ofertar $ {{new Intl.NumberFormat().format(bid)}}</span>
+                <span v-if="!loadBid">Ofertar</span>
                 <div v-else class="lds-ellipsis">
                   <div/>
                   <div/>
