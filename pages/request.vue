@@ -117,7 +117,7 @@ export default {
                 document: client.document
               },
               credit: this.requestCredit.credit,
-              approve: false,
+              approved: false,
               observation: this.requestCredit.observation ? this.requestCredit.observation : '',
               createdAt: this.$fireStoreObj.FieldValue.serverTimestamp()
             })
