@@ -151,25 +151,33 @@ export default {
           this.loading = true
           await this.$fireAuth.signInWithEmailAndPassword(this.email, this.password)
           const user = this.$fireAuth.currentUser
-          /* !user.emailVerified */
-          // eslint-disable-next-line no-constant-condition
-          if (false) {
-            await this.$fireAuth.signOut()
-            const error = 'Aún no has verificado tu dirección de correo electrónico'
-            this.loading = false
-            this.errors.push(error)
-          } else {
-            const obj = {
-              displayName: user.displayName,
-              email: user.email,
-              emailVerified: user.emailVerified,
-              uid: user.uid
+          // Validate claims
+          await user.getIdTokenResult(true).then(async (idToken) => {
+            if (idToken.claims.client) {
+              if (!user.emailVerified) {
+                await this.$fireAuth.signOut()
+                const error = 'Aún no has verificado tu dirección de correo electrónico'
+                this.loading = false
+                this.errors.push(error)
+              } else {
+                const obj = {
+                  displayName: user.displayName,
+                  email: user.email,
+                  emailVerified: user.emailVerified,
+                  uid: user.uid
+                }
+                this.$store.dispatch('user/setUser', { user: obj })
+                this.$router.push('/')
+                this.loading = false
+                this.close()
+              }
+            } else {
+              await this.$fireAuth.signOut()
+              const error = 'Aún no has pasado el proceso de verificación.'
+              this.loading = false
+              this.errors.push(error)
             }
-            this.$store.dispatch('user/setUser', { user: obj })
-            this.$router.push('/')
-            this.loading = false
-            this.close()
-          }
+          })
         }
       } catch (e) {
         const errorCode = e.code
