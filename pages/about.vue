@@ -105,7 +105,7 @@ export default {
     // End
     // Team
     const members = []
-    const querySnapshotMembers = await $fireStore.collection('members').get()
+    const querySnapshotMembers = await $fireStore.collection('members').where('state', '==', true).get()
     querySnapshotMembers.forEach((m) => {
       const obj = {
         ...m.data()
