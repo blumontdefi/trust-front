@@ -46,8 +46,13 @@
   background-color: $lighter-grey;
   padding: 3rem 0;
 
+  p {
+    white-space: break-spaces;
+  }
+
   &__content {
     margin-top: 2.5rem;
+    max-width: 991px;
   }
 
   &__head {

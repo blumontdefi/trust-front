@@ -74,7 +74,7 @@
         <h2>Nuestro equipo</h2>
         <p>{{about.teamDescription}}</p>
       </div>
-      <div class="team__content container grid col-4">
+      <div class="team__content container grid col-3">
         <div v-for="(m, index) in members" :key="index" class="team__item card card--border">
           <img :src="m.image" :alt="m.name" class="img-max">
           <div>
@@ -105,7 +105,7 @@ export default {
     // End
     // Team
     const members = []
-    const querySnapshotMembers = await $fireStore.collection('members').where('state', '==', true).get()
+    const querySnapshotMembers = await $fireStore.collection('members').where('state', '==', true).orderBy('order', 'asc').get()
     querySnapshotMembers.forEach((m) => {
       const obj = {
         ...m.data()
