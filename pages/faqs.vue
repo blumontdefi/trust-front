@@ -7,30 +7,20 @@
       </div>
       <h3 class="text-center mt-6">Tutoriales</h3>
       <div class="faqs__videos grid col-2">
-        <div>
-          <h4 class="mb-2 text-center">¿Cómo me registro?</h4>
-          <div style="padding:56.25% 0 0 0;position:relative;">
-            <iframe
-              :src="`https://player.vimeo.com/video/${content.videoSignup}`"
-              style="position:absolute;top:0;left:0;width:100%;height:100%;"
-              frameborder="0"
-              allow="autoplay; fullscreen"
-              allowfullscreen></iframe>
+        <template v-for="(t, index ) in content.tutos">
+          <div :key="index">
+            <h4 class="mb-2 text-center">{{t.title}}</h4>
+            <div style="padding:56.25% 0 0 0;position:relative;">
+              <iframe
+                :src="`https://player.vimeo.com/video/${t.vimeoId}`"
+                style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                frameborder="0"
+                allow="autoplay; fullscreen"
+                allowfullscreen></iframe>
+            </div>
+            <script src="https://player.vimeo.com/api/player.js"></script>
           </div>
-          <script src="https://player.vimeo.com/api/player.js"></script>
-        </div>
-        <div>
-          <h4 class="mb-2 text-center">¿Cómo solicito un crédito?</h4>
-          <div style="padding:56.25% 0 0 0;position:relative;">
-            <iframe
-              :src="`https://player.vimeo.com/video/${content.videoRequest}`"
-              style="position:absolute;top:0;left:0;width:100%;height:100%;"
-              frameborder="0"
-              allow="autoplay; fullscreen"
-              allowfullscreen></iframe>
-          </div>
-          <script src="https://player.vimeo.com/api/player.js"></script>
-        </div>
+        </template>
       </div>
       <nuxt-link v-if="user" to="/terms" class="btn btn--link btn--inverse mt-4">Ver términos y condiciones</nuxt-link>
     </div>
