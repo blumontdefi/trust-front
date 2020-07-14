@@ -116,7 +116,7 @@
               <div :key="index" v-if="index<3 && !loadBid" class="history__item">
                 <div>{{bid.user.code}}</div>
                 <div>$ {{new Intl.NumberFormat().format(bid.bid)}}</div>
-                <div>{{$moment(bid.createdAt).format('D [/] MMMM [/] YYYY h:mm:ss a')}}</div>
+                <div>{{$moment(bid.createdAt).format('D [/] MMM [/] YYYY h:mm:ss a')}}</div>
               </div>
             </template>
             <div v-if="loadBid" class="text-center">
