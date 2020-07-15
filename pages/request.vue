@@ -48,7 +48,7 @@
                 Términos y condiciones
               </h2>
               <div class="terms-section">
-                <span v-html="$store.state.content.data"></span>
+                <span v-html="$store.state.content.data.terms"></span>
               </div>
             </div>
             <div class="terms__accept">
