@@ -13,20 +13,8 @@
           <div class="partners__list partners__list--desktop">
             <client-only>
               <swiper ref="mySwiper" :options="swiperOptions">
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner.png" alt="Asociado">
-                </swiper-slide>
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner1.png" alt="Asociado">
-                </swiper-slide>
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner2.png" alt="Asociado">
-                </swiper-slide>
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner3.png" alt="Asociado">
-                </swiper-slide>
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner4.png" alt="Asociado">
+                <swiper-slide v-for="(s, index) in sponsors" :key="index" class="partners__item">
+                  <img :src="s.image" :alt="s.name">
                 </swiper-slide>
               </swiper>
             </client-only>
@@ -34,20 +22,8 @@
           <div class="partners__list partners__list--mobile">
             <client-only>
               <swiper ref="mySwiper" :options="swiperOptionsMobile">
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner.png" alt="Asociado">
-                </swiper-slide>
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner1.png" alt="Asociado">
-                </swiper-slide>
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner2.png" alt="Asociado">
-                </swiper-slide>
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner3.png" alt="Asociado">
-                </swiper-slide>
-                <swiper-slide class="partners__item">
-                  <img src="/images/partners/partner4.png" alt="Asociado">
+                <swiper-slide v-for="(s, index) in sponsors" :key="index" class="partners__item">
+                  <img :src="s.image" :alt="s.name">
                 </swiper-slide>
               </swiper>
             </client-only>
@@ -105,14 +81,32 @@ export default {
     // End
     // Team
     const members = []
-    const querySnapshotMembers = await $fireStore.collection('members').where('state', '==', true).orderBy('order', 'asc').get()
+    const querySnapshotMembers = await $fireStore.collection('members')
+      .where('state', '==', true)
+      .orderBy('order', 'asc').get()
     querySnapshotMembers.forEach((m) => {
       const obj = {
         ...m.data()
       }
       members.push(obj)
     })
-    return { about, members }
+    // End
+    // Load sponsors
+    const querySnapshotSponsors = await $fireStore.collection('sponsors')
+      .where('state', '==', true)
+      .orderBy('order', 'asc').get()
+
+    const sponsors = []
+    querySnapshotSponsors.forEach((s) => {
+      const obj = {
+        id: s.id,
+        ...s.data()
+      }
+      delete obj.createdAt
+      sponsors.push(obj)
+    })
+    // End
+    return { about, members, sponsors }
   },
   data () {
     return {

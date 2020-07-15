@@ -428,7 +428,8 @@ export default {
               name: this.horse.name,
               imageLeft: this.horse.imageLeft
             },
-            createdAt: this.$fireStoreObj.FieldValue.serverTimestamp()
+            createdAt: this.$fireStoreObj.FieldValue.serverTimestamp(),
+            preOffer: false
           })
           this.loadBid = false
         }
