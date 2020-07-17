@@ -85,6 +85,10 @@
 .summarize {
   margin-bottom: 4rem;
 
+  @include respond-to(medium) {
+    display: none;
+  }
+
   h2 {
     margin-bottom: 3rem;
   }
