@@ -56,6 +56,9 @@
             <a @click="goTo('events')">Eventos</a>
           </li>
           <li>
+            <a @click="goTo('about')">Nosotros</a>
+          </li>
+          <li>
             <a @click="goTo('faqs')">Preguntas y Tutoriales</a>
           </li>
           <li>

@@ -1,7 +1,7 @@
 <template>
   <div class="events">
     <div class="events__content container container--event">
-      <h2>Próximos eventos</h2>
+      <h2>Eventos</h2>
       <div class="events__list">
         <div v-for="(e, index) in events" :key="index" class="events__item">
           <div>{{e.name}}</div>
@@ -24,7 +24,6 @@ export default {
     // Load events
     const querySnapshot = await $fireStore
       .collection('events')
-      .where('finish', '==', false)
       .where('state', '==', true)
       .orderBy('startDate', 'asc').get()
     const events = []

@@ -32,7 +32,9 @@
           </div>
         </div>
       </div>
-      <button @click="goToLive" class="event-detail__live btn btn--secondary">Ir a transmisión en vivo</button>
+      <button :disabled="event.finish" @click="goToLive" class="event-detail__live btn btn--secondary">Ir a transmisión
+        en vivo
+      </button>
       <!--End-->
       <!--Image-->
       <figure>
