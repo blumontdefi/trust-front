@@ -25,7 +25,7 @@ export default {
     const querySnapshot = await $fireStore
       .collection('events')
       .where('state', '==', true)
-      .orderBy('startDate', 'asc').get()
+      .orderBy('startDate', 'desc').get()
     const events = []
     querySnapshot.forEach((e) => {
       const obj = {
