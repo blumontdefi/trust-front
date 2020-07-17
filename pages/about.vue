@@ -7,6 +7,37 @@
         <p>{{about.description}}</p>
       </div>
       <!--End-->
+    </div>
+    <!--Team-->
+    <div class="team">
+      <div class="team__head container">
+        <h2>Nuestro equipo</h2>
+        <p>{{about.teamDescription}}</p>
+      </div>
+      <div class="team__content container grid col-3">
+        <div v-for="(m, index) in members" :key="index" class="team__item card card--border">
+          <img :src="m.image" :alt="m.name" class="img-max">
+          <div>
+            <h4 class="primary-color">{{m.name}}</h4>
+            <p>{{m.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--End-->
+    <div class="about__content container">
+      <!--Mision and vision-->
+      <div class="about__mv">
+        <div>
+          <h3>Misión</h3>
+          <p>{{about.mision}}</p>
+        </div>
+        <div>
+          <h3>Visión</h3>
+          <p>{{about.vision}}</p>
+        </div>
+      </div>
+      <!--End-->
       <!--Partners-->
       <div class="partners">
         <div class="partners__content container">
@@ -31,36 +62,7 @@
         </div>
       </div>
       <!--End-->
-      <!--Mision and vision-->
-      <div class="about__mv">
-        <div>
-          <h3>Misión</h3>
-          <p>{{about.mision}}</p>
-        </div>
-        <div>
-          <h3>Visión</h3>
-          <p>{{about.vision}}</p>
-        </div>
-      </div>
-      <!--End-->
     </div>
-    <!--Team-->
-    <div class="team">
-      <div class="team__head container">
-        <h2>Nuestro equipo</h2>
-        <p>{{about.teamDescription}}</p>
-      </div>
-      <div class="team__content container grid col-3">
-        <div v-for="(m, index) in members" :key="index" class="team__item card card--border">
-          <img :src="m.image" :alt="m.name" class="img-max">
-          <div>
-            <h4 class="primary-color">{{m.name}}</h4>
-            <p>{{m.description}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--End-->
   </div>
 </template>
 
