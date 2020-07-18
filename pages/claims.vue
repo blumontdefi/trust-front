@@ -4,7 +4,7 @@
       <h2 v-if="!thanks" class="text-center">Libro de reclamaciones</h2>
       <div v-if="!thanks" class="claims__head">
         <h3>CAKC E.I.R.L.</h3>
-        <p>20378668574</p>
+        <p>20112012886</p>
       </div>
       <div class="claims__thanks" v-if="thanks">
         <div>
