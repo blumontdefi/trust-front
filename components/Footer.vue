@@ -52,7 +52,7 @@
             </li>
             <li>
               <nuxt-link to="/faqs">
-                FAQ'S
+                Preguntas y Tutoriales
               </nuxt-link>
             </li>
             <li>
