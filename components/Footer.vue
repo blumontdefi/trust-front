@@ -34,7 +34,7 @@
         </div>
         <div class="footer__menu">
           <h4>Menú</h4>
-          <ul>
+          <ul class="grid col-2">
             <li>
               <nuxt-link to="/">
                 Inicio
@@ -58,6 +58,11 @@
             <li>
               <nuxt-link to="/posts">
                 Noticias
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/claims">
+                Libro de reclamaciones
               </nuxt-link>
             </li>
           </ul>

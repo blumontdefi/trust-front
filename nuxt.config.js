@@ -126,29 +126,29 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
-    '@nuxtjs/firebase'
+    '@nuxtjs/firebase',
+    '@nuxtjs/recaptcha'
   ],
-  firebase:
-    {
-      config: {
-        apiKey: 'AIzaSyCMgAVd9x4nqiCaktTrFb3k4Y_4EY7h2UE',
-        authDomain: 'trust-2ed52.firebaseapp.com',
-        databaseURL: 'https://trust-2ed52.firebaseio.com',
-        projectId: 'trust-2ed52',
-        storageBucket: 'trust-2ed52.appspot.com',
-        messagingSenderId: '1003025988134',
-        appId: '1:1003025988134:web:2c5b303925616682af84e7'
-      },
-      services: {
-        auth: {
-          ssr: true
-        },
-        firestore: true,
-        analytics: false,
-        realtimeDb: false,
-        messaging: false
-      }
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyCMgAVd9x4nqiCaktTrFb3k4Y_4EY7h2UE',
+      authDomain: 'trust-2ed52.firebaseapp.com',
+      databaseURL: 'https://trust-2ed52.firebaseio.com',
+      projectId: 'trust-2ed52',
+      storageBucket: 'trust-2ed52.appspot.com',
+      messagingSenderId: '1003025988134',
+      appId: '1:1003025988134:web:2c5b303925616682af84e7'
     },
+    services: {
+      auth: {
+        ssr: true
+      },
+      firestore: true,
+      analytics: false,
+      realtimeDb: false,
+      messaging: false
+    }
+  },
   pwa: {
     // disable the modules you don't need
     meta: false,
@@ -164,6 +164,12 @@ export default {
       // only set this true for testing and remember to always clear your browser cache in development
       dev: true
     }
+  },
+  recaptcha: {
+    hideBadge: true, // Hide badge element (v3 & v2 via size=invisible)
+    siteKey: '6LdHvbIZAAAAANQS9U_E9MBUhVdZsNa8yn6w412h', // Site key for requests
+    version: 2, // Version
+    size: 'normal' // Size: 'compact', 'normal', 'invisible' (v2)
   },
   /*
   ** Axios module configuration

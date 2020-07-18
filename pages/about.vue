@@ -40,7 +40,7 @@
       <!--End-->
       <!--Partners-->
       <div class="partners">
-        <h2>Sponsors</h2>
+        <h2>Aliados y Sponsors</h2>
         <div class="partners__content container">
           <div class="partners__list partners__list--desktop">
             <client-only>
