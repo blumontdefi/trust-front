@@ -1,7 +1,7 @@
 <template>
   <div class="claims">
     <div class="claims__content  container container--claims">
-      <h2 v-if="!thanks">Libro de reclamaciones</h2>
+      <h2 v-if="!thanks" class="text-center">Libro de reclamaciones</h2>
       <div v-if="!thanks" class="claims__head">
         <h3>CAKC E.I.R.L.</h3>
         <p>20378668574</p>
