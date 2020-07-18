@@ -40,6 +40,7 @@
       <!--End-->
       <!--Partners-->
       <div class="partners">
+        <h2>Sponsors</h2>
         <div class="partners__content container">
           <div class="partners__list partners__list--desktop">
             <client-only>
@@ -58,6 +59,19 @@
                 </swiper-slide>
               </swiper>
             </client-only>
+          </div>
+        </div>
+      </div>
+      <!--End-->
+      <!--Banners-->
+      <div class="banners">
+        <div class="banners__content grid col-4">
+          <div v-for="(b, index) in banners" class="banners__item card card--border" :key="index">
+            <img :src="b.image" :alt="b.title">
+            <div>
+              <h4 class="primary-color">{{b.title}}</h4>
+              <p>{{b.description}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -108,7 +122,22 @@ export default {
       sponsors.push(obj)
     })
     // End
-    return { about, members, sponsors }
+    // Load banners
+    const querySnapshotBanners = await $fireStore.collection('banners')
+      .where('state', '==', true)
+      .orderBy('order', 'asc').get()
+
+    const banners = []
+    querySnapshotBanners.forEach((b) => {
+      const obj = {
+        id: b.id,
+        ...b.data()
+      }
+      delete obj.createdAt
+      banners.push(obj)
+    })
+    // End
+    return { about, members, sponsors, banners }
   },
   data () {
     return {
