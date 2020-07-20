@@ -227,6 +227,7 @@ export default {
         required
       },
       document: {
+        required,
         minLength: minLength(6),
         maxLength: maxLength(20)
       },
