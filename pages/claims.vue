@@ -173,7 +173,7 @@
         </div>
         <recaptcha class="mt-3" @error="onError" @success="onSuccess" @expired="onExpired"/>
         <span class="form-group__error">Campo obligatorio*</span>
-        <button @click="submit" :disabled="robot" class="btn btn--primary mt-3">
+        <button :disabled="robot" class="btn btn--primary mt-3" @click="submit">
           <span v-if="!loading">Enviar</span>
           <div v-else class="lds-ellipsis">
             <div></div>

@@ -22,11 +22,14 @@
           {{ e }}
         </span>
         </div>
+        <!--Recaptcha-->
+        <recaptcha class="mt-3" @error="onError" @success="onSuccess" @expired="onExpired"/>
+        <!--End-->
         <!--Button-->
         <button
           type="button"
-          :disabled="this.$v.$invalid || this.progress"
-          class="btn btn--primary"
+          :disabled="this.$v.$invalid || progress || !recaptchaValidate"
+          class="btn btn--primary mt-2"
           @click="toggleTerms">
           <span v-if="!progress">Solicitar crédito</span>
           <div v-else class="lds-ellipsis">
@@ -80,7 +83,9 @@ export default {
       requestCredit: {},
       errors: [],
       progress: false,
-      terms: false
+      terms: false,
+      robot: false,
+      recaptchaValidate: false
     }
   },
   validations: {
@@ -95,7 +100,7 @@ export default {
     async submit () {
       try {
         this.$v.requestCredit.$touch()
-        if (!this.$v.$invalid) {
+        if (!this.$v.$invalid && !this.robot && this.recaptchaValidate) {
           this.toggleTerms()
           this.progress = true
           const user = this.$store.state.user.data
@@ -135,6 +140,15 @@ export default {
       document.body.classList.toggle('body--disabledScroll')
       const popTerms = document.getElementById('popTerms')
       popTerms.classList.toggle('show')
+    },
+    onError () {
+      this.robot = true
+    },
+    onSuccess () {
+      this.recaptchaValidate = true
+    },
+    onExpired () {
+      this.recaptchaValidate = false
     }
   }
 }

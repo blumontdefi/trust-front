@@ -166,10 +166,11 @@ export default {
     }
   },
   recaptcha: {
-    hideBadge: true, // Hide badge element (v3 & v2 via size=invisible)
-    siteKey: '6LdHvbIZAAAAANQS9U_E9MBUhVdZsNa8yn6w412h', // Site key for requests
+    hideBadge: true,
+    siteKey: '6Lf6QLQZAAAAAFL0N-xp2mEF7kZF8hMRnkdHZcAA',
     version: 2, // Version
-    size: 'normal' // Size: 'compact', 'normal', 'invisible' (v2)
+    size: 'normal',
+    language: 'es'
   },
   /*
   ** Axios module configuration

@@ -139,7 +139,7 @@
         <!--Button-->
         <button
           type="button"
-          :disabled="this.$v.$invalid || this.progress"
+          :disabled="this.$v.$invalid || progress || !recaptchaValidate"
           class="mt-3 btn btn--primary"
           @click="toggleTerms">
           <span v-if="!progress">Registrarme</span>
@@ -208,7 +208,9 @@ export default {
       actionCodeSettings: {
         url: 'http://192.168.1.128:3000/'
       },
-      showPassword: false
+      showPassword: false,
+      robot: false,
+      recaptchaValidate: true
     }
   },
   validations: {
@@ -256,7 +258,7 @@ export default {
       try {
         this.$v.client.$touch()
         this.$v.user.$touch()
-        if (!this.$v.$invalid) {
+        if (!this.$v.$invalid && this.recaptchaValidate) {
           this.toggleTerms()
           this.progress = true
           await this.$fireAuth.createUserWithEmailAndPassword(this.user.email, this.user.password)
