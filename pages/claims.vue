@@ -110,7 +110,7 @@
           </div>
           <div class="form-group">
             <label for="total">Monto reclamado</label>
-            <input v-model.number="form.total" type="text" class="input" id="total">
+            <input v-model.number="form.total" type="number" class="input" id="total">
             <div v-if="$v.form.total.$error">
               <span class="form-group__error">Hay un error en este campo.</span>
             </div>
@@ -173,7 +173,7 @@
         </div>
         <recaptcha class="mt-3" @error="onError" @success="onSuccess" @expired="onExpired"/>
         <span class="form-group__error">Campo obligatorio*</span>
-        <button :disabled="robot" class="btn btn--primary mt-3" @click="submit">
+        <button :disabled="!recaptchaValidate" class="btn btn--primary mt-3" @click="submit">
           <span v-if="!loading">Enviar</span>
           <div v-else class="lds-ellipsis">
             <div></div>
@@ -309,6 +309,7 @@ export default {
       this.recaptchaValidate = true
     },
     onExpired () {
+      this.recaptchaValidate = false
     },
     goToHome () {
       this.$router.push('/')
