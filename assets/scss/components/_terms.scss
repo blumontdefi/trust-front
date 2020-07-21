@@ -32,6 +32,14 @@
     .terms-section {
       overflow: auto;
       height: 55vh;
+
+      @include respond-to(small) {
+        height: 50vh;
+      }
+
+      @include respond-to(tiny) {
+        height: 40vh;
+      }
     }
   }
 

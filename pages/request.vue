@@ -11,7 +11,7 @@
       <form>
         <div class="form-group mb-2">
           <label for="credit">Crédito a solicitar en dólares * (Es solo referencial y será sujeto a evaluación)</label>
-          <input v-model.number="requestCredit.credit" class="input" type="text" id="credit">
+          <input v-model.number="requestCredit.credit" class="input" type="number" id="credit">
         </div>
         <div class="form-group mb-2">
           <label for="observation">Observación</label>
