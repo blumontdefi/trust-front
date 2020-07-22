@@ -9,14 +9,18 @@
         </p>
       </div>
       <form>
+        <!--Credit-->
         <div class="form-group mb-2">
           <label for="credit">Crédito a solicitar en dólares * (Es solo referencial y será sujeto a evaluación)</label>
           <input v-model.number="requestCredit.credit" class="input" type="number" id="credit">
         </div>
+        <!--End-->
+        <!--Observartion-->
         <div class="form-group mb-2">
           <label for="observation">Observación</label>
           <textarea v-model="requestCredit.observation" rows="5" class="textarea" id="observation"></textarea>
         </div>
+        <!--End-->
         <div>
           <span v-for="(e, index) in errors" :key="index" class="form-group__error">
           {{ e }}
@@ -100,13 +104,19 @@ export default {
     async submit () {
       try {
         this.$v.requestCredit.$touch()
-        if (!this.$v.$invalid && !this.robot && this.recaptchaValidate) {
+        const user = this.$fireAuth.currentUser
+        if (!user) {
+          this.toggleTerms()
+          await this.$router.push({ name: 'signup' })
+        } else if (!this.$v.$invalid && !this.robot && this.recaptchaValidate && user) {
           this.toggleTerms()
           this.progress = true
           const user = this.$store.state.user.data
           // Get client
           let client = null
-          const querySnapClient = await this.$fireStore.collection('clients').where('uid', '==', user.uid).get()
+          const querySnapClient = await this.$fireStore
+            .collection('clients')
+            .where('uid', '==', user.uid).get()
           querySnapClient.forEach((c) => {
             client = {
               id: c.id,
@@ -114,27 +124,51 @@ export default {
             }
           })
           if (client) {
-            await this.$fireStore.collection('requests').add({
-              client: {
-                id: client.id,
-                name: client.name,
-                lastName: client.lastName,
-                document: client.document
-              },
-              credit: this.requestCredit.credit,
-              approved: false,
-              observation: this.requestCredit.observation ? this.requestCredit.observation : '',
-              createdAt: this.$fireStoreObj.FieldValue.serverTimestamp()
-            })
-            await this.$router.push({ name: 'thanksRequest' })
-            this.progress = false
+            const token = await this.$fireAuth.currentUser.getIdTokenResult()
+            const validate = await this.validateIfClientNotCredit(client.id, token.token)
+            if (validate) {
+              await this.$fireStore.collection('requests').add({
+                client: {
+                  id: client.id,
+                  name: client.name,
+                  lastName: client.lastName,
+                  document: client.document,
+                  typeDocument: client.typeDocument
+                },
+                credit: this.requestCredit.credit,
+                approved: false,
+                observation: this.requestCredit.observation ? this.requestCredit.observation : '',
+                createdAt: this.$fireStoreObj.FieldValue.serverTimestamp()
+              })
+              await this.$router.push({ name: 'thanksRequest' })
+              this.progress = false
+            } else {
+              this.errors = []
+              this.progress = false
+              const error = 'Ya tiene un crédito asignado.'
+              this.errors.push(error)
+            }
           }
         }
       } catch (e) {
+        this.errors = []
         this.progress = false
         const error = 'Hubo un error, por favor ponte en contacto con nosotros.'
         this.errors.push(error)
       }
+    },
+    validateIfClientNotCredit (clientId, idToken) {
+      return new Promise((resolve, reject) => {
+        this.$axios.post('https://us-central1-trust-2ed52.cloudfunctions.net/validateCredit', {
+          clientId,
+          idToken
+        }).then((response) => {
+          resolve(response.data)
+          console.log(response)
+        }).catch((e) => {
+          reject(e)
+        })
+      })
     },
     toggleTerms () {
       document.body.classList.toggle('body--disabledScroll')
