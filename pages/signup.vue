@@ -141,7 +141,7 @@
           type="button"
           :disabled="this.$v.$invalid || progress || !recaptchaValidate"
           class="mt-3 btn btn--primary"
-          @click="toggleTerms">
+          @click.stop="toggleTerms">
           <span v-if="!progress">Registrarme</span>
           <div v-else class="lds-ellipsis">
             <div/>
@@ -171,7 +171,7 @@
                 He leído y acepto los <nuxt-link to="/terms" class="primary-color" target="_blank"> Términos y condiciones</nuxt-link>
               </span>
             </div>
-            <button type="button" :disabled="!terms" class="btn btn--primary" @click="submit">
+            <button type="button" :disabled="!terms" class="btn btn--primary" @click.stop="submit">
               Enviar
             </button>
           </div>
@@ -230,7 +230,7 @@ export default {
       },
       document: {
         required,
-        minLength: minLength(6),
+        minLength: minLength(8),
         maxLength: maxLength(20)
       },
       phone: {
@@ -261,35 +261,47 @@ export default {
         if (!this.$v.$invalid && this.recaptchaValidate) {
           this.toggleTerms()
           this.progress = true
-          await this.$fireAuth.createUserWithEmailAndPassword(this.user.email, this.user.password)
-          const user = this.$fireAuth.currentUser
-          await user.updateProfile({
-            displayName: this.client.name + ' ' + this.client.lastName
-          })
-          await this.$fireStore.collection('clients').add({
-            ...this.client,
-            email: user.email,
-            createdAt: this.$fireStoreObj.FieldValue.serverTimestamp(),
-            approved: false,
-            state: true,
-            uid: user.uid
-          })
-          await this.$router.push({ name: 'thanks' })
-          await this.$fireAuth.signOut()
-          this.progress = false
+          const validate = await this.validateDocument(this.client.document)
+          if (validate) {
+            await this.$fireAuth.createUserWithEmailAndPassword(this.user.email, this.user.password)
+            const user = this.$fireAuth.currentUser
+            await user.updateProfile({
+              displayName: this.client.name + ' ' + this.client.lastName
+            })
+            await this.$fireStore.collection('clients').add({
+              ...this.client,
+              email: user.email,
+              createdAt: this.$fireStoreObj.FieldValue.serverTimestamp(),
+              approved: false,
+              state: true,
+              uid: user.uid
+            })
+            await this.$router.push({ name: 'thanks' })
+            await this.$fireAuth.signOut()
+            this.progress = false
+          } else {
+            this.errors = []
+            this.progress = false
+            const error = 'Existe una cuenta registrada con el mismo documento.'
+            this.errors.push(error)
+          }
         }
       } catch (error) {
         this.progress = false
         if (error.code === 'auth/email-already-in-use') {
+          this.errors = []
           const error = 'Email ya ha sido utilizado en otra cuenta.'
           this.errors.push(error)
         } else if (error.code === 'auth/invalid-email') {
+          this.errors = []
           const error = 'El email es inválido.'
           this.errors.push(error)
         } else if (error.code === 'aauth/weak-password') {
+          this.errors = []
           const error = 'El password no es lo suficientemente seguro.'
           this.errors.push(error)
         } else {
+          this.errors = []
           const error = 'Hubo un error, por favor ponte en contacto con nosotros.'
           this.errors.push(error)
         }
@@ -308,6 +320,17 @@ export default {
       } else {
         pass.type = 'password'
       }
+    },
+    validateDocument (document) {
+      return new Promise((resolve, reject) => {
+        this.$axios.post('https://us-central1-trust-2ed52.cloudfunctions.net/validateDocument', {
+          document
+        }).then((response) => {
+          resolve(response.data)
+        }).catch((e) => {
+          reject(e)
+        })
+      })
     }
   }
 }

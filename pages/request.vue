@@ -164,7 +164,6 @@ export default {
           idToken
         }).then((response) => {
           resolve(response.data)
-          console.log(response)
         }).catch((e) => {
           reject(e)
         })
