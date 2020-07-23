@@ -58,14 +58,14 @@
           <img src="/images/ico-date.jpg" alt="Fecha">
           <div>
             <h4>Fecha del evento</h4>
-            <p>12/ 04 / 2020</p>
+            <p> {{ $moment(event.startDate ).format('D [/] MMMM [/] YYYY') }}</p>
           </div>
         </div>
         <div class="event-detail__item">
           <img src="/images/ico-time.jpg" alt="Hora">
           <div>
             <h4>Hora Lima</h4>
-            <p>12/ 04 / 2020</p>
+            <p>{{ $moment(event.startDate ).format('h:mm a') }}</p>
           </div>
         </div>
         <div class="event-detail__item">
