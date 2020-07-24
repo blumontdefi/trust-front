@@ -114,8 +114,8 @@
             <div>{{ h.gender }}</div>
             <div>{{ h.sire }}</div>
             <div>{{ h.dame }}</div>
-            <div>S/ {{ new Intl.NumberFormat().format(h.basePrice) }}</div>
-            <div>S/ {{ new Intl.NumberFormat().format(h.currentBid) }}</div>
+            <div>$ {{ new Intl.NumberFormat().format(h.basePrice) }}</div>
+            <div>$ {{ new Intl.NumberFormat().format(h.currentBid) }}</div>
             <div>
               <button
                 type="button"
