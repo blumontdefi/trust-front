@@ -29,8 +29,14 @@
         <h3 v-if="credits.length>0" class="text-center mb-4">Distribución de crédito</h3>
         <div v-if="credits.length>0" class="panel__list">
           <div v-for="(c, index) in credits" class="panel__credits" :key="index">
-            <h4>{{c.haras.name}}</h4>
-            <p class="text-right">$ {{ new Intl.NumberFormat().format(c.credit) }}</p>
+            <div>
+              <h4>{{c.haras.name}}</h4>
+              <p class="text-right">$ {{ new Intl.NumberFormat().format(c.credit) }}</p>
+            </div>
+            <div>
+              <h4>Utilizado</h4>
+              <p class="text-right">$ {{ new Intl.NumberFormat().format(c.used) }}</p>
+            </div>
           </div>
         </div>
         <!--End credits-->
