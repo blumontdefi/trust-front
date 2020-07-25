@@ -84,60 +84,65 @@
 export default {
   name: 'About',
   layout: 'blue',
-  async asyncData ({ $fireStore }) {
-    // Get about
-    let about = {}
-    const querySnapshot = await $fireStore.collection('about').get()
-    querySnapshot.forEach((a) => {
-      about = {
-        id: a.id,
-        ...a.data()
-      }
-    })
-    // End
-    // Team
-    const members = []
-    const querySnapshotMembers = await $fireStore.collection('members')
-      .where('state', '==', true)
-      .orderBy('order', 'asc').get()
-    querySnapshotMembers.forEach((m) => {
-      const obj = {
-        ...m.data()
-      }
-      members.push(obj)
-    })
-    // End
-    // Load sponsors
-    const querySnapshotSponsors = await $fireStore.collection('sponsors')
-      .where('state', '==', true)
-      .orderBy('order', 'asc').get()
+  async asyncData ({ $fireStore, $sentry, error }) {
+    try {
+      // Get about
+      let about = {}
+      const querySnapshot = await $fireStore.collection('about').get()
+      querySnapshot.forEach((a) => {
+        about = {
+          id: a.id,
+          ...a.data()
+        }
+      })
+      // End
+      // Team
+      const members = []
+      const querySnapshotMembers = await $fireStore.collection('members')
+        .where('state', '==', true)
+        .orderBy('order', 'asc').get()
+      querySnapshotMembers.forEach((m) => {
+        const obj = {
+          ...m.data()
+        }
+        members.push(obj)
+      })
+      // End
+      // Load sponsors
+      const querySnapshotSponsors = await $fireStore.collection('sponsors')
+        .where('state', '==', true)
+        .orderBy('order', 'asc').get()
 
-    const sponsors = []
-    querySnapshotSponsors.forEach((s) => {
-      const obj = {
-        id: s.id,
-        ...s.data()
-      }
-      delete obj.createdAt
-      sponsors.push(obj)
-    })
-    // End
-    // Load banners
-    const querySnapshotBanners = await $fireStore.collection('banners')
-      .where('state', '==', true)
-      .orderBy('order', 'asc').get()
+      const sponsors = []
+      querySnapshotSponsors.forEach((s) => {
+        const obj = {
+          id: s.id,
+          ...s.data()
+        }
+        delete obj.createdAt
+        sponsors.push(obj)
+      })
+      // End
+      // Load banners
+      const querySnapshotBanners = await $fireStore.collection('banners')
+        .where('state', '==', true)
+        .orderBy('order', 'asc').get()
 
-    const banners = []
-    querySnapshotBanners.forEach((b) => {
-      const obj = {
-        id: b.id,
-        ...b.data()
-      }
-      delete obj.createdAt
-      banners.push(obj)
-    })
-    // End
-    return { about, members, sponsors, banners }
+      const banners = []
+      querySnapshotBanners.forEach((b) => {
+        const obj = {
+          id: b.id,
+          ...b.data()
+        }
+        delete obj.createdAt
+        banners.push(obj)
+      })
+      // End
+      return { about, members, sponsors, banners }
+    } catch (e) {
+      $sentry.captureException(e)
+      error({ statusCode: 500, message: 'Error al cargar página' })
+    }
   },
   data () {
     return {

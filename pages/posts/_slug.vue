@@ -46,7 +46,7 @@
 export default {
   layout: 'blue',
   name: 'NewsDetail',
-  async asyncData ({ $fireStore, params, error }) {
+  async asyncData ({ $fireStore, params, error, $sentry }) {
     try {
       // Get post
       const slug = params.slug
@@ -82,6 +82,7 @@ export default {
       return { posts, post }
     } catch (e) {
       error({ statusCode: 500, message: 'Hubo un error al cargar noticia.' })
+      $sentry.captureException(e)
     }
   }
 }

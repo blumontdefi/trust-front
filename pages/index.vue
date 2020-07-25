@@ -222,58 +222,62 @@
 export default {
   layout: 'default',
   name: 'Home',
-  async asyncData ({ $fireStore, store }) {
-    // Load events
-    const querySnapshot = await $fireStore.collection('events')
-      .where('finish', '==', false)
-      .where('state', '==', true)
-      .orderBy('startDate', 'asc')
-      .limit(3).get()
-    const events = []
-    querySnapshot.forEach((e) => {
-      const obj = {
-        id: e.id,
-        ...e.data()
-      }
-      delete obj.startDate
-      obj.startDate = e.data().startDate.toDate()
-      events.push(obj)
-    })
-    // End
+  async asyncData ({ $fireStore, store, $sentry }) {
+    try {
+      // Load events
+      const querySnapshot = await $fireStore.collection('events')
+        .where('finish', '==', false)
+        .where('state', '==', true)
+        .orderBy('startDate', 'asc')
+        .limit(3).get()
+      const events = []
+      querySnapshot.forEach((e) => {
+        const obj = {
+          id: e.id,
+          ...e.data()
+        }
+        delete obj.startDate
+        obj.startDate = e.data().startDate.toDate()
+        events.push(obj)
+      })
+      // End
 
-    // Load posts
-    const querySnapshotPosts = await $fireStore.collection('posts')
-      .where('state', '==', true)
-      .orderBy('createdAt', 'asc')
-      .limit(3).get()
+      // Load posts
+      const querySnapshotPosts = await $fireStore.collection('posts')
+        .where('state', '==', true)
+        .orderBy('createdAt', 'asc')
+        .limit(3).get()
 
-    const posts = []
-    querySnapshotPosts.forEach((p) => {
-      const obj = {
-        id: p.id,
-        ...p.data()
-      }
-      delete obj.createdAt
-      obj.createdAt = p.data().createdAt.toDate()
-      posts.push(obj)
-    })
-    // End
-    // Load sponsors
-    const querySnapshotSponsors = await $fireStore.collection('sponsors')
-      .where('state', '==', true)
-      .orderBy('order', 'asc').get()
+      const posts = []
+      querySnapshotPosts.forEach((p) => {
+        const obj = {
+          id: p.id,
+          ...p.data()
+        }
+        delete obj.createdAt
+        obj.createdAt = p.data().createdAt.toDate()
+        posts.push(obj)
+      })
+      // End
+      // Load sponsors
+      const querySnapshotSponsors = await $fireStore.collection('sponsors')
+        .where('state', '==', true)
+        .orderBy('order', 'asc').get()
 
-    const sponsors = []
-    querySnapshotSponsors.forEach((s) => {
-      const obj = {
-        id: s.id,
-        ...s.data()
-      }
-      delete obj.createdAt
-      sponsors.push(obj)
-    })
-    // End
-    return { events, posts, sponsors }
+      const sponsors = []
+      querySnapshotSponsors.forEach((s) => {
+        const obj = {
+          id: s.id,
+          ...s.data()
+        }
+        delete obj.createdAt
+        sponsors.push(obj)
+      })
+      // End
+      return { events, posts, sponsors }
+    } catch (e) {
+      $sentry.captureException(e)
+    }
   },
   data () {
     return {

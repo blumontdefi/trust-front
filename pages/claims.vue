@@ -292,14 +292,18 @@ export default {
   },
   methods: {
     async submit () {
-      this.$v.form.$touch()
-      if (!this.$v.$invalid && !this.robot && this.recaptchaValidate) {
-        this.loading = true
-        await this.$fireStore.collection('claims').add({
-          ...this.form
-        })
-        this.loading = false
-        this.thanks = true
+      try {
+        this.$v.form.$touch()
+        if (!this.$v.$invalid && !this.robot && this.recaptchaValidate) {
+          this.loading = true
+          await this.$fireStore.collection('claims').add({
+            ...this.form
+          })
+          this.loading = false
+          this.thanks = true
+        }
+      } catch (e) {
+        this.$sentry.captureException(e)
       }
     },
     onError () {

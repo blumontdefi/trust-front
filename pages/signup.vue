@@ -305,6 +305,7 @@ export default {
           const error = 'Hubo un error, por favor ponte en contacto con nosotros.'
           this.errors.push(error)
         }
+        this.$sentry.captureException(error)
       }
     },
     toggleTerms () {

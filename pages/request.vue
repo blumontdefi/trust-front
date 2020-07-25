@@ -161,6 +161,7 @@ export default {
         this.progress = false
         const error = 'Hubo un error, por favor ponte en contacto con nosotros.'
         this.errors.push(error)
+        this.$sentry.captureException(e)
       }
     },
     validateIfClientNotCredit (clientId, idToken) {

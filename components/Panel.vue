@@ -106,6 +106,7 @@ export default {
         this.requestCredit = {}
         this.credits = []
         this.client = {}
+        this.$sentry.captureException(e)
       }
     }
   },

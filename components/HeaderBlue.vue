@@ -112,7 +112,6 @@ export default {
     },
     // Desktop
     goTo (url) {
-      console.log('Prueba')
       this.$router.push({ name: url })
     },
     async singOut () {

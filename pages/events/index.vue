@@ -20,24 +20,28 @@
 export default {
   layout: 'blue',
   name: 'Events',
-  async asyncData ({ $fireStore }) {
-    // Load events
-    const querySnapshot = await $fireStore
-      .collection('events')
-      .where('state', '==', true)
-      .orderBy('startDate', 'desc').get()
-    const events = []
-    querySnapshot.forEach((e) => {
-      const obj = {
-        id: e.id,
-        ...e.data()
-      }
-      delete obj.startDate
-      obj.startDate = e.data().startDate.toDate()
-      events.push(obj)
-    })
-    // End
-    return { events }
+  async asyncData ({ $fireStore, $sentry }) {
+    try {
+      // Load events
+      const querySnapshot = await $fireStore
+        .collection('events')
+        .where('state', '==', true)
+        .orderBy('startDate', 'desc').get()
+      const events = []
+      querySnapshot.forEach((e) => {
+        const obj = {
+          id: e.id,
+          ...e.data()
+        }
+        delete obj.startDate
+        obj.startDate = e.data().startDate.toDate()
+        events.push(obj)
+      })
+      // End
+      return { events }
+    } catch (e) {
+      $sentry.captureException(e)
+    }
   }
 }
 </script>

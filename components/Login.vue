@@ -194,6 +194,7 @@ export default {
           this.errors.push(error)
         }
         this.loading = false
+        this.$sentry.captureException(e)
       }
     },
     async reset () {

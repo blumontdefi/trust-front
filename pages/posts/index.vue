@@ -35,21 +35,25 @@
 export default {
   layout: 'blue',
   name: 'News',
-  async asyncData ({ $fireStore }) {
-    // Load posts
-    const posts = []
-    const querySnapshot = await $fireStore.collection('posts')
-      .where('state', '==', true).get()
-    querySnapshot.forEach((p) => {
-      const obj = {
-        id: p.id,
-        ...p.data()
-      }
-      delete obj.createdAt
-      obj.createdAt = p.data().createdAt.toDate()
-      posts.push(obj)
-    })
-    return { posts }
+  async asyncData ({ $fireStore, $sentry }) {
+    try {
+      // Load posts
+      const posts = []
+      const querySnapshot = await $fireStore.collection('posts')
+        .where('state', '==', true).get()
+      querySnapshot.forEach((p) => {
+        const obj = {
+          id: p.id,
+          ...p.data()
+        }
+        delete obj.createdAt
+        obj.createdAt = p.data().createdAt.toDate()
+        posts.push(obj)
+      })
+      return { posts }
+    } catch (e) {
+      $sentry.captureException(e)
+    }
   }
 }
 </script>

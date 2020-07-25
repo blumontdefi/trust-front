@@ -407,9 +407,9 @@ export default {
         }
       })
     } catch (e) {
-      this.$sentry.captureException(e)
       const error = 'Hubo un error al iniciar evento.'
       this.errors.push(error)
+      this.$sentry.captureException(e)
     }
   },
   methods: {
@@ -445,9 +445,9 @@ export default {
           this.loadBid = false
         }
       } catch (e) {
-        this.$sentry.captureException(e)
         const error = 'Hubo un error al realizar oferta.'
         this.errors.push(error)
+        this.$sentry.captureException(e)
       }
     },
     validateCredit () {
