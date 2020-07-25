@@ -141,7 +141,9 @@
             style="cursor: pointer"
             @click="$router.push({name: 'events-event-horses-slug' , params: {slug: getSlug(h.name) , event: event.slug} })">
             <figure>
-              <img :src="h.principalImage" alt="" class="img-max">
+              <img
+                v-lazy="h.principalImage"
+                class="img-max">
               <div class="label-primary">
                 {{ h.label }}
               </div>

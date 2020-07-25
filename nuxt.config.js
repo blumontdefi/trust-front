@@ -90,6 +90,7 @@ export default {
   */
   plugins: [
     '~/plugins/vuelidate',
+    '~/plugins/lazy',
     {
       src: '~/plugins/swiper',
       ssr: false
