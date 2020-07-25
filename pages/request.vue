@@ -47,7 +47,7 @@
         <!--Terms-->
         <div id="popTerms" class="terms">
           <div class="block">
-            <div class="mt-2 mb-2 text-right" @click="toggleTerms">
+            <div class="mt-1 mb-1 text-right" @click="toggleTerms">
               <ion-icon name="close-circle-outline"/>
             </div>
             <div>
@@ -63,6 +63,12 @@
                 <input id="terms" v-model="terms" type="checkbox">
                 He leído y acepto los <nuxt-link to="/terms" class="primary-color" target="_blank"> Términos y condiciones</nuxt-link>
               </span>
+            </div>
+            <div class="terms__accept">
+              <a
+                class="text-center"
+                href="https://firebasestorage.googleapis.com/v0/b/trust-2ed52.appspot.com/o/Terminos%20y%20condiciones%2FT%26C.pdf?alt=media"
+                target="_blank">Descargar Términos y Condiciones</a>
             </div>
             <button type="button" :disabled="!terms" class="btn btn--primary" @click="submit">
               Enviar
