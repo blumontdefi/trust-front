@@ -370,9 +370,10 @@ export default {
           await this.$fireStore.collection('bids').add({
             bid: this.bid,
             user: {
-              id: this.user.uid,
+              uid: this.user.uid,
               displayName: this.client.name + ' ' + this.client.lastName,
-              code: this.client.code
+              code: this.client.code,
+              clientId: this.client.id
             },
             horse: {
               id: this.horse.id,
