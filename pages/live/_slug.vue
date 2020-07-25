@@ -454,7 +454,7 @@ export default {
         const horseHaras = this.horse.haras
         this.credits.forEach((c) => {
           if (c.haras.id === horseHaras.id) {
-            if (this.bid < (c.credit - c.used)) {
+            if (this.bid <= (c.credit - c.used)) {
               resolve(true)
             } else {
               resolve(false)
