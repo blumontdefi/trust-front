@@ -473,7 +473,7 @@ export default {
       bidModal.classList.toggle('show')
       setTimeout(() => {
         bidModal.classList.toggle('show')
-      }, 15000)
+      }, 20000)
     },
     showModalCreditOff () {
       const creditOff = document.getElementById('creditOff')
