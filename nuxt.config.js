@@ -128,7 +128,8 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/firebase',
-    '@nuxtjs/recaptcha'
+    '@nuxtjs/recaptcha',
+    '@nuxtjs/sentry'
   ],
   firebase: {
     config: {
@@ -172,6 +173,10 @@ export default {
     version: 2, // Version
     size: 'normal',
     language: 'es'
+  },
+  sentry: {
+    dsn: 'https://6008a18f69c4407a8ae3c1d3b4b09040@o304108.ingest.sentry.io/5358630',
+    config: {} // Additional config
   },
   /*
   ** Axios module configuration

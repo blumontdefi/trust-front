@@ -194,7 +194,7 @@
 export default {
   layout: 'blue',
   name: 'EventDetail',
-  async asyncData ({ $fireStore, params, error }) {
+  async asyncData ({ $fireStore, params, error, $sentry }) {
     try {
       const querySnapshot = await $fireStore.collection('events').where('slug', '==', params.slug).get()
       let event = null
@@ -229,6 +229,7 @@ export default {
         error({ statusCode: 404, message: 'Evento no existe' })
       }
     } catch (e) {
+      $sentry.captureException(e)
       error({ statusCode: 500, message: 'Hubo un error al cargar evento.' })
     }
   },

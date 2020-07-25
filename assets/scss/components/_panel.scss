@@ -44,6 +44,11 @@
   &__item {
     display: grid;
     grid-template-columns: 2fr 1fr;
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &__credits {

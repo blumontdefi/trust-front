@@ -14,18 +14,26 @@
         </div>
       </div>
       <div v-if="!loadPanel && requestCredit.credit">
+        <!--Request-->
         <div class="panel__item">
           <h4>Crédito total</h4>
           <p class="text-right">$ {{ new Intl.NumberFormat().format(requestCredit.credit) }}</p>
         </div>
+        <div class="panel__item">
+          <h4>Estado</h4>
+          <p class="text-right">{{requestCredit.approved ? 'Aprobado' : 'En revisión'}}</p>
+        </div>
+        <!--End-->
         <hr>
-        <h3 class="text-center mb-4">Distribución de crédito</h3>
-        <div class="panel__list">
+        <!--Credits-->
+        <h3 v-if="credits.length>0" class="text-center mb-4">Distribución de crédito</h3>
+        <div v-if="credits.length>0" class="panel__list">
           <div v-for="(c, index) in credits" class="panel__credits" :key="index">
             <h4>{{c.haras.name}}</h4>
             <p class="text-right">$ {{ new Intl.NumberFormat().format(c.credit) }}</p>
           </div>
         </div>
+        <!--End credits-->
       </div>
       <div class="panel__message" v-if="!loadPanel && !requestCredit.credit">
         <div>
@@ -69,7 +77,8 @@ export default {
             }
           })
           // Request credits
-          const querySnapRequest = await this.$fireStore.collection('requests').where('client.id', '==', this.client.id).where('approved', '==', true).get()
+          const querySnapRequest = await this.$fireStore.collection('requests')
+            .where('client.id', '==', this.client.id).get()
           querySnapRequest.forEach((r) => {
             this.requestCredit = {
               id: r.id,
@@ -79,7 +88,9 @@ export default {
           // Credits
           this.credits = []
           if (this.requestCredit) {
-            const querySnapCredits = await this.$fireStore.collection('credits').where('client.id', '==', this.client.id).where('state', '==', true).get()
+            const querySnapCredits = await this.$fireStore.collection('credits')
+              .where('client.id', '==', this.client.id)
+              .where('state', '==', true).get()
             querySnapCredits.forEach((c) => {
               const obj = {
                 id: c.id,

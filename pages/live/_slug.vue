@@ -213,9 +213,9 @@ export default {
   layout: 'live',
   middleware: 'authenticated',
   name: 'EventLive',
-  async asyncData ({ $fireStore, $store, params, error }) {
+  async asyncData ({ $fireStore, $sentry, $store, params, error }) {
     try {
-      // Get events
+      // Get event
       const querySnapshot = await $fireStore.collection('events').where('slug', '==', params.slug).get()
       let event = null
       const horses = []
@@ -230,6 +230,7 @@ export default {
           ...obj
         }
       })
+      // End
       if (event) {
         // Get horse
         const queryHorse = await $fireStore.collection('horses')
@@ -252,6 +253,7 @@ export default {
         error({ statusCode: 404, message: 'Evento no existe' })
       }
     } catch (e) {
+      $sentry.captureException(e)
       error({ statusCode: 500, message: 'Error al cargar evento' })
     }
   },
@@ -288,6 +290,7 @@ export default {
         if (this.horse.stateAuction) {
           this.bid = this.horse.currentBid + this.increment
         }
+        // Validating if horse finished auction
         if (this.horse.stateAuction === false) {
           this.showModal()
           this.unsubscribeHorse()
@@ -361,7 +364,9 @@ export default {
           this.horse.stateAuction = doc.data().stateAuction
         })
       // Bids
-      this.unsubscribeBid = this.$fireStore.collection('bids').where('horse.id', '==', this.horse.id).orderBy('bid', 'desc')
+      this.unsubscribeBid = this.$fireStore.collection('bids')
+        .where('horse.id', '==', this.horse.id)
+        .orderBy('bid', 'desc')
         .onSnapshot((querySnapshot) => {
           this.bids = []
           querySnapshot.forEach((doc) => {
@@ -381,7 +386,10 @@ export default {
         })
       // Credits
       const user = this.$store.state.user.data
-      const queryCredits = await this.$fireStore.collection('credits').where('client.uid', '==', user.uid).where('state', '==', true).get()
+      const queryCredits = await this.$fireStore
+        .collection('credits')
+        .where('client.uid', '==', user.uid)
+        .where('state', '==', true).get()
       queryCredits.forEach((c) => {
         const obj = {
           id: c.id,
@@ -390,7 +398,8 @@ export default {
         this.credits.push(obj)
       })
       // Get client
-      const querySnap = await this.$fireStore.collection('clients').where('uid', '==', user.uid).get()
+      const querySnap = await this.$fireStore.collection('clients')
+        .where('uid', '==', user.uid).get()
       querySnap.forEach((c) => {
         this.client = {
           id: c.id,
@@ -398,6 +407,7 @@ export default {
         }
       })
     } catch (e) {
+      this.$sentry.captureException(e)
       const error = 'Hubo un error al iniciar evento.'
       this.errors.push(error)
     }
@@ -434,7 +444,7 @@ export default {
           this.loadBid = false
         }
       } catch (e) {
-        console.log(e)
+        this.$sentry.captureException(e)
         const error = 'Hubo un error al realizar oferta.'
         this.errors.push(error)
       }
@@ -462,7 +472,7 @@ export default {
       bidModal.classList.toggle('show')
       setTimeout(() => {
         bidModal.classList.toggle('show')
-      }, 5000)
+      }, 15000)
     },
     showModalCreditOff () {
       const creditOff = document.getElementById('creditOff')

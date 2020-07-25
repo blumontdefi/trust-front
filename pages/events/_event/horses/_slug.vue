@@ -212,8 +212,9 @@
 export default {
   name: 'HorseDetail',
   layout: 'blue',
-  async asyncData ({ $fireStore, params, error }) {
+  async asyncData ({ $fireStore, params, error, $sentry }) {
     try {
+      // Get event
       const querySnapshot = await $fireStore.collection('events').where('slug', '==', params.event).get()
       let event = null
       const horses = []
@@ -228,6 +229,8 @@ export default {
           ...obj
         }
       })
+      // End
+      // Get events horses
       if (event) {
         const queryHorse = await $fireStore.collection('horses')
           .where('event.id', '==', event.id)
@@ -250,10 +253,12 @@ export default {
         })
         const horse = horses.find(h => h.slug === params.slug)
         return { event, horses, horse }
+        // End
       } else {
         error({ statusCode: 404, message: 'Evento no existe' })
       }
     } catch (e) {
+      $sentry.captureException(e)
       error({ statusCode: 500, message: 'Hubo un error al cargar evento.' })
     }
   },
@@ -294,33 +299,41 @@ export default {
     }, 1000)
   },
   async mounted () {
-    this.increment = this.horse.increase
-    // Bids
-    this.unsubscribeBid = this.$fireStore.collection('bids').where('horse.id', '==', this.horse.id).orderBy('bid', 'desc')
-      .onSnapshot((querySnapshot) => {
-        this.bids = []
-        querySnapshot.forEach((doc) => {
-          this.bids.push(doc.data().bid)
+    try {
+      this.increment = this.horse.increase
+      if (this.user) {
+        // Realtime Bids
+        this.unsubscribeBid = this.$fireStore.collection('bids')
+          .where('horse.id', '==', this.horse.id)
+          .orderBy('bid', 'desc')
+          .onSnapshot((querySnapshot) => {
+            this.bids = []
+            querySnapshot.forEach((doc) => {
+              this.bids.push(doc.data().bid)
+            })
+            if (this.bids.length !== 0) {
+              this.horse.currentBid = this.bids[0]
+              this.bid = this.horse.currentBid + this.increment
+            } else {
+              this.bid = this.horse.basePrice + this.increment
+              this.horse.currentBid = 0
+            }
+          })
+        // End
+        // Get client
+        const querySnap = await this.$fireStore.collection('clients').where('uid', '==', this.user.uid).get()
+        querySnap.forEach((c) => {
+          this.client = {
+            id: c.id,
+            ...c.data()
+          }
         })
-        if (this.bids.length !== 0) {
-          this.horse.currentBid = this.bids[0]
-          this.bid = this.horse.currentBid + this.increment
-        } else {
-          this.bid = this.horse.basePrice + this.increment
-          this.horse.currentBid = 0
-        }
-      })
-    if (this.user) {
-      // Get client
-      const querySnap = await this.$fireStore.collection('clients').where('uid', '==', this.user.uid).get()
-      querySnap.forEach((c) => {
-        this.client = {
-          id: c.id,
-          ...c.data()
-        }
-      })
+        // End
+        this.enablePreOffer = (new Date().getTime() > this.horse.startPreOffer.getTime() && new Date().getTime() < this.horse.endPreOffer.getTime())
+      }
+    } catch (e) {
+      this.$sentry.captureException(e)
     }
-    this.enablePreOffer = (new Date().getTime() > this.horse.startPreOffer.getTime() && new Date().getTime() < this.horse.endPreOffer.getTime())
   },
   methods: {
     getSlug (name) {
@@ -367,13 +380,13 @@ export default {
               imageLeft: this.horse.imageLeft
             },
             preOffer: true,
-            createdAt: this.$fireStoreObj.FieldValue.serverTimestamp()
+            createdAt: this.$fireStoreObj.Timestamp.now()
           })
           this.showModalConfirm()
+          this.loadBid = false
         }
-        this.loadBid = false
       } catch (e) {
-        console.log(e)
+        this.$sentry.captureException(e)
       }
     },
     showModalConfirm () {
