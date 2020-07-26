@@ -59,6 +59,7 @@
           <div>{{$moment(horse.endPreOffer ).format('D / MMMM / YYYY')}}</div>
         </div>
       </div>
+      <!--Ofer and bid-->
       <div class="offer">
         <div class="horse__video">
           <div style="padding:56.25% 0 0 0;position:relative;">
@@ -126,7 +127,9 @@
           </div>
         </div>
       </div>
-      <div class="offer__time card">
+      <!--End-->
+      <!--Time and bids history-->
+      <div class="offer__time grid col-2 row-gap-2 card">
         <div>
           <h2>Subasta en vivo en</h2>
           <div class="horse__countdown">
@@ -150,9 +153,31 @@
             </div>
           </div>
         </div>
+        <div>
+          <h2>Últimas ofertas</h2>
+          <div class="history">
+            <template v-for="(bid, index) in bids">
+              <div :key="index" v-if="index<3 && !loadBid" class="history__item">
+                <div>{{bid.user.code}}</div>
+                <div>$ {{new Intl.NumberFormat().format(bid.bid)}}</div>
+                <div>{{$moment(bid.createdAt).format('D [/] MMM [/] YYYY h:mm:ss a')}}</div>
+              </div>
+            </template>
+            <template v-if="bids.length===0">
+              No se ha registrado ninguna oferta
+            </template>
+            <div v-if="loadBid" class="text-center">
+              <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="horse__media">
-      </div>
+      <!--End-->
     </div>
     <!--Catalogo-->
     <div class="horse__others">
@@ -301,27 +326,35 @@ export default {
   async mounted () {
     try {
       this.increment = this.horse.increase
-      if (this.user) {
-        // Realtime Bids
-        this.unsubscribeBid = this.$fireStore.collection('bids')
-          .where('horse.id', '==', this.horse.id)
-          .orderBy('bid', 'desc')
-          .onSnapshot((querySnapshot) => {
-            this.bids = []
-            querySnapshot.forEach((doc) => {
-              this.bids.push(doc.data().bid)
-            })
-            if (this.bids.length !== 0) {
-              this.horse.currentBid = this.bids[0]
-              this.bid = this.horse.currentBid + this.increment
-            } else {
-              this.bid = this.horse.basePrice + this.increment
-              this.horse.currentBid = 0
+      // Realtime Bids
+      this.loadBid = true
+      this.unsubscribeBid = this.$fireStore.collection('bids')
+        .where('horse.id', '==', this.horse.id)
+        .orderBy('bid', 'desc')
+        .onSnapshot((querySnapshot) => {
+          this.loadBid = false
+          this.bids = []
+          querySnapshot.forEach((doc) => {
+            const obj = {
+              bid: doc.data().bid,
+              user: doc.data().user,
+              createdAt: doc.data().createdAt.toDate()
             }
+            this.bids.push(obj)
           })
-        // End
+          if (this.bids.length !== 0) {
+            this.horse.currentBid = this.bids[0].bid
+            this.bid = this.horse.currentBid + this.increment
+          } else {
+            this.bid = this.horse.basePrice + this.increment
+            this.horse.currentBid = 0
+          }
+        })
+      // End
+      if (this.user) {
         // Get client
-        const querySnap = await this.$fireStore.collection('clients').where('uid', '==', this.user.uid).get()
+        const querySnap = await this.$fireStore.collection('clients')
+          .where('uid', '==', this.user.uid).get()
         querySnap.forEach((c) => {
           this.client = {
             id: c.id,

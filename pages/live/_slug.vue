@@ -304,7 +304,7 @@ export default {
               this.horse.stateAuction = doc.data().stateAuction
             })
           // Get updates bids
-          // Bids
+          // Realtime Bids
           this.unsubscribeBid = this.$fireStore.collection('bids')
             .where('horse.id', '==', this.horse.id)
             .orderBy('bid', 'desc')
