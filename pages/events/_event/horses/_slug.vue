@@ -398,7 +398,7 @@ export default {
     },
     async bidNow () {
       try {
-        if (this.client && this.user) {
+        if (this.client && this.user && this.endPreOffer) {
           this.loadBid = true
           await this.$fireStore.collection('bids').add({
             bid: this.bid,
