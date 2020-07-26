@@ -344,6 +344,7 @@ export default {
   },
   async mounted () {
     try {
+      const user = this.$store.state.user.data
       this.increment = this.horse.increase
       // Calculate current bid
       if (this.horse.currentBid === 0) {
@@ -385,7 +386,6 @@ export default {
           }
         })
       // Credits
-      const user = this.$store.state.user.data
       const queryCredits = await this.$fireStore
         .collection('credits')
         .where('client.uid', '==', user.uid)
@@ -395,6 +395,10 @@ export default {
           id: c.id,
           ...c.data()
         }
+        this.$fireStore.collection('credits').doc(obj.id)
+          .onSnapshot((doc) => {
+            obj.used = doc.data().used
+          })
         this.credits.push(obj)
       })
       // Get client
@@ -407,6 +411,7 @@ export default {
         }
       })
     } catch (e) {
+      console.log(e)
       const error = 'Hubo un error al iniciar evento.'
       this.errors.push(error)
       this.$sentry.captureException(e)
