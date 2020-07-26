@@ -411,7 +411,6 @@ export default {
         }
       })
     } catch (e) {
-      console.log(e)
       const error = 'Hubo un error al iniciar evento.'
       this.errors.push(error)
       this.$sentry.captureException(e)

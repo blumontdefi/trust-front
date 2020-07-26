@@ -105,6 +105,7 @@
           <div>Madre</div>
           <div>Precio base</div>
           <div>Precio de pre oferta</div>
+          <div>Último postor</div>
           <div>Acciones</div>
         </div>
         <div class="summarize__horses">
@@ -116,6 +117,15 @@
             <div>{{ h.dame }}</div>
             <div>$ {{ new Intl.NumberFormat().format(h.basePrice) }}</div>
             <div>$ {{ new Intl.NumberFormat().format(h.currentBid) }}</div>
+            <div>
+              <span v-if="h.lastBid.user.code">{{ h.lastBid.user.code }}</span>
+              <div v-else class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
             <div>
               <button
                 type="button"
@@ -196,6 +206,7 @@ export default {
   name: 'EventDetail',
   async asyncData ({ $fireStore, params, error, $sentry }) {
     try {
+      // Get event
       const querySnapshot = await $fireStore.collection('events').where('slug', '==', params.slug).get()
       let event = null
       const horses = []
@@ -210,7 +221,9 @@ export default {
           ...obj
         }
       })
+      // End
       if (event) {
+        // Ger horses
         const queryHorse = await $fireStore.collection('horses')
           .where('event.id', '==', event.id)
           .where('state', '==', true)
@@ -218,12 +231,16 @@ export default {
         queryHorse.forEach((h) => {
           const obj = {
             id: h.id,
-            ...h.data()
+            ...h.data(),
+            lastBid: {
+              user: {}
+            }
           }
           delete obj.birthDate
           obj.birthDate = h.data().birthDate.toDate()
           horses.push(obj)
         })
+        // End
         return { event, horses }
       } else {
         error({ statusCode: 404, message: 'Evento no existe' })
@@ -242,10 +259,24 @@ export default {
       interval: ''
     }
   },
-  created () {
+  async created () {
+    // Countdown
     this.interval = setInterval(() => {
       this.countdown()
     }, 1000)
+    // End
+    // Get bid for horse
+    for (const h of this.horses) {
+      const querySnapshotBidHorse = await this.$fireStore.collection('bids')
+        .where('horse.id', '==', h.id)
+        .orderBy('bid', 'desc').limit(1).get()
+      querySnapshotBidHorse.forEach((b) => {
+        h.lastBid = {
+          ...b.data()
+        }
+      })
+    }
+    // End
   },
   methods: {
     countdown () {
