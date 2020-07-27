@@ -113,7 +113,7 @@
             <div class="offer__bid">
               <button
                 class="btn btn--primary btn--live"
-                :disabled="loadBid || !enablePreOffer || !user || !client"
+                :disabled="loadBid || !user || !client"
                 @click="bidNow">
                 <span v-if="!loadBid">Pre ofertar ahora</span>
                 <div v-else class="lds-ellipsis">
@@ -398,7 +398,7 @@ export default {
     },
     async bidNow () {
       try {
-        if (this.client && this.user && this.endPreOffer) {
+        if (this.client && this.user && this.enablePreOffer) {
           this.loadBid = true
           await this.$fireStore.collection('bids').add({
             bid: this.bid,
