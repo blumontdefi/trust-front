@@ -91,7 +91,7 @@
             class="card"
             style="cursor: pointer">
             <figure>
-              <img :src="e.image" alt="" class="img-max">
+              <img :src="e.image" class="img-max">
               <div class="label-secondary">
                 Próximo
               </div>

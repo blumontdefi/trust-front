@@ -311,12 +311,14 @@ export default {
             .onSnapshot((querySnapshot) => {
               this.bids = []
               querySnapshot.forEach((doc) => {
-                const obj = {
-                  ...doc.data()
+                if (!doc.metadata.hasPendingWrites) {
+                  const obj = {
+                    ...doc.data()
+                  }
+                  delete obj.createdAt
+                  obj.createdAt = doc.data().createdAt.toDate()
+                  this.bids.push(obj)
                 }
-                delete obj.createdAt
-                obj.createdAt = doc.data().createdAt.toDate()
-                this.bids.push(obj)
               })
               if (this.bids.length !== 0) {
                 this.horse.currentBid = this.bids[0].bid
@@ -371,12 +373,14 @@ export default {
         .onSnapshot((querySnapshot) => {
           this.bids = []
           querySnapshot.forEach((doc) => {
-            const obj = {
-              ...doc.data()
+            if (!doc.metadata.hasPendingWrites) {
+              const obj = {
+                ...doc.data()
+              }
+              delete obj.createdAt
+              obj.createdAt = doc.data().createdAt.toDate()
+              this.bids.push(obj)
             }
-            delete obj.createdAt
-            obj.createdAt = doc.data().createdAt.toDate()
-            this.bids.push(obj)
           })
           if (this.bids.length !== 0) {
             this.horse.currentBid = this.bids[0].bid
@@ -428,7 +432,7 @@ export default {
     async bidNow () {
       try {
         const validate = await this.validateCredit()
-        if (validate) {
+        if (validate && this.event.start && !this.event.finish) {
           this.loadBid = true
           await this.$fireStore.collection('bids').add({
             bid: this.bid,
