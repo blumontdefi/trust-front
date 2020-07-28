@@ -97,9 +97,10 @@
             </div>
             <div class="offer__go">
               <button
+                type="button"
                 class="btn btn--primary btn--live"
-                :disabled="loadBid || horse.currentBid<=0 || !event.start"
-                @click="bidNow">
+                :disabled="loadBid || horse.currentBid<=0 || !event.start || event.finish"
+                @click.stop="bidNow">
                 <span v-if="!loadBid">Ofertar</span>
                 <div v-else class="lds-ellipsis">
                   <div/>
@@ -247,7 +248,18 @@ export default {
           horses.push(obj)
         })
         const horsesFilter = horses.filter(h => h.stateAuction)
-        const horse = horsesFilter[0]
+        let horse = {}
+        /*
+        Validating if the event has ended, if there is no active horse
+        the event in theory must have ended.
+         */
+        if (horsesFilter.length > 0) {
+          horse = horsesFilter[0]
+        } else {
+          horse = horses[0]
+          event.finish = true
+        }
+        // End
         return { event, horses, horse }
       } else {
         error({ statusCode: 404, message: 'Evento no existe' })
@@ -291,42 +303,47 @@ export default {
           this.bid = this.horse.currentBid + this.increment
         }
         // Validating if horse finished auction
-        if (this.horse.stateAuction === false) {
+        if (this.horse.stateAuction === false && this.event.finish === false) {
           this.showModal()
           this.unsubscribeHorse()
           this.unsubscribeBid()
           const horsesFilter = this.horses.filter(h => h.stateAuction)
-          this.horse = horsesFilter[0]
-          this.increment = this.horse.increase
-          // Get Updates horse
-          this.unsubscribeHorse = this.$fireStore.collection('horses').doc(this.horse.id)
-            .onSnapshot((doc) => {
-              this.horse.stateAuction = doc.data().stateAuction
-            })
-          // Get updates bids
-          // Realtime Bids
-          this.unsubscribeBid = this.$fireStore.collection('bids')
-            .where('horse.id', '==', this.horse.id)
-            .orderBy('bid', 'desc')
-            .onSnapshot((querySnapshot) => {
-              this.bids = []
-              querySnapshot.forEach((doc) => {
-                if (!doc.metadata.hasPendingWrites) {
-                  const obj = {
-                    ...doc.data()
+          if (horsesFilter.length > 0) {
+            this.horse = horsesFilter[0]
+            this.increment = this.horse.increase
+            // Get Updates horse
+            this.unsubscribeHorse = this.$fireStore.collection('horses').doc(this.horse.id)
+              .onSnapshot((doc) => {
+                this.horse.stateAuction = doc.data().stateAuction
+              })
+            // Get updates bids
+            // Realtime Bids
+            this.unsubscribeBid = this.$fireStore.collection('bids')
+              .where('horse.id', '==', this.horse.id)
+              .orderBy('bid', 'desc')
+              .onSnapshot((querySnapshot) => {
+                this.bids = []
+                querySnapshot.forEach((doc) => {
+                  if (!doc.metadata.hasPendingWrites) {
+                    const obj = {
+                      ...doc.data()
+                    }
+                    delete obj.createdAt
+                    obj.createdAt = doc.data().createdAt.toDate()
+                    this.bids.push(obj)
                   }
-                  delete obj.createdAt
-                  obj.createdAt = doc.data().createdAt.toDate()
-                  this.bids.push(obj)
+                })
+                if (this.bids.length !== 0) {
+                  this.horse.currentBid = this.bids[0].bid
+                  this.bid = this.horse.currentBid + this.increment
+                } else {
+                  this.horse.currentBid = this.horse.basePrice
                 }
               })
-              if (this.bids.length !== 0) {
-                this.horse.currentBid = this.bids[0].bid
-                this.bid = this.horse.currentBid + this.increment
-              } else {
-                this.horse.currentBid = this.horse.basePrice
-              }
-            })
+          } else {
+            this.horse = this.horses[0]
+            this.event.finish = true
+          }
         }
       },
       deep: true
@@ -355,65 +372,68 @@ export default {
         this.bid = this.horse.currentBid + this.increment
       }
       // End
-      // Event
-      this.$fireStore.collection('events').doc(this.event.id)
-        .onSnapshot((doc) => {
-          this.event.start = doc.data().start
-          this.event.finish = doc.data().finish
-        })
-      // Horses
-      this.unsubscribeHorse = this.$fireStore.collection('horses').doc(this.horse.id)
-        .onSnapshot((doc) => {
-          this.horse.stateAuction = doc.data().stateAuction
-        })
-      // Bids
-      this.unsubscribeBid = this.$fireStore.collection('bids')
-        .where('horse.id', '==', this.horse.id)
-        .orderBy('bid', 'desc')
-        .onSnapshot((querySnapshot) => {
-          this.bids = []
-          querySnapshot.forEach((doc) => {
-            if (!doc.metadata.hasPendingWrites) {
-              const obj = {
-                ...doc.data()
+      if (this.event.finish === false) {
+        // Realtime Event
+        this.$fireStore.collection('events').doc(this.event.id)
+          .onSnapshot((doc) => {
+            this.event.start = doc.data().start
+            this.event.finish = doc.data().finish
+          })
+        // End
+        // Horses
+        this.unsubscribeHorse = this.$fireStore.collection('horses').doc(this.horse.id)
+          .onSnapshot((doc) => {
+            this.horse.stateAuction = doc.data().stateAuction
+          })
+        // Bids
+        this.unsubscribeBid = this.$fireStore.collection('bids')
+          .where('horse.id', '==', this.horse.id)
+          .orderBy('bid', 'desc')
+          .onSnapshot((querySnapshot) => {
+            this.bids = []
+            querySnapshot.forEach((doc) => {
+              if (!doc.metadata.hasPendingWrites) {
+                const obj = {
+                  ...doc.data()
+                }
+                delete obj.createdAt
+                obj.createdAt = doc.data().createdAt.toDate()
+                this.bids.push(obj)
               }
-              delete obj.createdAt
-              obj.createdAt = doc.data().createdAt.toDate()
-              this.bids.push(obj)
+            })
+            if (this.bids.length !== 0) {
+              this.horse.currentBid = this.bids[0].bid
+              this.bid = this.horse.currentBid + this.increment
+            } else {
+              this.horse.currentBid = this.horse.basePrice
             }
           })
-          if (this.bids.length !== 0) {
-            this.horse.currentBid = this.bids[0].bid
-            this.bid = this.horse.currentBid + this.increment
-          } else {
-            this.horse.currentBid = this.horse.basePrice
+        // Credits
+        const queryCredits = await this.$fireStore
+          .collection('credits')
+          .where('client.uid', '==', user.uid)
+          .where('state', '==', true).get()
+        queryCredits.forEach((c) => {
+          const obj = {
+            id: c.id,
+            ...c.data()
+          }
+          this.$fireStore.collection('credits').doc(obj.id)
+            .onSnapshot((doc) => {
+              obj.used = doc.data().used
+            })
+          this.credits.push(obj)
+        })
+        // Get client
+        const querySnap = await this.$fireStore.collection('clients')
+          .where('uid', '==', user.uid).get()
+        querySnap.forEach((c) => {
+          this.client = {
+            id: c.id,
+            ...c.data()
           }
         })
-      // Credits
-      const queryCredits = await this.$fireStore
-        .collection('credits')
-        .where('client.uid', '==', user.uid)
-        .where('state', '==', true).get()
-      queryCredits.forEach((c) => {
-        const obj = {
-          id: c.id,
-          ...c.data()
-        }
-        this.$fireStore.collection('credits').doc(obj.id)
-          .onSnapshot((doc) => {
-            obj.used = doc.data().used
-          })
-        this.credits.push(obj)
-      })
-      // Get client
-      const querySnap = await this.$fireStore.collection('clients')
-        .where('uid', '==', user.uid).get()
-      querySnap.forEach((c) => {
-        this.client = {
-          id: c.id,
-          ...c.data()
-        }
-      })
+      }
     } catch (e) {
       const error = 'Hubo un error al iniciar evento.'
       this.errors.push(error)
@@ -470,10 +490,9 @@ export default {
               this.messageModal = 'Su crédito actual es de: $' + new Intl.NumberFormat().format(c.credit - c.used)
               this.showModalCreditOff()
             }
-          } else {
-            resolve(false)
           }
         })
+        resolve(false)
       })
     },
     showModal () {
