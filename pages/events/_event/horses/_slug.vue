@@ -112,9 +112,10 @@
             </div>
             <div class="offer__bid">
               <button
+                type="button"
                 class="btn btn--primary btn--live"
                 :disabled="loadBid || !user || !client"
-                @click="bidNow">
+                @click.stop="bidNow">
                 <span v-if="!loadBid">Pre ofertar ahora</span>
                 <div v-else class="lds-ellipsis">
                   <div/>
@@ -327,12 +328,10 @@ export default {
     try {
       this.increment = this.horse.increase
       // Realtime Bids
-      this.loadBid = true
       this.unsubscribeBid = this.$fireStore.collection('bids')
         .where('horse.id', '==', this.horse.id)
         .orderBy('bid', 'desc')
         .onSnapshot((querySnapshot) => {
-          this.loadBid = false
           this.bids = []
           querySnapshot.forEach((doc) => {
             const obj = {
@@ -400,6 +399,7 @@ export default {
       try {
         if (this.client && this.user && this.enablePreOffer) {
           this.loadBid = true
+          console.log('Ingresa')
           await this.$fireStore.collection('bids').add({
             bid: this.bid,
             user: {
@@ -416,8 +416,9 @@ export default {
             preOffer: true,
             createdAt: this.$fireStoreObj.Timestamp.now()
           })
-          this.showModalConfirm()
+          console.log('Termina')
           this.loadBid = false
+          this.showModalConfirm()
         }
       } catch (e) {
         this.$sentry.captureException(e)
