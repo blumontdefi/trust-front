@@ -45,11 +45,11 @@ export default {
       },
       {
         property: 'og:site_name',
-        content: 'Trust - Subastas online de Caballos'
+        content: 'Trust Online Auctions - Casa de Subastas'
       },
       {
         property: 'og:title',
-        content: 'Trust - Subastas online de Caballos'
+        content: 'Trust Online Auctions - Casa de Subastas'
       },
       {
         name: 'msapplication-TileColor',
